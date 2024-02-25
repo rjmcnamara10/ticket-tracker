@@ -5,12 +5,14 @@ const TICKET_QUANTITY = 0;
 async function scrapeTickets(url) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+
     // Set custom user agent
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36');
     await page.goto(url);
-    // Print page title
-    const title = await page.title();
-    console.log("Page Title:", title);
+
+    // // Print page title
+    // const title = await page.title();
+    // console.log("Page Title:", title);
 
     // Wait for the listings container to load
     await page.waitForSelector('#listingContainer');
@@ -22,8 +24,8 @@ async function scrapeTickets(url) {
         });
     });
 
-    // Print the inner HTML of the listingContainer
-    const listingContainerHTML = await page.$eval('#listingContainer', container => container.innerHTML);
+    // // Print the inner HTML of the listingContainer
+    // const listingContainerHTML = await page.$eval('#listingContainer', container => container.innerHTML);
     // console.log(listingContainerHTML);
 
     // Extract ticket information
@@ -52,7 +54,6 @@ async function scrapeTickets(url) {
     return ticketInfo;
 }
 
-// Example usage:
 const url = `https://www.tickpick.com/buy-boston-celtics-vs-oklahoma-city-thunder-tickets-td-garden-4-3-24-7pm/5887945/?sortType=P&qty=${TICKET_QUANTITY}-false`;
 scrapeTickets(url)
     .then(ticketInfo => {
