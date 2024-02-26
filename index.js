@@ -57,8 +57,8 @@ async function collectTickets() {
         // Seat location points = Section points + (15 - row number)
         const locationPoints = SECTION_PTS[ticket.section] + (15 - ticket.row);
 
-        // Ticket price points: lowest = 50 pts and highest = 0 pts, round to 2 decimal places
-        const pricePoints = Math.round(((-50 * ticket.price) + (50 * maxPrice)) / (minPrice - maxPrice));
+        // Ticket price points: lowest = 50 pts and highest = 0 pts, round to whole number
+        const pricePoints = Math.round(50 * (maxPrice - ticket.price) / (maxPrice - minPrice));
 
         const totalPoints = locationPoints + pricePoints;
 
@@ -78,7 +78,7 @@ async function collectTickets() {
     //     );
     // });
 
-    rankedTickets.sort((a, b) => a.totalPoints - b.totalPoints);
+    rankedTickets.sort((a, b) => b.totalPoints - a.totalPoints);
     console.log(`Number of sorted tickets: ${rankedTickets.length}`);
     console.log(rankedTickets);
 }
