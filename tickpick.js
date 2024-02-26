@@ -21,11 +21,13 @@ async function scrapeTickpickTickets(url) {
         ticketElements.forEach(ticketElement => {
             // Extract section and row
             const sectionRowText = ticketElement.querySelector('.sout span').textContent;
-            const [section, row] = sectionRowText.match(/Section (\d+) • Row (\d+)/).slice(1, 3);
+            const [sectionStr, rowStr] = sectionRowText.match(/Section (\d+) • Row (\d+)/).slice(1, 3);
+            const section = parseInt(sectionStr);
+            const row = parseInt(rowStr);
 
             // Extract price
             const priceText = ticketElement.querySelector('label > b').textContent.trim();
-            const price = priceText.replace(/^\$/, '');
+            const price = parseInt(priceText.replace(/^\$/, ''));
 
             tickets.push({ section, row, price, app });
         });

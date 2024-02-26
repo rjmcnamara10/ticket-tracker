@@ -42,12 +42,14 @@ async function scrapeGametimeTickets(url, ticketQuantity) {
             const sectionRowText = ticketElement.querySelector('._1EShqotjRsBqatpuDDtfZ7').textContent;
             const matchResult = sectionRowText.match(/(\d+), Row (\d+)/);
             if (matchResult) {
-                const [section, row] = matchResult.slice(1, 3);
+                const [sectionStr, rowStr] = matchResult.slice(1, 3);
+                const section = parseInt(sectionStr);
+                const row = parseInt(rowStr);
 
                 // Extract price
                 const priceElement = ticketElement.querySelector('._1Ez1uMaistdU48Vpp8XeO2');
                 const priceText = priceElement ? priceElement.lastElementChild.textContent : 'Price not found';
-                const price = priceText.trim().replace(/^\$|\/ea$/g, '');
+                const price = parseInt(priceText.trim().replace(/^\$|\/ea$/g, ''));
 
                 tickets.push({ section, row, price, app });
             }
