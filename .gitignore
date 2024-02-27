@@ -1,2 +1,5 @@
 node_modules/
 notes.txt
+tix_by_location.json
+tix_by_price.json
+tix_overall.json
