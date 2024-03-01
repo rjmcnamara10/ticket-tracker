@@ -41,4 +41,3 @@ async function collectTickets() {
 }
 
 // collectTickets();
-module.exports = { collectTickets };

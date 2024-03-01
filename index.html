@@ -8,27 +8,13 @@
 
 <body>
     <div id="jsonData"></div>
+    <script src="index.js"></script>
     <script>
-        async function fetchTickets() {
-            const response = await fetch('/tickets');
-            if (!response.ok) {
-                throw new Error('Failed to fetch tickets');
-            }
-            return await response.json();
+        function renderData() {
+            const jsonData = collectTickets();
+            const jsonDataDiv = document.getElementById('jsonData');
+            jsonDataDiv.innerText = JSON.stringify(jsonData, null, 2);
         }
-
-        async function renderData() {
-            try {
-                const tickets = await fetchTickets();
-                const jsonDataDiv = document.getElementById('jsonData');
-                jsonDataDiv.innerText = JSON.stringify(tickets, null, 2);
-            } catch (error) {
-                console.error(error);
-                const jsonDataDiv = document.getElementById('jsonData');
-                jsonDataDiv.innerText = 'Error: ' + error.message;
-            }
-        }
-
         window.onload = renderData;
     </script>
 </body>
