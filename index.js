@@ -2,7 +2,7 @@ const fs = require('fs');
 const scrapeTickpickTickets = require('./tickpick.js');
 const scrapeGametimeTickets = require('./gametime.js');
 
-const TICKET_QUANTITY = 2;
+const TICKET_QUANTITY = 3;
 
 const TICKPICK_URL = `https://www.tickpick.com/buy-boston-celtics-vs-oklahoma-city-thunder-tickets-td-garden-4-3-24-7pm/5887945/?sortType=P&qty=${TICKET_QUANTITY}-false`;
 const GAMETIME_URL = 'https://gametime.co/nba-basketball/thunder-at-celtics-tickets/4-3-2024-boston-ma-td-garden/events/64de750e834ac00001acd215';
@@ -22,52 +22,22 @@ async function collectTickets() {
     const gametimeTix = await scrapeGametimeTickets(GAMETIME_URL, TICKET_QUANTITY);
     const allTickets = tickpickTix.concat(gametimeTix);
 
-    // console.log(`Number of TickPick tickets: ${tickpickTix.length}`);
-    // console.log(`Number of Gametime tickets: ${gametimeTix.length}`);
-
-    const prices = allTickets.map(ticket => ticket.price);
-    const minPrice = Math.min(...prices);
-    const maxPrice = minPrice * 2;
-
     const rankedTickets = allTickets
         .filter(ticket => ticket.section >= 301 && ticket.section <= 330) // only keep balcony tickets
-        .filter(ticket => ticket.price <= maxPrice) // only keep tickets under the max price
         .map(ticket => {
-
-            // Seat location points = Section points + (15 - row number)
             const locationPoints = sectionPoints[ticket.section] + (15 - ticket.row);
-
-            // Ticket price points: lowest = 50 pts and highest = 0 pts, round to whole number
-            const pricePoints = Math.round(50 * (maxPrice - ticket.price) / (maxPrice - minPrice));
-
-            const totalPoints = locationPoints + pricePoints;
-
             return {
                 ...ticket,
-                locationPoints: locationPoints,
-                pricePoints: pricePoints,
-                totalPoints: totalPoints
+                locationPoints: locationPoints
             };
         });
 
-    // const onlyMiddleBalconyTix = allTickets.filter(ticket => {
-    //     return (
-    //         (ticket.section >= 301 && ticket.section <= 305) ||
-    //         (ticket.section >= 312 && ticket.section <= 320) ||
-    //         (ticket.section >= 327 && ticket.section <= 330)
-    //     );
-    // });
+    const candidateTickets = rankedTickets.filter(ticket => ticket.locationPoints >= 10);
 
-    // rankedTickets.sort((a, b) => b.totalPoints - a.totalPoints);
-    // // console.log(`Number of sorted tickets: ${rankedTickets.length}`);
-    // console.log(rankedTickets);
-
-    rankedTickets.sort((a, b) => a.price - b.price);
-    fs.writeFileSync('tix_by_price.json', JSON.stringify(rankedTickets, null, 2));
-    rankedTickets.sort((a, b) => b.locationPoints - a.locationPoints);
-    fs.writeFileSync('tix_by_location.json', JSON.stringify(rankedTickets, null, 2));
-    rankedTickets.sort((a, b) => b.totalPoints - a.totalPoints);
-    fs.writeFileSync('tix_overall.json', JSON.stringify(rankedTickets, null, 2));
+    // Sort by price from lowest to highest
+    candidateTickets.sort((a, b) => a.price - b.price);
+    // fs.writeFileSync('tix_by_price.json', JSON.stringify(candidateTickets, null, 2));
+    return candidateTickets;
 }
 
-collectTickets();
+// collectTickets();
