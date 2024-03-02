@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tickettracker-dev-133936-authRole",
+      "UnauthRoleArn": "arn:aws:iam::058264369839:role/amplify-tickettracker-dev-133936-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::058264369839:role/amplify-tickettracker-dev-133936-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tickettracker-dev-133936-deployment",
+      "UnauthRoleName": "amplify-tickettracker-dev-133936-unauthRole",
+      "StackName": "amplify-tickettracker-dev-133936",
+      "StackId": "arn:aws:cloudformation:us-east-1:058264369839:stack/amplify-tickettracker-dev-133936/3942c1d0-d8c4-11ee-b978-0abbcc968015",
+      "AmplifyAppId": "dxecf5ja84mtk"
+    }
+  }
+}
