@@ -11,26 +11,29 @@
   margin-left: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: rgb(162, 162, 162);
-  min-height: 10vh;
+  background-image: url('../public/background.png');
+  /* height: 125px; */
+  max-height: 115px;
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  font-size: calc(10px + 2vmin);
-  color: black;
+  justify-content: left;
+  flex-direction: row;
 }
 
-.App-header h1 {
-  margin-left: 10px;
+.App-header img.logo {
+  max-height: 140px;
+  margin-left: 20px;
+}
+
+.App-header img.title {
+  max-height: 50px;
+  margin-left: 20px;
 }
 
 .Main-content {
   color: white;
+  padding: 20px;
 }

@@ -10,8 +10,8 @@ function App() {
         <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
       </Helmet>
       <header className="App-header">
-        <img src="/logo192.png" alt="Logo" />
-        <h1>Ticket Track</h1>
+        <img src="/logo192.png" alt="Logo" className="logo" />
+        <img src="/title.png" alt="Logo" className="title" />
       </header>
       <div className="Main-content">
         <p>This is an example text displayed using AWS Amplify UI React.</p>
