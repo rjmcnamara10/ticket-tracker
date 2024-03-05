@@ -2,6 +2,9 @@
   text-align: center;
   background-color: rgb(36, 36, 36);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-logo {
@@ -13,8 +16,8 @@
 
 .App-header {
   background-image: url('../public/background.png');
-  /* height: 125px; */
   max-height: 115px;
+  width: 100%;
   background-size: cover;
   background-position: center;
   display: flex;
@@ -33,7 +36,7 @@
   margin-left: 20px;
 }
 
-.Main-content {
-  color: white;
-  padding: 20px;
+.Card-container {
+  display: inline-flex;
+  padding: 0;
 }

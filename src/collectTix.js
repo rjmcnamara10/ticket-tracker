@@ -1,6 +1,7 @@
 const fs = require('fs');
 const scrapeTickpickTickets = require('./tickpick.js');
 const scrapeGametimeTickets = require('./gametime.js');
+const { v4: uuidv4 } = require('uuid');
 
 const TICKET_QUANTITY = 3;
 
@@ -28,7 +29,8 @@ async function collectTickets() {
             const locationPoints = sectionPoints[ticket.section] + (15 - ticket.row);
             return {
                 ...ticket,
-                locationPoints: locationPoints
+                locationPoints: locationPoints,
+                id: uuidv4()
             };
         });
 
