@@ -36,7 +36,38 @@
   margin-left: 20px;
 }
 
-.Card-container {
-  display: inline-flex;
-  padding: 0;
+.ticket-container {
+  display: flex;
+  height: 400px;
+  align-items: center;
+}
+
+.ticket-tile {
+  /* min-width: 300px; */
+  height: 80%;
+  aspect-ratio: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.gametime {
+  background-color: rgb(14, 14, 14);
+  color: white;
+}
+
+.tickpick {
+  background-color: white;
+  color: black;
+}
+
+.seat-view {
+  height: 75%;
+  background-color: gray;
+}
+
+.ticket-info {
+  height: 25%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
 }
