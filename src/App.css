@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .App-logo {
@@ -36,9 +36,28 @@
   margin-left: 20px;
 }
 
+.App-content-container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.Side-panel {
+  background-color: rgb(100, 100, 100);
+  width: 200px;
+  min-height: 100%;
+}
+
+.Main-content {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
 .ticket-container {
   display: flex;
-  height: 400px;
+  height: 100%;
   align-items: center;
 }
 
@@ -48,6 +67,7 @@
   aspect-ratio: 1;
   margin-left: 10px;
   margin-right: 10px;
+  font-size: x-small;
 }
 
 .gametime {
@@ -70,4 +90,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
+}
+
+.app img {
+  width: 50%; /* Set the width */
+  height: auto; /* Maintain aspect ratio */
 }
