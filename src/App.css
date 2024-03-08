@@ -4,7 +4,6 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 }
 
 .App-logo {
@@ -24,6 +23,7 @@
   align-items: center;
   justify-content: left;
   flex-direction: row;
+  box-shadow: 0 0 4px;
 }
 
 .App-header img.logo {
@@ -41,33 +41,70 @@
   flex: 1;
   flex-direction: row;
   justify-content: flex-start;
+  color: white;
 }
 
 .Side-panel {
   background-color: rgb(100, 100, 100);
   width: 200px;
+  min-width: 150px;
   min-height: 100%;
 }
 
 .Main-content {
   display: flex;
   flex: 1;
-  justify-content: center;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.search-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-info-containers {
+  background-color: rgb(100, 100, 100);
+  border-radius: 25px;
+  box-shadow: 0 0 4px black;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 8px;
+}
+
+.ticket-list-container {
+  width: 1000px;
+  max-width: 100%;
+  max-height: 275px;
+}
+
+.ticket-list-title {
+  background-color: rgb(100, 100, 100);
+  /* border-radius: 30% 30% 0 0; */
+}
+
+.ticket-scroller-container {
+  border: 1px solid rgb(100, 100, 100);
 }
 
 .ticket-container {
   display: flex;
   height: 100%;
   align-items: center;
+  padding: 20px 10px 20px 10px;
 }
 
 .ticket-tile {
-  /* min-width: 300px; */
   height: 80%;
+  min-height: 200px;
   aspect-ratio: 1;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 0 10px 0 10px;
   font-size: x-small;
+  border-radius: 12px;
+  box-shadow: 0 0 4px black;
+  display: flex;
+  flex-direction: column;
 }
 
 .gametime {
@@ -81,8 +118,18 @@
 }
 
 .seat-view {
-  height: 75%;
-  background-color: gray;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.seat-view img {
+  width: 175%;
+  height: auto;
+  object-fit: cover;
 }
 
 .ticket-info {
@@ -92,7 +139,7 @@
   align-items: center;
 }
 
-.app img {
-  width: 50%; /* Set the width */
-  height: auto; /* Maintain aspect ratio */
+.ticket-app img {
+  width: 50%;
+  height: auto;
 }

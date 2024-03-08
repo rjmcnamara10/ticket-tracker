@@ -26,27 +26,55 @@ function App() {
       <div className="App-content-container">
         <div className="Side-panel"></div>
         <div className="Main-content">
-          <ScrollView width="800px" maxWidth="100%" height="275px">
-            <div className="ticket-container">
-              {tickets.map(ticket => (
-                <div className={`ticket-tile ${ticket.app}`}>
-                  <div className="seat-view"></div>
-                  <div className="ticket-info">
-                    <div className="app">
-                      <img src={`/ticket_app_logos/${ticket.app}_logo.png`} alt={`${ticket.app} logo`} />
-                    </div>
-                    <span className="seat">
-                      Section {ticket.section}<br />
-                      Row {ticket.row}
-                    </span>
-                    <span className="price">
-                      ${ticket.price}
-                    </span>
-                  </div>
-                </div>
-              ))}
+          <div className="search-info">
+            <div className="search-info-containers datetime">
+              <span>
+                Wed 4/3 7:30 PM
+              </span>
             </div>
-          </ScrollView>
+            <div className="search-info-containers matchup">
+              <span>
+                Oklahoma City Thunder @ Boston Celtics
+              </span>
+            </div>
+            <div className="search-info-containers ticket-quantity">
+              <span>
+                Quantity: 3
+              </span>
+            </div>
+          </div>
+          <div className="ticket-list-container">
+            <div className="ticket-list-title">
+              <span>
+                Best Value
+              </span>
+            </div>
+            <div className="ticket-scroller-container">
+              <ScrollView>
+                <div className="ticket-container">
+                  {tickets.map(ticket => (
+                    <a href={ticket.link} className={`ticket-tile ${ticket.app}`}>
+                      <div className="seat-view">
+                        <img src={`/balcony-views/${ticket.section}.webp`} alt={`View from Section ${ticket.section}`}/>
+                      </div>
+                      <div className="ticket-info">
+                        <div className="ticket-app">
+                          <img src={`/ticket_app_logos/${ticket.app}_logo.png`} alt={`${ticket.app} logo`} />
+                        </div>
+                        <span className="seat">
+                          Section {ticket.section}<br />
+                          Row {ticket.row}
+                        </span>
+                        <span className="price">
+                          ${ticket.price}
+                        </span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </ScrollView>
+            </div>
+          </div>
         </div>
       </div>
     </div>

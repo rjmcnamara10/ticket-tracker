@@ -13,7 +13,7 @@ async function scrapeTickpickTickets(url) {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Extract ticket information
-    const ticketInfo = await page.evaluate(() => {
+    const ticketInfo = await page.evaluate((url) => {
         const tickets = [];
         const app = 'tickpick';
         const ticketElements = document.querySelectorAll('.listing');
@@ -29,11 +29,14 @@ async function scrapeTickpickTickets(url) {
             const priceText = ticketElement.querySelector('label > b').textContent.trim();
             const price = parseInt(priceText.replace(/^\$/, ''));
 
-            tickets.push({ section, row, price, app });
+            // Tickpick does not have a separate link for tickets
+            const link = url;
+
+            tickets.push({ section, row, price, app, link });
         });
 
         return tickets;
-    });
+    }, url);
 
     await browser.close();
     return ticketInfo;

@@ -51,7 +51,11 @@ async function scrapeGametimeTickets(url, ticketQuantity) {
                 const priceText = priceElement ? priceElement.lastElementChild.textContent : 'Price not found';
                 const price = parseInt(priceText.trim().replace(/^\$|\/ea$/g, ''));
 
-                tickets.push({ section, row, price, app });
+                // Extract link
+                const linkElement = ticketElement.querySelector('a.P9HDgcQ4UjHeuRYFOe6DC');
+                const link = linkElement.href;
+
+                tickets.push({ section, row, price, app, link });
             }
         });
 
