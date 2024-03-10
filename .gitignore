@@ -1,5 +1,6 @@
 notes.txt
-tix_by_price.json
+value_tix.json
+cheapest_tix.json
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

@@ -22,6 +22,10 @@ async function collectTickets() {
     const gametimeTix = await scrapeGametimeTickets(GAMETIME_URL, TICKET_QUANTITY);
     const allTickets = tickpickTix.concat(gametimeTix);
 
+    // Sort by price from lowest to highest
+    allTickets.sort((a, b) => a.price - b.price);
+    fs.writeFileSync('cheapest_tix.json', JSON.stringify(allTickets, null, 2));
+
     const rankedTickets = allTickets
         .filter(ticket => ticket.section >= 301 && ticket.section <= 330) // only keep balcony tickets
         .map(ticket => {
@@ -32,12 +36,9 @@ async function collectTickets() {
             };
         });
 
-    const candidateTickets = rankedTickets.filter(ticket => ticket.locationPoints >= 10);
-
-    // Sort by price from lowest to highest
-    candidateTickets.sort((a, b) => a.price - b.price);
-    // fs.writeFileSync('tix_by_price.json', JSON.stringify(candidateTickets, null, 2));
-    return candidateTickets;
+    const valueTickets = rankedTickets.filter(ticket => ticket.locationPoints >= 10);
+    fs.writeFileSync('value_tix.json', JSON.stringify(valueTickets, null, 2));
+    return valueTickets;
 }
 
-// collectTickets();
+collectTickets();
