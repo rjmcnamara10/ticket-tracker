@@ -95,6 +95,7 @@
 
 .ticket-scroller-container {
   border: 1px solid rgb(100, 100, 100);
+  overflow-x: auto;
 }
 
 .ticket-container {

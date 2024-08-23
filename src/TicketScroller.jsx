@@ -1,5 +1,5 @@
 import React from 'react';
-// import { ScrollView } from '@aws-amplify/ui-react';
+import { ScrollView } from '@aws-amplify/ui-react';
 
 function TicketScroller({ title, tickets }) {
     return (
@@ -8,7 +8,7 @@ function TicketScroller({ title, tickets }) {
                 <span>{title}</span>
             </div>
             <div className="ticket-scroller-container">
-                <div> 
+                <ScrollView> 
                     <div className="ticket-container">
                         {tickets.map(ticket => (
                             <a href={ticket.link} className={`ticket-tile ${ticket.app}`} key={ticket.id}>
@@ -30,7 +30,7 @@ function TicketScroller({ title, tickets }) {
                             </a>
                         ))}
                     </div>
-                </div>
+                </ScrollView>
             </div>
         </div>
     );
