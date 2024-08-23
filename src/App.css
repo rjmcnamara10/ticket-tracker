@@ -1,0 +1,156 @@
+.App {
+  text-align: center;
+  background-color: rgb(36, 36, 36);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.App-header {
+  background-image: url('/background.png');
+  max-height: 115px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-direction: row;
+  box-shadow: 0 0 4px;
+}
+
+.App-header img.logo {
+  max-height: 140px;
+  margin-left: 20px;
+}
+
+.App-header img.title {
+  max-height: 50px;
+  margin-left: 20px;
+}
+
+.App-content-container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-start;
+  color: white;
+}
+
+.Side-panel {
+  background-color: rgb(100, 100, 100);
+  width: 200px;
+  min-width: 150px;
+  min-height: 100%;
+}
+
+.Main-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.search-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-info-containers {
+  background-color: rgb(100, 100, 100);
+  border-radius: 25px;
+  box-shadow: 0 0 4px black;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 8px;
+}
+
+.ticket-scrollers-container {
+  /* width: 100%; */
+  /* max-width: 900px; */
+  /* min-width: 100%; */
+  margin: 0 auto;
+}
+
+.ticket-list-container {
+  width: 1000px;
+  /* min-width: 100%; */
+  /* max-width: 100%; */
+  max-height: 275px;
+  margin: 10px;
+}
+
+.ticket-list-title {
+  background-color: rgb(100, 100, 100);
+  /* border-radius: 30% 30% 0 0; */
+}
+
+.ticket-scroller-container {
+  border: 1px solid rgb(100, 100, 100);
+}
+
+.ticket-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding: 20px 10px 20px 10px;
+}
+
+.ticket-tile {
+  height: 75%;
+  min-height: 200px;
+  max-height: 400px;
+  aspect-ratio: 1;
+  margin: 0 10px 0 10px;
+  font-size: x-small;
+  border-radius: 12px;
+  box-shadow: 0 0 4px black;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.gametime {
+  background-color: rgb(14, 14, 14);
+  color: white;
+}
+
+.tickpick {
+  background-color: white;
+  color: black;
+}
+
+.seat-view {
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.seat-view img {
+  width: 175%;
+  height: auto;
+  object-fit: cover;
+}
+
+.ticket-info {
+  height: 25%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.ticket-app img {
+  width: 50%;
+  height: auto;
+}
