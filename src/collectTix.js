@@ -1,6 +1,6 @@
-const fs = require('fs');
 const scrapeTickpickTickets = require('./tickpick.js');
 const scrapeGametimeTickets = require('./gametime.js');
+// const fs = require('fs');
 
 const TICKET_QUANTITY = 2;
 
@@ -23,12 +23,11 @@ async function collectTickets() {
     const allTickets = tickpickTix.concat(gametimeTix);
 
     // Only keep balcony tickets, sort by price from lowest to highest
-    const balconyTickets = allTickets
+    const cheapestTickets = allTickets
         .filter(ticket => ticket.section >= 301 && ticket.section <= 330)
         .sort((a, b) => a.price - b.price);
-    fs.writeFileSync('cheapest_tix.json', JSON.stringify(balconyTickets, null, 2));
 
-    const rankedTickets = balconyTickets.map(ticket => {
+    const rankedTickets = cheapestTickets.map(ticket => {
         const locationPoints = sectionPoints[ticket.section] + (15 - ticket.row);
         return {
             ...ticket,
@@ -37,8 +36,14 @@ async function collectTickets() {
     });
 
     const valueTickets = rankedTickets.filter(ticket => ticket.locationPoints >= 10);
-    fs.writeFileSync('value_tix.json', JSON.stringify(valueTickets, null, 2));
-    return valueTickets;
+    return { cheapestTickets, valueTickets };
 }
 
-collectTickets();
+// async function test() {
+//     const { cheapestTickets, valueTickets } = await collectTickets();
+//     fs.writeFileSync('cheapest_tix.json', JSON.stringify(cheapestTickets, null, 2));
+//     fs.writeFileSync('value_tix.json', JSON.stringify(valueTickets, null, 2));
+// }
+// test();
+
+module.exports = collectTickets;

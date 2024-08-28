@@ -1,5 +1,4 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
+const puppeteer = require("puppeteer");
 
 async function scrapeTickpickTickets(url) {
     const browser = await puppeteer.launch();
@@ -14,43 +13,38 @@ async function scrapeTickpickTickets(url) {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Extract ticket information
-    const ticketInfo = await page.evaluate((url) => {
+    let ticketInfo = [];
+    ticketInfo = await page.evaluate((url) => {
         const tickets = [];
         const app = 'tickpick';
         const ticketElements = document.querySelectorAll('.listing');
-        // return ticketElements.length;
-        return ticketElements[20];
 
-        // ticketElements.forEach(ticketElement => {
-        //     // Extract section and row
-        //     const sectionRowText = ticketElement.querySelector('.sout span').textContent;
-        //     const [sectionStr, rowStr] = sectionRowText.match(/Section (\d+) • Row (\d+)/).slice(1, 3);
-        //     const section = parseInt(sectionStr);
-        //     const row = parseInt(rowStr);
+        ticketElements.forEach(ticketElement => {
+            try {
+                // Extract section and row
+                const sectionRowText = ticketElement.querySelector('.sout span').textContent;
+                const [sectionStr, rowStr] = sectionRowText.match(/Section (\d+) • Row (\d+)/).slice(1, 3);
+                const section = parseInt(sectionStr);
+                const row = parseInt(rowStr);
 
-        //     // Extract price
-        //     const priceText = ticketElement.querySelector('label > b').textContent.trim();
-        //     const price = parseInt(priceText.replace(/^\$/, ''));
+                // Extract price
+                const priceText = ticketElement.querySelector('label > b').textContent.trim();
+                const price = parseInt(priceText.replace(/^\$/, ''));
 
-        //     // Tickpick does not have a separate link for tickets
-        //     const link = url;
+                // Tickpick does not have a separate link for tickets
+                const link = url;
 
-        //     tickets.push({ section, row, price, app, link });
-        // });
+                tickets.push({ section, row, price, app, link });
+            } catch (error) {
+                // Do nothing if unable to extract ticket information
+            }
+        });
 
-        // return tickets;
+        return tickets;
     }, url);
 
     await browser.close();
     return ticketInfo;
 }
-
-async function test() {
-    const TICKPICK_URL = `https://www.tickpick.com/buy-boston-celtics-vs-milwaukee-bucks-tickets-td-garden-10-28-24-7pm/6633486/?sortType=P&qty=2-false`;
-    const tickpickTix = await scrapeTickpickTickets(TICKPICK_URL);
-    console.log(tickpickTix);
-    // fs.writeFileSync('testing.json', JSON.stringify(tickpickTix, null, 2));
-}
-test();
 
 module.exports = scrapeTickpickTickets;
