@@ -8,6 +8,7 @@ import './App.css';
 function App() {
     const [valueTix, setValueTix] = useState([]);
     const [cheapestTix, setCheapestTix] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         Promise.all([
@@ -16,7 +17,11 @@ function App() {
         ]).then(([valueTixData, cheapestTixData]) => {
             setValueTix(valueTixData);
             setCheapestTix(cheapestTixData);
-        }).catch(error => console.error('Error fetching tickets:', error));
+            setLoading(false);
+        }).catch(error => {
+            console.error('Error fetching tickets:', error);
+            setLoading(false);
+        });
     }, []);
 
     return (
@@ -36,23 +41,23 @@ function App() {
                         <div className="search-info">
                             <div className="search-info-containers datetime">
                                 <span>
-                                    Wed 4/3 7:30 PM
+                                    Mon 10/28 7:30 PM
                                 </span>
                             </div>
                             <div className="search-info-containers matchup">
                                 <span>
-                                    Oklahoma City Thunder @ Boston Celtics
+                                    Milwaukee Bucks @ Boston Celtics
                                 </span>
                             </div>
                             <div className="search-info-containers ticket-quantity">
                                 <span>
-                                    Quantity: 3
+                                    Quantity: 2
                                 </span>
                             </div>
                         </div>
                         <div className="ticket-scrollers-container">
-                            <TicketScroller title="Best Value" tickets={valueTix} />
-                            <TicketScroller title="Cheapest" tickets={cheapestTix} />
+                            <TicketScroller title="Best Value" tickets={valueTix} loading={loading} />
+                            <TicketScroller title="Cheapest" tickets={cheapestTix} loading={loading} />
                         </div>
                     </div>
                 </div>
