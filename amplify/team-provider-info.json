@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tickettracker-dev-123207-authRole",
+      "UnauthRoleArn": "arn:aws:iam::058264369839:role/amplify-tickettracker-dev-123207-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::058264369839:role/amplify-tickettracker-dev-123207-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tickettracker-dev-123207-deployment",
+      "UnauthRoleName": "amplify-tickettracker-dev-123207-unauthRole",
+      "StackName": "amplify-tickettracker-dev-123207",
+      "StackId": "arn:aws:cloudformation:us-east-1:058264369839:stack/amplify-tickettracker-dev-123207/e7bccb80-6491-11ef-a66a-0e4c44067d59",
+      "AmplifyAppId": "d24i9g1khz4iqq"
+    },
+    "categories": {
+      "function": {
+        "collectTixFunction": {
+          "deploymentBucketName": "amplify-tickettracker-dev-123207-deployment",
+          "s3Key": "amplify-builds/collectTixFunction-3455696b517747677142-build.zip"
+        }
+      }
+    }
+  }
+}

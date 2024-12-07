@@ -1,0 +1,27 @@
+{
+  "function": {
+    "collectTixFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_collectTixFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "collectTixFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_collectTixFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "collectTixFunction"
+        }
+      ]
+    }
+  }
+}
