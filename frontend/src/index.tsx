@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+import { HelmetProvider } from 'react-helmet-async';
+import TicketTrack from './components/TicketTrack';
 import './index.css';
 
 const rootElement = document.getElementById('root');
+
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <App />
+      <HelmetProvider>
+        <TicketTrack />
+      </HelmetProvider>
     </React.StrictMode>,
   );
 } else {

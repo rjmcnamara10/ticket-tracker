@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, Loader } from '@aws-amplify/ui-react';
-import { Ticket } from './types';
+import { Ticket } from '../../../types';
 
 /**
  * Interface that represents the props for the TicketScroller.
