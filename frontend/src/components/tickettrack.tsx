@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from './header';
 import SidePanel from './main/sidePanel';
-import TicketsPage from './main/ticketsPageTemp';
+import TicketsPage from './main/ticketsPage';
 import './index.css';
 
 /**
