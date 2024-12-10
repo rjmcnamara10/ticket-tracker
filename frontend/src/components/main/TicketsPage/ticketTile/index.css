@@ -1,0 +1,50 @@
+.ticket-tile {
+  height: 75%;
+  min-height: 200px;
+  max-height: 400px;
+  aspect-ratio: 1;
+  margin: 0 10px 0 10px;
+  font-size: x-small;
+  border-radius: 12px;
+  box-shadow: 0 0 4px black;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.gametime {
+  background-color: rgb(14, 14, 14);
+  color: white;
+}
+
+.tickpick {
+  background-color: white;
+  color: black;
+}
+
+.seat-view {
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.seat-view img {
+  width: 175%;
+  height: auto;
+  object-fit: cover;
+}
+
+.ticket-info {
+  height: 25%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.ticket-app img {
+  width: 50%;
+  height: auto;
+}

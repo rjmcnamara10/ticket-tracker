@@ -1,0 +1,22 @@
+.header {
+  background-image: url('/background.png');
+  max-height: 115px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-direction: row;
+  box-shadow: 0 0 4px;
+}
+
+.header img.logo {
+  max-height: 140px;
+  margin-left: 20px;
+}
+
+.header img.title {
+  max-height: 50px;
+  margin-left: 20px;
+}
