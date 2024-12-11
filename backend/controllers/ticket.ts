@@ -2,8 +2,8 @@ import express, { Response } from 'express';
 import ITicketApp from '../services/ITicketApp';
 import TickpickApp from '../services/TickpickApp';
 import GametimeApp from '../services/GametimeApp';
-import { TicketAppName, ScrapeTicketsRequest } from '../types';
-import scrapeTicketsSchema from './validation';
+import { TicketAppName, ScrapeEventUrlsRequest, ScrapeTicketsRequest } from '../types';
+import { scrapeEventUrlsSchema, scrapeTicketsSchema } from './validation';
 
 const tickpickApp = new TickpickApp();
 const gametimeApp = new GametimeApp();
@@ -33,6 +33,40 @@ const ticketController = () => {
         throw new Error('Invalid app');
     }
   }
+
+  /**
+   * Route to scrape event URLs from a ticket resale app.
+   *
+   * @param {ScrapeEventUrlsRequest} req - The request object containing the app name.
+   * @param {Response} res - The HTTP response object used to send back the result of the operation.
+   * @returns {Promise<void>} A Promise that resolves to void.
+   */
+  const scrapeEventUrlsRoute = async (
+    req: ScrapeEventUrlsRequest,
+    res: Response,
+  ): Promise<void> => {
+    const { error } = scrapeEventUrlsSchema.validate(req.body);
+    if (error) {
+      res.status(400).send(error.details[0].message);
+      return;
+    }
+    const { app } = req.body;
+
+    try {
+      const ticketApp = getTicketApp(app);
+      const eventUrls = await ticketApp.scrapeEventUrls();
+      res.json({
+        message: `${ticketApp.name} event URLs scraped successfully`,
+        eventUrls,
+      });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        res.status(500).send(`Error when scraping event URLs: ${err.message}`);
+      } else {
+        res.status(500).send(`Error when scraping event URLs`);
+      }
+    }
+  };
 
   /**
    * Route to scrape tickets from a ticket resale app.
@@ -71,6 +105,7 @@ const ticketController = () => {
     }
   };
 
+  router.post('/scrapeEventUrls', scrapeEventUrlsRoute);
   router.post('/scrapeTickets', scrapeTicketsRoute);
 
   return router;

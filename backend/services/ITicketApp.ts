@@ -12,6 +12,27 @@ interface ITicketApp {
   readonly name: string;
 
   /**
+   * The URL to the home page of the ticket app.
+   * @type {string}
+   * @readonly
+   */
+  readonly homePageUrl: string;
+
+  /**
+   * The URL of the ticket app page which lists event URLs.
+   * @type {string}
+   * @readonly
+   */
+  readonly eventPageUrl: string;
+
+  /**
+   * Scrapes event URLs from the ticket app page.
+   *
+   * @returns {Promise<string[]>} A promise that resolves to an array of event URLs.
+   */
+  scrapeEventUrls(): Promise<string[]>;
+
+  /**
    * Scrapes tickets from the specified URL.
    *
    * @param {string} url - The URL of the event page to scrape tickets from.

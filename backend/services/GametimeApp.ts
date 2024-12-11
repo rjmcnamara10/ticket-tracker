@@ -7,9 +7,24 @@ import { Ticket, ScrapeTicketsResult } from '../types';
  */
 class GametimeApp implements ITicketApp {
   readonly name: string;
+  readonly homePageUrl: string;
+  readonly eventPageUrl: string;
 
   constructor() {
     this.name = 'Gametime';
+    this.homePageUrl = 'https://gametime.co';
+    this.eventPageUrl = 'https://gametime.co/boston-celtics-tickets/performers/nbabos';
+  }
+
+  async scrapeEventUrls(): Promise<string[]> {
+    // Temporary implementation
+    return [
+      `${this.homePageUrl}/nba-basketball/detroit-pistons-at-boston-celtics-tickets/12-12-2024-boston-ma-td-garden/events/66bf5fd00109394f0ebeb7d7`,
+      `${this.homePageUrl}/nba-basketball/bulls-at-celtics-tickets/12-19-2024-boston-ma-td-garden/events/66be5ccf7514c0d1631d2a79`,
+      `${this.homePageUrl}/nba-basketball/76-ers-at-celtics-tickets/12-25-2024-boston-ma-td-garden/events/66b6b97a442e7e398be5eb53`,
+      `${this.homePageUrl}/nba-basketball/pacers-at-celtics-tickets/12-27-2024-boston-ma-td-garden/events/66be5d253ede6703176ffac8`,
+      `${this.homePageUrl}/nba-basketball/pacers-at-celtics-tickets/12-29-2024-boston-ma-td-garden/events/66be5d3e6c4f21420654405c`,
+    ];
   }
 
   async scrapeTickets(url: string, ticketQuantity: number): Promise<ScrapeTicketsResult> {

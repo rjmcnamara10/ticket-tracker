@@ -1,6 +1,13 @@
 import Joi from 'joi';
 
-const scrapeTicketsSchema = Joi.object({
+export const scrapeEventUrlsSchema = Joi.object({
+  app: Joi.string().valid('tickpick', 'gametime').required().messages({
+    'any.only': 'App must be either "tickpick" or "gametime"',
+    'any.required': 'App is required',
+  }),
+});
+
+export const scrapeTicketsSchema = Joi.object({
   app: Joi.string().valid('tickpick', 'gametime').required().messages({
     'any.only': 'App must be either "tickpick" or "gametime"',
     'any.required': 'App is required',
@@ -16,5 +23,3 @@ const scrapeTicketsSchema = Joi.object({
     'any.required': 'Ticket quantity is required',
   }),
 });
-
-export default scrapeTicketsSchema;

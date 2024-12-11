@@ -41,6 +41,17 @@ export interface ScrapeTicketsResult {
 }
 
 /**
+ * The request body when scraping event URLs from a ticket resale app.
+ * 
+ * @property {TicketAppName} app - The name of the ticket resale app to scrape event URLs from.
+ */
+export interface ScrapeEventUrlsRequest extends Request {
+  body: {
+    app: TicketAppName;
+  };
+}
+
+/**
  * The request body when scraping tickets from a ticket resale app.
  * 
  * @property {TicketAppName} app - The name of the ticket resale app to scrape tickets from.
