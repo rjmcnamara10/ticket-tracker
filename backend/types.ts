@@ -1,7 +1,9 @@
+import { Request } from 'express';
+
 /**
  * Represents a ticket resale app.
  */
-type TicketAppName = 'tickpick' | 'gametime';
+export type TicketAppName = 'tickpick' | 'gametime';
 
 /**
  * Represents a ticket available on a ticket resale app.
@@ -25,4 +27,77 @@ export interface Ticket {
  */
 export type SectionPoints = {
   [key: number]: number;
-};
+}
+
+/**
+ * Represents a game on a team's schedule.
+ *
+ * @property {string} date - A representation of the date of the game.
+ * @property {string} time - A representation of the time of the game.
+ * @property {string} homeTeamCity - The city of the home team.
+ * @property {string} homeTeamName - The name of the home team.
+ * @property {string} awayTeamCity - The city of the away team.
+ * @property {string} awayTeamName - The name of the away team.
+ */
+export interface Game {
+  date: string;
+  time: string;
+  homeTeamCity: string;
+  homeTeamName: string;
+  awayTeamCity: string;
+  awayTeamName: string;
+}
+
+/**
+ * Represents the result of scraping tickets from a ticket resale app.
+ *
+ * @property {Ticket[]} tickets - The tickets scraped from the app.
+ * @property {number} failedTicketsCount - The number of tickets that failed to be scraped.
+ */
+export interface ScrapeTicketsResult {
+  tickets: Ticket[];
+  failedTicketsCount: number;
+}
+
+/**
+ * The request body when scraping event URLs from a ticket resale app.
+ * 
+ * @property {TicketAppName} app - The name of the ticket resale app to scrape event URLs from.
+ */
+export interface ScrapeEventUrlsRequest extends Request {
+  body: {
+    app: TicketAppName;
+  };
+}
+
+/**
+ * The request body when scraping tickets from a ticket resale app.
+ * 
+ * @property {TicketAppName} app - The name of the ticket resale app to scrape tickets from.
+ * @property {string} url - The URL of the event page to scrape tickets from.
+ * @property {number} ticketQuantity - The number of grouped tickets the customer is searching for.
+ */
+export interface ScrapeTicketsRequest extends Request {
+  body: {
+    app: TicketAppName;
+    url: string;
+    ticketQuantity: number;
+  };
+}
+
+/**
+ * The request body when fetching a home schedule.
+ * 
+ * @property {string} url - The URL to the schedule in JSON format.
+ * @property {string} arenaName - The name of the home arena, as represented on the schedule.
+ * @property {string} arenaCity - The city where the arena is located, as represented on the schedule.
+ * @property {string} arenaState - The state where the arena is located, as represented on the schedule.
+ */
+export interface HomeScheduleRequest extends Request {
+  body: {
+    url: string;
+    arenaName: string;
+    arenaCity: string;
+    arenaState: string;
+  };
+}
