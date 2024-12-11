@@ -1,7 +1,9 @@
+import { Request } from 'express';
+
 /**
  * Represents a ticket resale app.
  */
-type TicketAppName = 'tickpick' | 'gametime';
+export type TicketAppName = 'tickpick' | 'gametime';
 
 /**
  * Represents a ticket available on a ticket resale app.
@@ -25,4 +27,30 @@ export interface Ticket {
  */
 export type SectionPoints = {
   [key: number]: number;
-};
+}
+
+/**
+ * Represents the result of scraping tickets from a ticket resale app.
+ *
+ * @property {Ticket[]} tickets - The tickets scraped from the app.
+ * @property {number} failedTicketsCount - The number of tickets that failed to be scraped.
+ */
+export interface ScrapeTicketsResult {
+  tickets: Ticket[];
+  failedTicketsCount: number;
+}
+
+/**
+ * The request body when scraping tickets from a ticket resale app.
+ * 
+ * @property {TicketAppName} app - The name of the ticket resale app to scrape tickets from.
+ * @property {string} url - The URL of the event page to scrape tickets from.
+ * @property {number} ticketQuantity - The number of grouped tickets the customer is searching for.
+ */
+export interface ScrapeTicketsRequest extends Request {
+  body: {
+    app: TicketAppName;
+    url: string;
+    ticketQuantity: number;
+  };
+}
