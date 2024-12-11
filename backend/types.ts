@@ -30,6 +30,25 @@ export type SectionPoints = {
 }
 
 /**
+ * Represents a game on a team's schedule.
+ *
+ * @property {string} date - A representation of the date of the game.
+ * @property {string} time - A representation of the time of the game.
+ * @property {string} homeTeamCity - The city of the home team.
+ * @property {string} homeTeamName - The name of the home team.
+ * @property {string} awayTeamCity - The city of the away team.
+ * @property {string} awayTeamName - The name of the away team.
+ */
+export interface Game {
+  date: string;
+  time: string;
+  homeTeamCity: string;
+  homeTeamName: string;
+  awayTeamCity: string;
+  awayTeamName: string;
+}
+
+/**
  * Represents the result of scraping tickets from a ticket resale app.
  *
  * @property {Ticket[]} tickets - The tickets scraped from the app.
@@ -63,5 +82,22 @@ export interface ScrapeTicketsRequest extends Request {
     app: TicketAppName;
     url: string;
     ticketQuantity: number;
+  };
+}
+
+/**
+ * The request body when fetching a home schedule.
+ * 
+ * @property {string} url - The URL to the schedule in JSON format.
+ * @property {string} arenaName - The name of the home arena, as represented on the schedule.
+ * @property {string} arenaCity - The city where the arena is located, as represented on the schedule.
+ * @property {string} arenaState - The state where the arena is located, as represented on the schedule.
+ */
+export interface HomeScheduleRequest extends Request {
+  body: {
+    url: string;
+    arenaName: string;
+    arenaCity: string;
+    arenaState: string;
   };
 }
