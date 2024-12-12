@@ -3,7 +3,7 @@ import { ScrapeTicketsResult } from '../types';
 /**
  * Interface representing a ticket resale app.
  */
-interface ITicketApp {
+interface TicketApp {
   /**
    * The proper name of the ticket app.
    * @type {string}
@@ -43,4 +43,4 @@ interface ITicketApp {
   scrapeTickets(url: string, ticketQuantity: number): Promise<ScrapeTicketsResult>;
 }
 
-export default ITicketApp;
+export default TicketApp;

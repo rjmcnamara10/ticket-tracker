@@ -1,11 +1,11 @@
 import puppeteer from 'puppeteer';
-import ITicketApp from './ITicketApp';
+import TicketApp from './TicketApp';
 import { Ticket, ScrapeTicketsResult } from '../types';
 
 /**
  * Class to represent the Gametime ticket resale app.
  */
-class GametimeApp implements ITicketApp {
+class GametimeApp implements TicketApp {
   readonly name: string;
   readonly homePageUrl: string;
   readonly eventPageUrl: string;
