@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { Request } from 'express';
 
 /**
@@ -8,16 +9,20 @@ export type TicketAppName = 'tickpick' | 'gametime';
 /**
  * Represents a ticket available on a ticket resale app.
  *
+ * @property {ObjectId} [_id] - The unique identifier of the ticket. Optional.
  * @property {number} section - The section number of the arena where the ticket is located.
  * @property {number} row - The row number of the section where the ticket is located.
  * @property {number} price - The price of the ticket in USD.
+ * @property {number} quantity - The number of tickets available to purchase at the price and location.
  * @property {TicketAppName} app - The ticket resale app where the ticket is listed.
  * @property {string} link - The link to the ticket listing.
  */
 export interface Ticket {
+  _id?: ObjectId;
   section: number;
   row: number;
   price: number;
+  quantity: number;
   app: TicketAppName;
   link: string;
 }
@@ -35,22 +40,28 @@ export type SectionPoints = {
 export type SportsTeamName = 'celtics';
 
 /**
- * Represents a game on a team's schedule.
+ * Represents a matchup between two sports teams.
  *
- * @property {string} date - A representation of the date of the game.
- * @property {string} time - A representation of the time of the game.
- * @property {string} homeTeamCity - The city of the home team.
- * @property {string} homeTeamName - The name of the home team.
- * @property {string} awayTeamCity - The city of the away team.
- * @property {string} awayTeamName - The name of the away team.
+ * @property {ObjectId} [_id] - The unique identifier of the game. Optional.
+ * @property {string} homeTeam - The full name of the home team.
+ * @property {string} awayTeam - The full name of the away team.
+ * @property {Date} startDateTime - The date and time when the game starts in EST.
+ * @property {string} venue - The name of the venue where the game is played.
+ * @property {string} city - The city where the game is played.
+ * @property {string} state - The two-letter abbreviation of the state where the game is played.
+ * @property {Ticket[]} tickets - The tickets available for the game.
+ * @property {Date} [lastUpdated] - The date and time when the tickets available was last updated. Optional.
  */
 export interface Game {
-  date: string;
-  time: string;
-  homeTeamCity: string;
-  homeTeamName: string;
-  awayTeamCity: string;
-  awayTeamName: string;
+  _id?: ObjectId;
+  homeTeam: string;
+  awayTeam: string;
+  startDateTime: Date;
+  venue: string;
+  city: string;
+  state: string;
+  tickets: Ticket[];
+  lastUpdated?: Date;
 }
 
 /**

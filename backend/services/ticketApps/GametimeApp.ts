@@ -112,7 +112,7 @@ class GametimeApp implements TicketApp {
           const section = parseInt(sectionStr, 10);
           const row = parseInt(rowStr, 10);
           if (!Number.isNaN(section) && !Number.isNaN(row)) {
-            tickets.push({ section, row, price, app, link });
+            tickets.push({ section, row, price, quantity: ticketQuantity, app, link });
           }
         } else {
           failedTicketsCount++;

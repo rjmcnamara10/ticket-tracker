@@ -42,6 +42,14 @@ module.exports = {
       },
       {
         selector: 'variable',
+        format: ['PascalCase'],
+        filter: {
+          regex: 'Model$',
+          match: true,
+        },
+      },
+      {
+        selector: 'variable',
         modifiers: ['global', 'const'],
         types: ['boolean', 'number', 'string', 'array'],
         format: ['UPPER_CASE'],

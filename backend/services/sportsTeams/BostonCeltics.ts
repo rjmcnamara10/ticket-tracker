@@ -13,20 +13,25 @@ class BostonCeltics implements SportsTeam {
   }
 
   async getHomeSchedule(): Promise<Game[]> {
+    const venue = 'TD Garden';
+    const city = 'Boston';
+    const state = 'MA';
+
     const homeSchedule: Game[] = [];
     const { data } = await axios.get(
       'https://cdn.celtics.com/evergreen/dotcom/schedule/v2024/2024_celtics_schedule.json',
     );
     const allGames = data.data.gscd.g;
     for (const game of allGames) {
-      if (game.an === 'TD Garden' && game.ac === 'Boston' && game.as === 'MA') {
+      if (game.an === venue && game.ac === city && game.as === state) {
         const homeGame: Game = {
-          date: game.gdte,
-          time: game.stt,
-          homeTeamCity: game.h.tc,
-          homeTeamName: game.h.tn,
-          awayTeamCity: game.v.tc,
-          awayTeamName: game.v.tn,
+          homeTeam: this.name,
+          awayTeam: `${game.v.tc} ${game.v.tn}`,
+          startDateTime: new Date(game.etm),
+          venue,
+          city,
+          state,
+          tickets: [],
         };
         homeSchedule.push(homeGame);
       }
