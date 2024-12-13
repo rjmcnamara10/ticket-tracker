@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import TicketApp from './TicketApp';
-import { Ticket, ScrapeTicketsResult } from '../types';
+import { Ticket, ScrapeTicketsResult } from '../../types';
 
 /**
  * Class to represent the Gametime ticket resale app.

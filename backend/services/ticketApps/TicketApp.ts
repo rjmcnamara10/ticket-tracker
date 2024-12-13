@@ -1,4 +1,4 @@
-import { ScrapeTicketsResult } from '../types';
+import { ScrapeTicketsResult } from '../../types';
 
 /**
  * Interface representing a ticket resale app.

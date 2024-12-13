@@ -30,6 +30,11 @@ export type SectionPoints = {
 }
 
 /**
+ * Represents a sports team.
+ */
+export type SportsTeamName = 'celtics';
+
+/**
  * Represents a game on a team's schedule.
  *
  * @property {string} date - A representation of the date of the game.
@@ -88,16 +93,10 @@ export interface ScrapeTicketsRequest extends Request {
 /**
  * The request body when fetching a home schedule.
  * 
- * @property {string} url - The URL to the schedule in JSON format.
- * @property {string} arenaName - The name of the home arena, as represented on the schedule.
- * @property {string} arenaCity - The city where the arena is located, as represented on the schedule.
- * @property {string} arenaState - The state where the arena is located, as represented on the schedule.
+ * @property {SportsTeamName} team - The name of the sports team to fetch the home schedule for.
  */
 export interface HomeScheduleRequest extends Request {
   body: {
-    url: string;
-    arenaName: string;
-    arenaCity: string;
-    arenaState: string;
+    team: SportsTeamName;
   };
 }

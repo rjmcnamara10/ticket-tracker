@@ -1,7 +1,7 @@
 import express, { Response } from 'express';
-import TicketApp from '../services/TicketApp';
-import TickpickApp from '../services/TickpickApp';
-import GametimeApp from '../services/GametimeApp';
+import TicketApp from '../services/ticketApps/TicketApp';
+import TickpickApp from '../services/ticketApps/TickpickApp';
+import GametimeApp from '../services/ticketApps/GametimeApp';
 import { TicketAppName, ScrapeEventUrlsRequest, ScrapeTicketsRequest } from '../types';
 import { scrapeEventUrlsSchema, scrapeTicketsSchema } from './validation';
 
