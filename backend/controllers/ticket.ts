@@ -1,7 +1,7 @@
 import express, { Response } from 'express';
-import ITicketApp from '../services/ITicketApp';
-import TickpickApp from '../services/TickpickApp';
-import GametimeApp from '../services/GametimeApp';
+import TicketApp from '../services/ticketApps/TicketApp';
+import TickpickApp from '../services/ticketApps/TickpickApp';
+import GametimeApp from '../services/ticketApps/GametimeApp';
 import { TicketAppName, ScrapeEventUrlsRequest, ScrapeTicketsRequest } from '../types';
 import { scrapeEventUrlsSchema, scrapeTicketsSchema } from './validation';
 
@@ -17,13 +17,13 @@ const ticketController = () => {
   const router = express.Router();
 
   /**
-   * Returns the appropriate ITicketApp based on the app name.
+   * Returns the appropriate TicketApp based on the app name.
    *
    * @param {TicketAppName} app - The name of the ticket app.
-   * @returns {ITicketApp} The ticket app instance.
+   * @returns {TicketApp} The ticket app instance.
    * @throws {Error} Thrown if the app name is invalid.
    */
-  function getTicketApp(app: TicketAppName): ITicketApp {
+  function getTicketApp(app: TicketAppName): TicketApp {
     switch (app) {
       case 'tickpick':
         return tickpickApp;

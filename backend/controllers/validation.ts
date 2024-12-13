@@ -25,20 +25,8 @@ export const scrapeTicketsSchema = Joi.object({
 });
 
 export const homeScheduleSchema = Joi.object({
-  url: Joi.string().uri().required().messages({
-    'string.uri': 'URL must be a valid URI',
-    'any.required': 'URL is required',
-  }),
-  arenaName: Joi.string().required().messages({
-    'string.base': 'Arena name must be a string',
-    'any.required': 'Arena name is required',
-  }),
-  arenaCity: Joi.string().required().messages({
-    'string.base': 'Arena city must be a string',
-    'any.required': 'Arena city is required',
-  }),
-  arenaState: Joi.string().required().messages({
-    'string.base': 'Arena state must be a string',
-    'any.required': 'Arena state is required',
+  team: Joi.string().valid('celtics').required().messages({
+    'any.only': 'Team must be "celtics"',
+    'any.required': 'Team is required',
   }),
 });
