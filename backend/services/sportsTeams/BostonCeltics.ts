@@ -1,6 +1,7 @@
 import axios from 'axios';
 import SportsTeam from './SportsTeam';
-import { Game } from '../../types';
+import GameModel from '../../models/game';
+import { Game, saveGamesResponse } from '../../types';
 
 /**
  * Class to represent the Boston Celtics sports team
@@ -37,6 +38,18 @@ class BostonCeltics implements SportsTeam {
       }
     }
     return homeSchedule;
+  }
+
+  async saveGames(games: Game[]): Promise<saveGamesResponse> {
+    try {
+      await GameModel.insertMany(games);
+      return { success: true };
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        return { error: `Error saving games: ${err.message}` };
+      }
+      return { error: 'Error saving games' };
+    }
   }
 }
 

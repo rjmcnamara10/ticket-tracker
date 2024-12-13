@@ -48,6 +48,11 @@ const teamController = () => {
     try {
       const sportsTeam = getSportsTeam(team);
       const homeSchedule = await sportsTeam.getHomeSchedule();
+      const saveResult = await sportsTeam.saveGames(homeSchedule);
+      if ('error' in saveResult) {
+        res.status(500).send(`Error saving games: ${saveResult.error}`);
+        return;
+      }
       res.json({
         message: `${sportsTeam.name} home schedule retrieved successfully`,
         homeSchedule,

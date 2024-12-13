@@ -111,3 +111,8 @@ export interface HomeScheduleRequest extends Request {
     team: SportsTeamName;
   };
 }
+
+/**
+ * Type representing the possible responses for saving games to the database.
+ */
+export type saveGamesResponse = { success: boolean } | { error: string };
