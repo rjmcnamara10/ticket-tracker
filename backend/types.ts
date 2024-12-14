@@ -9,7 +9,7 @@ export type TicketAppName = 'tickpick' | 'gametime';
 /**
  * Represents a ticket available on a ticket resale app.
  *
- * @property {ObjectId} [_id] - The unique identifier of the ticket. Optional.
+ * @property {ObjectId} [_id] - The unique identifier of the ticket. Optional field.
  * @property {number} section - The section number of the arena where the ticket is located.
  * @property {number} row - The row number of the section where the ticket is located.
  * @property {number} price - The price of the ticket in USD.
@@ -42,7 +42,7 @@ export type SportsTeamName = 'celtics';
 /**
  * Represents a matchup between two sports teams.
  *
- * @property {ObjectId} [_id] - The unique identifier of the game. Optional.
+ * @property {ObjectId} [_id] - The unique identifier of the game. Optional field.
  * @property {string} homeTeam - The full name of the home team.
  * @property {string} awayTeam - The full name of the away team.
  * @property {Date} startDateTime - The date and time when the game starts in EST.
@@ -50,7 +50,7 @@ export type SportsTeamName = 'celtics';
  * @property {string} city - The city where the game is played.
  * @property {string} state - The two-letter abbreviation of the state where the game is played.
  * @property {Ticket[]} tickets - The tickets available for the game.
- * @property {Date} [lastUpdated] - The date and time when the tickets available was last updated. Optional.
+ * @property {Date} [lastUpdated] - The date and time when the tickets available was last updated. Optional field.
  */
 export interface Game {
   _id?: ObjectId;
@@ -115,4 +115,4 @@ export interface HomeScheduleRequest extends Request {
 /**
  * Type representing the possible responses for saving games to the database.
  */
-export type saveGamesResponse = { success: boolean } | { error: string };
+export type saveGamesResponse = Game[] | { error: string };

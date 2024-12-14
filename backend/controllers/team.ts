@@ -31,13 +31,13 @@ const teamController = () => {
   }
 
   /**
-   * Route to retrieve the home schedule of a sports team.
+   * Route to add future home games of a sports team to the database if they do not already exist.
    *
    * @param {HomeScheduleRequest} req - The request object containing the team name.
    * @param {Response} res - The HTTP response object used to send back the result of the operation.
    * @returns {Promise<void>} A Promise that resolves to void.
    */
-  const homeScheduleRoute = async (req: HomeScheduleRequest, res: Response): Promise<void> => {
+  const updateGamesRoute = async (req: HomeScheduleRequest, res: Response): Promise<void> => {
     const { error } = homeScheduleSchema.validate(req.body);
     if (error) {
       res.status(400).send(error.details[0].message);
@@ -47,26 +47,26 @@ const teamController = () => {
 
     try {
       const sportsTeam = getSportsTeam(team);
-      const homeSchedule = await sportsTeam.getHomeSchedule();
-      const saveResult = await sportsTeam.saveGames(homeSchedule);
+      const remainingHomeSchedule = await sportsTeam.getRemainingHomeGames();
+      const saveResult = await sportsTeam.saveGames(remainingHomeSchedule);
       if ('error' in saveResult) {
-        res.status(500).send(`Error saving games: ${saveResult.error}`);
-        return;
+        throw new Error(`Error saving games: ${saveResult.error}`);
       }
       res.json({
-        message: `${sportsTeam.name} home schedule retrieved successfully`,
-        homeSchedule,
+        message: `${saveResult.length} new game(s) saved`,
+        team: sportsTeam.name,
+        newGames: saveResult,
       });
     } catch (err: unknown) {
       if (err instanceof Error) {
-        res.status(500).send(`Error when retrieving home schedule: ${err.message}`);
+        res.status(500).send(`Error updating games: ${err.message}`);
       } else {
-        res.status(500).send(`Error when retrieving home schedule`);
+        res.status(500).send(`Error updating games`);
       }
     }
   };
 
-  router.post('/homeSchedule', homeScheduleRoute);
+  router.post('/updateGames', updateGamesRoute);
 
   return router;
 };

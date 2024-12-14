@@ -12,14 +12,14 @@ interface SportsTeam {
   readonly name: string;
 
   /**
-   * Retrieves the home schedule of the sports team.
+   * Retrieves all the home games of the sports team that have yet to be played.
    *
-   * @returns {Promise<Game[]>} A promise that resolves to an array of games representing the home schedule.
+   * @returns {Promise<Game[]>} A promise that resolves to an array of games representing the team's remaining home schedule.
    */
-  getHomeSchedule(): Promise<Game[]>;
+  getRemainingHomeGames(): Promise<Game[]>;
 
   /**
-   * Saves a list of games to the database.
+   * Saves a list of games to the database, ignoring any games that already exist.
    *
    * @param {Game[]} games - The list of games to save.
    * @returns {Promise<saveGamesResponse>} A promise that resolves to an object indicating success or error message.
