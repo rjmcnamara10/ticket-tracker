@@ -22,7 +22,7 @@ class BostonCeltics implements SportsTeam {
 
     const remainingHomeSchedule: Game[] = [];
     const { data } = await axios.get(
-      'https://cdn.celtics.com/evergreen/dotcom/schedule/v2024/2024_celtics_schedule.json',
+      'https://cdn.celtics.com/api/schedule/2024_celtics_schedule.json',
     );
     const allGames = data.data.gscd.g;
     for (const game of allGames) {
@@ -30,10 +30,11 @@ class BostonCeltics implements SportsTeam {
       const isFutureGame = gameDay > now;
       const isHomeGame = game.an === venue && game.ac === city && game.as === state;
       if (isFutureGame && isHomeGame) {
+        const startDateTime = new Date(`${game.etm}-00:00`); // store EST datetime
         const futureHomeGame: Game = {
           homeTeam: this.name,
           awayTeam: `${game.v.tc} ${game.v.tn}`,
-          startDateTime: game.etm,
+          startDateTime,
           venue,
           city,
           state,
