@@ -80,58 +80,62 @@ class GametimeApp extends AbstractTicketApp {
     }
 
     // Extract ticket information
-    const scrapeTicketsResult = await page.evaluate(pageUrl => {
-      const tickets: Ticket[] = [];
-      const app = 'gametime';
-      let failedTicketsCount = 0;
+    const scrapeTicketsResult = await page.evaluate(
+      (pageUrl, quantity) => {
+        const tickets: Ticket[] = [];
+        const app = 'gametime';
+        let failedTicketsCount = 0;
 
-      const ticketElements = document.querySelectorAll(
-        '.pages-Event-components-ListingCard-ListingCard-module__listing-card-container',
-      );
-      ticketElements.forEach(ticketElement => {
-        // Extract section and row
-        let sectionStr = '';
-        let rowStr = '';
-        const sectionRowElement = ticketElement.querySelector(
-          '.pages-Event-components-ListingCard-ListingCard-module__seat-details-row',
+        const ticketElements = document.querySelectorAll(
+          '.pages-Event-components-ListingCard-ListingCard-module__listing-card-container',
         );
-        const sectionRowText = sectionRowElement?.textContent;
-        if (sectionRowText) {
-          const match = sectionRowText.match(/(\d+), Row (\d+|[A-Z])/);
-          if (match) {
-            [sectionStr, rowStr] = match.slice(1, 3);
+        ticketElements.forEach(ticketElement => {
+          // Extract section and row
+          let sectionStr = '';
+          let rowStr = '';
+          const sectionRowElement = ticketElement.querySelector(
+            '.pages-Event-components-ListingCard-ListingCard-module__seat-details-row',
+          );
+          const sectionRowText = sectionRowElement?.textContent;
+          if (sectionRowText) {
+            const match = sectionRowText.match(/(\d+), Row (\d+|[A-Z])/);
+            if (match) {
+              [sectionStr, rowStr] = match.slice(1, 3);
+            }
           }
-        }
 
-        // Extract price
-        const priceElement = ticketElement.querySelector(
-          '.pages-Event-components-ListingCard-ListingCard-module__price-info',
-        );
-        const priceText = priceElement
-          ? priceElement.lastElementChild?.textContent
-          : 'Price not found';
-        const price = priceText ? parseInt(priceText.trim().replace(/^\$|\/ea$/g, ''), 10) : -1;
+          // Extract price
+          const priceElement = ticketElement.querySelector(
+            '.pages-Event-components-ListingCard-ListingCard-module__price-info',
+          );
+          const priceText = priceElement
+            ? priceElement.lastElementChild?.textContent
+            : 'Price not found';
+          const price = priceText ? parseInt(priceText.trim().replace(/^\$|\/ea$/g, ''), 10) : -1;
 
-        // Extract link
-        const linkElement = ticketElement.querySelector(
-          'a.pages-Event-components-ListingCard-ListingCard-module__listing-card',
-        );
-        const link = linkElement instanceof HTMLAnchorElement ? linkElement.href : pageUrl;
+          // Extract link
+          const linkElement = ticketElement.querySelector(
+            'a.pages-Event-components-ListingCard-ListingCard-module__listing-card',
+          );
+          const link = linkElement instanceof HTMLAnchorElement ? linkElement.href : pageUrl;
 
-        if (sectionStr && rowStr && price >= 0 && link) {
-          // Keep only numbered sections and rows
-          const section = parseInt(sectionStr, 10);
-          const row = parseInt(rowStr, 10);
-          if (!Number.isNaN(section) && !Number.isNaN(row)) {
-            tickets.push({ section, row, price, quantity: ticketQuantity, app, link });
+          if (sectionStr && rowStr && price >= 0 && link) {
+            // Keep only numbered sections and rows
+            const section = parseInt(sectionStr, 10);
+            const row = parseInt(rowStr, 10);
+            if (!Number.isNaN(section) && !Number.isNaN(row)) {
+              tickets.push({ section, row, price, quantity, app, link });
+            }
+          } else {
+            failedTicketsCount++;
           }
-        } else {
-          failedTicketsCount++;
-        }
-      });
+        });
 
-      return { tickets, failedTicketsCount };
-    }, url);
+        return { tickets, failedTicketsCount };
+      },
+      url,
+      ticketQuantity,
+    );
 
     await browser.close();
     return scrapeTicketsResult;
