@@ -21,8 +21,8 @@ interface SportsTeam {
   /**
    * Saves a list of games to the database, ignoring any games that already exist.
    *
-   * @param {Game[]} games - The list of games to save.
-   * @returns {Promise<saveGamesResponse>} A promise that resolves to an object indicating success or error message.
+   * @param {Game[]} games - The list of games to attempt to save.
+   * @returns {Promise<saveGamesResponse>} A promise that resolves to an array of the saved games or error message.
    */
   saveGames(games: Game[]): Promise<saveGamesResponse>;
 }

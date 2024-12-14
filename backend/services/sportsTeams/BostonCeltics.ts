@@ -1,74 +1,45 @@
 import axios from 'axios';
-import SportsTeam from './SportsTeam';
-import GameModel from '../../models/game';
-import { Game, saveGamesResponse } from '../../types';
-import isMongoDuplicateKeyError from '../../utils';
+import AbstractSportsTeam from './AbstractSportsTeam';
+import { Game } from '../../types';
 
 /**
- * Class to represent the Boston Celtics sports team
+ * Class representing the Boston Celtics sports team.
+ *
+ * @extends AbstractSportsTeam
  */
-class BostonCeltics implements SportsTeam {
-  readonly name: string;
-
-  constructor() {
-    this.name = 'Boston Celtics';
-  }
+class BostonCeltics extends AbstractSportsTeam {
+  readonly name: string = 'Boston Celtics';
+  private readonly _scheduleUrl: string =
+    'https://cdn.celtics.com/api/schedule/2024_celtics_schedule.json';
+  private readonly _venue: string = 'TD Garden';
+  private readonly _city: string = 'Boston';
+  private readonly _state: string = 'MA';
 
   async getRemainingHomeGames(): Promise<Game[]> {
-    const venue = 'TD Garden';
-    const city = 'Boston';
-    const state = 'MA';
-    const now = new Date();
-
     const remainingHomeSchedule: Game[] = [];
-    const { data } = await axios.get(
-      'https://cdn.celtics.com/api/schedule/2024_celtics_schedule.json',
-    );
+    const now = new Date();
+    const { data } = await axios.get(this._scheduleUrl);
     const allGames = data.data.gscd.g;
     for (const game of allGames) {
       const gameDay = new Date(`${game.gdte}T23:59:59`);
       const isFutureGame = gameDay > now;
-      const isHomeGame = game.an === venue && game.ac === city && game.as === state;
+      const isHomeGame =
+        game.an === this._venue && game.ac === this._city && game.as === this._state;
       if (isFutureGame && isHomeGame) {
         const startDateTime = new Date(`${game.etm}-00:00`); // store EST datetime
         const futureHomeGame: Game = {
           homeTeam: this.name,
           awayTeam: `${game.v.tc} ${game.v.tn}`,
           startDateTime,
-          venue,
-          city,
-          state,
+          venue: this._venue,
+          city: this._city,
+          state: this._state,
           tickets: [],
         };
         remainingHomeSchedule.push(futureHomeGame);
       }
     }
     return remainingHomeSchedule;
-  }
-
-  async saveGames(games: Game[]): Promise<saveGamesResponse> {
-    try {
-      const savePromises = games.map(async game => {
-        try {
-          const gameFromDb = await GameModel.create(game);
-          return gameFromDb;
-        } catch (err: unknown) {
-          if (isMongoDuplicateKeyError(err)) {
-            return null; // Games that already exist will return null
-          }
-          throw err;
-        }
-      });
-
-      const savedGames = await Promise.all(savePromises);
-      const filteredSavedGames = savedGames.filter(game => game !== null);
-      return filteredSavedGames;
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        return { error: err.message };
-      }
-      return { error: 'Error saving games' };
-    }
   }
 }
 

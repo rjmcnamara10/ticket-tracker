@@ -1,35 +1,45 @@
 import puppeteer from 'puppeteer';
-import TicketApp from './TicketApp';
+import AbstractTicketApp from './AbstractTicketApp';
 import { Ticket, ScrapeTicketsResult } from '../../types';
 
 /**
  * Class to represent the Tickpick ticket resale app.
+ *
+ * @extends AbstractTicketApp
  */
-class TickpickApp implements TicketApp {
-  readonly name: string;
-  readonly homePageUrl: string;
-  readonly eventPageUrl: string;
+class TickpickApp extends AbstractTicketApp {
+  readonly name: string = 'Tickpick';
 
-  constructor() {
-    this.name = 'Tickpick';
-    this.homePageUrl = 'https://www.tickpick.com';
-    this.eventPageUrl = 'https://www.tickpick.com/nba/boston-celtics-tickets/';
-  }
+  /**
+   * The URL to the home page of Tickpick.
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly _homePageUrl: string = 'https://www.tickpick.com';
+
+  /**
+   * The URL which lists event URLs on Tickpick.
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly _eventPageUrl: string = 'https://www.tickpick.com/nba/boston-celtics-tickets/';
 
   async scrapeEventUrls(): Promise<string[]> {
     // Temporary implementation
     return [
-      `${this.homePageUrl}/buy-boston-celtics-vs-detroit-pistons-tickets-td-garden-12-12-24-7pm/6637544/`,
-      `${this.homePageUrl}/buy-washington-wizards-vs-boston-celtics-tickets-capital-one-arena-12-15-24-6pm/6637555/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-chicago-bulls-tickets-td-garden-12-19-24-7pm/6633509/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-philadelphia-76ers-tickets-td-garden-12-25-24-5pm/6620096/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-indiana-pacers-tickets-td-garden-12-27-24-7pm/6633517/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-indiana-pacers-tickets-td-garden-12-29-24-6pm/6633518/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-toronto-raptors-tickets-td-garden-12-31-24-3pm/6633521/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-sacramento-kings-tickets-td-garden-1-10-25-7pm/6633524/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-new-orleans-pelicans-tickets-td-garden-1-12-25-6pm/6633525/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-orlando-magic-tickets-td-garden-1-17-25-7pm/6633527/`,
-      `${this.homePageUrl}/buy-boston-celtics-vs-atlanta-hawks-tickets-td-garden-1-18-25-7pm/6633529/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-detroit-pistons-tickets-td-garden-12-12-24-7pm/6637544/`,
+      `${this._homePageUrl}/buy-washington-wizards-vs-boston-celtics-tickets-capital-one-arena-12-15-24-6pm/6637555/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-chicago-bulls-tickets-td-garden-12-19-24-7pm/6633509/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-philadelphia-76ers-tickets-td-garden-12-25-24-5pm/6620096/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-indiana-pacers-tickets-td-garden-12-27-24-7pm/6633517/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-indiana-pacers-tickets-td-garden-12-29-24-6pm/6633518/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-toronto-raptors-tickets-td-garden-12-31-24-3pm/6633521/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-sacramento-kings-tickets-td-garden-1-10-25-7pm/6633524/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-new-orleans-pelicans-tickets-td-garden-1-12-25-6pm/6633525/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-orlando-magic-tickets-td-garden-1-17-25-7pm/6633527/`,
+      `${this._homePageUrl}/buy-boston-celtics-vs-atlanta-hawks-tickets-td-garden-1-18-25-7pm/6633529/`,
     ];
   }
 
