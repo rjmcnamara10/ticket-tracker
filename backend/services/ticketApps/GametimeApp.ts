@@ -50,7 +50,7 @@ class GametimeApp extends AbstractTicketApp {
 
     // Select the quantity of tickets (default is 2)
     if (ticketQuantity !== 2) {
-      const dropdownMenuSelector = 'div._3jbsE7bPH2773pyaT0ayCf > div:nth-child(2)';
+      const dropdownMenuSelector = 'div.ui-Menu-Menu-module__menu.ui-Menu-Menu-module__icon-chip';
       await page.waitForSelector(dropdownMenuSelector);
       const dropdownMenu = await page.$(dropdownMenuSelector);
       if (dropdownMenu) {
@@ -59,8 +59,8 @@ class GametimeApp extends AbstractTicketApp {
       await new Promise(resolve => {
         setTimeout(resolve, 2000);
       });
-      const ticketsOptionSelector = `div._1WI7N_Bs_b0gkDH7dzIdkV > div:nth-child(${ticketQuantity})`;
-      await page.waitForSelector(ticketsOptionSelector);
+      const ticketsOptionSelector = `div.pages-Event-components-OmnibarOptions-OmnibarOptions-module__panel-body-item[id="${ticketQuantity}"]`;
+      await page.waitForSelector(ticketsOptionSelector, { timeout: 60000 });
       await page.click(ticketsOptionSelector);
       await new Promise(resolve => {
         setTimeout(resolve, 2000);
