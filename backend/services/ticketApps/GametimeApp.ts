@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import AbstractTicketApp from './AbstractTicketApp';
-import { Ticket, ScrapeTicketsResult } from '../../types';
+import { Ticket, TicketAppName, ScrapeTicketsResult } from '../../types';
 
 /**
  * Class to represent the Gametime ticket resale app.
@@ -8,7 +8,7 @@ import { Ticket, ScrapeTicketsResult } from '../../types';
  * @extends AbstractTicketApp
  */
 class GametimeApp extends AbstractTicketApp {
-  readonly name: string = 'Gametime';
+  readonly name: TicketAppName = 'Gametime';
 
   /**
    * The URL to the home page of Gametime.
@@ -39,6 +39,7 @@ class GametimeApp extends AbstractTicketApp {
   }
 
   async scrapeTickets(url: string, ticketQuantity: number): Promise<ScrapeTicketsResult> {
+    const scrapeDateTime = new Date();
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
@@ -81,9 +82,8 @@ class GametimeApp extends AbstractTicketApp {
 
     // Extract ticket information
     const scrapeTicketsResult = await page.evaluate(
-      (pageUrl, quantity) => {
+      (pageUrl, quantity, app) => {
         const tickets: Ticket[] = [];
-        const app = 'gametime';
         let failedTicketsCount = 0;
 
         const ticketElements = document.querySelectorAll(
@@ -135,10 +135,14 @@ class GametimeApp extends AbstractTicketApp {
       },
       url,
       ticketQuantity,
+      this.name,
     );
 
     await browser.close();
-    return scrapeTicketsResult;
+    return {
+      ...scrapeTicketsResult,
+      scrapeDateTime,
+    };
   }
 }
 

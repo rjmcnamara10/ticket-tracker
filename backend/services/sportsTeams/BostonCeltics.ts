@@ -34,7 +34,7 @@ class BostonCeltics extends AbstractSportsTeam {
           venue: this._venue,
           city: this._city,
           state: this._state,
-          tickets: [],
+          ticketQuantityGroups: [],
         };
         remainingHomeSchedule.push(futureHomeGame);
       }

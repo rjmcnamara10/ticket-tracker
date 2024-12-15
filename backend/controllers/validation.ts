@@ -1,15 +1,15 @@
 import Joi from 'joi';
 
 export const scrapeEventUrlsSchema = Joi.object({
-  app: Joi.string().valid('tickpick', 'gametime').required().messages({
-    'any.only': 'App must be either "tickpick" or "gametime"',
+  app: Joi.string().valid('Tickpick', 'Gametime').required().messages({
+    'any.only': 'App must be either "Tickpick" or "Gametime"',
     'any.required': 'App is required',
   }),
 });
 
 export const scrapeTicketsSchema = Joi.object({
-  app: Joi.string().valid('tickpick', 'gametime').required().messages({
-    'any.only': 'App must be either "tickpick" or "gametime"',
+  app: Joi.string().valid('Tickpick', 'Gametime').required().messages({
+    'any.only': 'App must be either "Tickpick" or "Gametime"',
     'any.required': 'App is required',
   }),
   url: Joi.string().uri().required().messages({
@@ -21,6 +21,9 @@ export const scrapeTicketsSchema = Joi.object({
     'number.min': 'Ticket quantity must be at least 1',
     'number.max': 'Ticket quantity must be at most 20',
     'any.required': 'Ticket quantity is required',
+  }),
+  gameId: Joi.string().required().messages({
+    'any.required': 'Game ID is required',
   }),
 });
 

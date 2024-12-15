@@ -26,7 +26,7 @@ const ticketSchema: Schema = new Schema(
     },
     app: {
       type: String,
-      enum: ['tickpick', 'gametime'],
+      enum: ['Tickpick', 'Gametime'],
     },
     link: {
       type: String,

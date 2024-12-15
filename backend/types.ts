@@ -4,7 +4,7 @@ import { Request } from 'express';
 /**
  * Represents a ticket resale app.
  */
-export type TicketAppName = 'tickpick' | 'gametime';
+export type TicketAppName = 'Tickpick' | 'Gametime';
 
 /**
  * Represents a ticket available on a ticket resale app.
@@ -40,6 +40,19 @@ export type SectionPoints = {
 export type SportsTeamName = 'celtics';
 
 /**
+ * Represents a set of ticket listings which are sold in the same quantity.
+ *
+ * @property {number} ticketQuantity - The size of the group that all the tickets are sold in.
+ * @property {Date} lastUpdated - The date and time when the tickets were last updated.
+ * @property {Ticket[]} tickets - The set of available ticket listings at the quantity.
+ */
+interface TicketQuantityGroup {
+  ticketQuantity: number;
+  lastUpdated: Date;
+  tickets: Ticket[];
+}
+
+/**
  * Represents a matchup between two sports teams.
  *
  * @property {ObjectId} [_id] - The unique identifier of the game. Optional field.
@@ -49,8 +62,7 @@ export type SportsTeamName = 'celtics';
  * @property {string} venue - The name of the venue where the game is played.
  * @property {string} city - The city where the game is played.
  * @property {string} state - The two-letter abbreviation of the state where the game is played.
- * @property {Ticket[]} tickets - The tickets available for the game.
- * @property {Date} [lastUpdated] - The date and time when the tickets available was last updated. Optional field.
+ * @property {TicketQuantityGroup[]} ticketQuantityGroups - The tickets available for the game, grouped by quantity.
  */
 export interface Game {
   _id?: ObjectId;
@@ -60,8 +72,7 @@ export interface Game {
   venue: string;
   city: string;
   state: string;
-  tickets: Ticket[];
-  lastUpdated?: Date;
+  ticketQuantityGroups: TicketQuantityGroup[];
 }
 
 /**
@@ -69,10 +80,12 @@ export interface Game {
  *
  * @property {Ticket[]} tickets - The tickets scraped from the app.
  * @property {number} failedTicketsCount - The number of tickets that failed to be scraped.
+ * @property {Date} scrapeDateTime - The date and time when the tickets were scraped.
  */
 export interface ScrapeTicketsResult {
   tickets: Ticket[];
   failedTicketsCount: number;
+  scrapeDateTime: Date;
 }
 
 /**
@@ -92,12 +105,14 @@ export interface ScrapeEventUrlsRequest extends Request {
  * @property {TicketAppName} app - The name of the ticket resale app to scrape tickets from.
  * @property {string} url - The URL of the event page to scrape tickets from.
  * @property {number} ticketQuantity - The number of grouped tickets the customer is searching for.
+ * @property {string} gameId - The unique identifier of the game to add the tickets to.
  */
 export interface ScrapeTicketsRequest extends Request {
   body: {
     app: TicketAppName;
     url: string;
     ticketQuantity: number;
+    gameId: string;
   };
 }
 
@@ -113,6 +128,16 @@ export interface HomeScheduleRequest extends Request {
 }
 
 /**
+ * Type representing the possible responses for a Game-related operation.
+ */
+export type GameResponse = Game | { error: string };
+
+/**
  * Type representing the possible responses for saving games to the database.
  */
 export type saveGamesResponse = Game[] | { error: string };
+
+/**
+ * Type representing the possible responses for saving tickets to the database.
+ */
+export type saveTicketsResponse = Ticket[] | { error: string };

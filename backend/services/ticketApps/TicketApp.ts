@@ -1,4 +1,10 @@
-import { ScrapeTicketsResult } from '../../types';
+import {
+  Ticket,
+  TicketAppName,
+  ScrapeTicketsResult,
+  saveTicketsResponse,
+  GameResponse,
+} from '../../types';
 
 /**
  * Interface representing a ticket resale app.
@@ -6,10 +12,10 @@ import { ScrapeTicketsResult } from '../../types';
 interface TicketApp {
   /**
    * The proper name of the ticket app.
-   * @type {string}
+   * @type {TicketAppName}
    * @readonly
    */
-  readonly name: string;
+  readonly name: TicketAppName;
 
   /**
    * Scrapes event URLs from the ticket app page.
@@ -27,6 +33,21 @@ interface TicketApp {
    * including the ticket data and the number of tickets that failed to be scraped.
    */
   scrapeTickets(url: string, ticketQuantity: number): Promise<ScrapeTicketsResult>;
+
+  /**
+   * Saves a list of tickets to the database.
+   *
+   * @param {Ticket[]} tickets - The list of tickets to save.
+   * @returns {Promise<saveTicketsResponse>} A promise that resolves to an array of the saved tickets or error message.
+   */
+  saveTickets(tickets: Ticket[]): Promise<saveTicketsResponse>;
+
+  addTicketsToGame(
+    gameId: string,
+    tickets: Ticket[],
+    ticketQuantity: number,
+    scrapeDateTime: Date,
+  ): Promise<GameResponse>;
 }
 
 export default TicketApp;

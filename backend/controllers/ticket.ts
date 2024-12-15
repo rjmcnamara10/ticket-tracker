@@ -25,9 +25,9 @@ const ticketController = () => {
    */
   function getTicketApp(app: TicketAppName): TicketApp {
     switch (app) {
-      case 'tickpick':
+      case 'Tickpick':
         return tickpickApp;
-      case 'gametime':
+      case 'Gametime':
         return gametimeApp;
       default:
         throw new Error('Invalid app');
@@ -71,30 +71,48 @@ const ticketController = () => {
   /**
    * Route to scrape tickets from a ticket resale app.
    *
-   * @param {ScrapeTicketsRequest} req - The request object containing the app name, URL, and ticket quantity.
+   * @param {ScrapeTicketsRequest} req - The request object containing the app name, URL, ticket quantity, and game ID.
    * @param {Response} res - The HTTP response object used to send back the result of the operation.
    * @returns {Promise<void>} A Promise that resolves to void.
    */
+  // refreshTicketsRoute
   const scrapeTicketsRoute = async (req: ScrapeTicketsRequest, res: Response): Promise<void> => {
     const { error } = scrapeTicketsSchema.validate(req.body);
     if (error) {
       res.status(400).send(error.details[0].message);
       return;
     }
-    const { app, url, ticketQuantity } = req.body;
+    const { app, url, ticketQuantity, gameId } = req.body;
 
     try {
       const ticketApp = getTicketApp(app);
-      const scrapeDateTime = new Date().toISOString();
       const scrapedTicketsResult = await ticketApp.scrapeTickets(url, ticketQuantity);
-      const { tickets, failedTicketsCount } = scrapedTicketsResult;
+      const { tickets, failedTicketsCount, scrapeDateTime } = scrapedTicketsResult;
+
+      if (tickets.length === 0) {
+        // Do something
+      }
+      const ticketsFromDb = await ticketApp.saveTickets(tickets);
+      if ('error' in ticketsFromDb) {
+        throw new Error(ticketsFromDb.error);
+      }
+
+      const gameResponse = await ticketApp.addTicketsToGame(
+        gameId,
+        ticketsFromDb,
+        ticketQuantity,
+        scrapeDateTime,
+      );
+      if ('error' in gameResponse) {
+        throw new Error(gameResponse.error);
+      }
       const successTicketsCount = tickets.length;
       res.json({
         app: ticketApp.name,
         scrapeDateTime,
         successTicketsCount,
         failedTicketsCount,
-        tickets,
+        game: gameResponse,
       });
     } catch (err: unknown) {
       if (err instanceof Error) {

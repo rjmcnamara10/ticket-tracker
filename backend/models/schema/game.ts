@@ -1,6 +1,19 @@
 import { Schema } from 'mongoose';
 
 /**
+ * Mongoose schema for the TicketQuantityGroup type.
+ *
+ * - ticketQuantity: The size of the group that all the tickets are sold in.
+ * - lastUpdated: The date and time when the tickets were last updated.
+ * - tickets: The set of available ticket listings at the quantity.
+ */
+const ticketQuantityGroupSchema: Schema = new Schema({
+  ticketQuantity: Number,
+  lastUpdated: Date,
+  tickets: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }],
+});
+
+/**
  * Mongoose schema for the Game collection. Defines the structure for storing games in the database.
  *
  * - homeTeam: The full name of the home team.
@@ -9,8 +22,7 @@ import { Schema } from 'mongoose';
  * - venue: The name of the venue where the game is played.
  * - city: The city where the game is played.
  * - state: The two-letter abbreviation of the state where the game is played.
- * - tickets: The tickets available for the game.
- * - lastUpdated: The date and time when the tickets available was last updated. Optional field.
+ * - ticketsByQuantity: The tickets available for the game.
  */
 const gameSchema: Schema = new Schema(
   {
@@ -33,10 +45,7 @@ const gameSchema: Schema = new Schema(
     state: {
       type: String,
     },
-    tickets: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }],
-    lastUpdated: {
-      type: Date,
-    },
+    ticketQuantityGroups: [ticketQuantityGroupSchema],
   },
   { collection: 'Game' },
 );

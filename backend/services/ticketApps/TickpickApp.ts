@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import AbstractTicketApp from './AbstractTicketApp';
-import { Ticket, ScrapeTicketsResult } from '../../types';
+import { Ticket, TicketAppName, ScrapeTicketsResult } from '../../types';
 
 /**
  * Class to represent the Tickpick ticket resale app.
@@ -8,7 +8,7 @@ import { Ticket, ScrapeTicketsResult } from '../../types';
  * @extends AbstractTicketApp
  */
 class TickpickApp extends AbstractTicketApp {
-  readonly name: string = 'Tickpick';
+  readonly name: TicketAppName = 'Tickpick';
 
   /**
    * The URL to the home page of Tickpick.
@@ -45,6 +45,7 @@ class TickpickApp extends AbstractTicketApp {
 
   async scrapeTickets(url: string, ticketQuantity: number): Promise<ScrapeTicketsResult> {
     const urlWithParams = `${url}?qty=${ticketQuantity}-false&sortType=P`;
+    const scrapeDateTime = new Date();
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
@@ -62,9 +63,8 @@ class TickpickApp extends AbstractTicketApp {
 
     // Extract ticket information
     const scrapeTicketsResult = await page.evaluate(
-      (pageUrl, quantity) => {
+      (pageUrl, quantity, app) => {
         const tickets: Ticket[] = [];
-        const app = 'tickpick';
         const link = pageUrl; // Tickpick does not have a separate link for tickets
         let failedTicketsCount = 0;
 
@@ -106,10 +106,14 @@ class TickpickApp extends AbstractTicketApp {
       },
       urlWithParams,
       ticketQuantity,
+      this.name,
     );
 
     await browser.close();
-    return scrapeTicketsResult;
+    return {
+      ...scrapeTicketsResult,
+      scrapeDateTime,
+    };
   }
 }
 
