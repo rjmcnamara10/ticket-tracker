@@ -39,7 +39,6 @@ class GametimeApp extends AbstractTicketApp {
   }
 
   async scrapeTickets(url: string, ticketQuantity: number): Promise<ScrapeTicketsResult> {
-    const scrapeDateTime = new Date();
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
@@ -131,7 +130,7 @@ class GametimeApp extends AbstractTicketApp {
           }
         });
 
-        return { tickets, failedTicketsCount };
+        return { app, tickets, failedTicketsCount };
       },
       url,
       ticketQuantity,
@@ -139,11 +138,9 @@ class GametimeApp extends AbstractTicketApp {
     );
 
     await browser.close();
-    return {
-      ...scrapeTicketsResult,
-      scrapeDateTime,
-    };
+    return scrapeTicketsResult;
   }
 }
 
-export default GametimeApp;
+const gametimeApp = new GametimeApp();
+export default gametimeApp;

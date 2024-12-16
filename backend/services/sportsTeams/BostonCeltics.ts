@@ -34,7 +34,8 @@ class BostonCeltics extends AbstractSportsTeam {
           venue: this._venue,
           city: this._city,
           state: this._state,
-          ticketQuantityGroups: [],
+          ticketAppUrls: [],
+          ticketsByQuantity: [],
         };
         remainingHomeSchedule.push(futureHomeGame);
       }
@@ -43,4 +44,5 @@ class BostonCeltics extends AbstractSportsTeam {
   }
 }
 
-export default BostonCeltics;
+const bostonCeltics = new BostonCeltics();
+export default bostonCeltics;

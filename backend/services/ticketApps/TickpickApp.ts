@@ -45,7 +45,6 @@ class TickpickApp extends AbstractTicketApp {
 
   async scrapeTickets(url: string, ticketQuantity: number): Promise<ScrapeTicketsResult> {
     const urlWithParams = `${url}?qty=${ticketQuantity}-false&sortType=P`;
-    const scrapeDateTime = new Date();
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
@@ -102,7 +101,7 @@ class TickpickApp extends AbstractTicketApp {
           }
         });
 
-        return { tickets, failedTicketsCount };
+        return { app, tickets, failedTicketsCount };
       },
       urlWithParams,
       ticketQuantity,
@@ -110,11 +109,9 @@ class TickpickApp extends AbstractTicketApp {
     );
 
     await browser.close();
-    return {
-      ...scrapeTicketsResult,
-      scrapeDateTime,
-    };
+    return scrapeTicketsResult;
   }
 }
 
-export default TickpickApp;
+const tickpickApp = new TickpickApp();
+export default tickpickApp;

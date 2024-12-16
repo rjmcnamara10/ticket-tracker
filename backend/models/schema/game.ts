@@ -1,6 +1,22 @@
 import { Schema } from 'mongoose';
 
 /**
+ * Mongoose schema for the TicketsPage type.
+ *
+ * - app: The ticket resale app where the tickets are listed.
+ * - gameUrl: The URL of the page where the tickets are listed.
+ */
+const ticketsPageSchema: Schema = new Schema({
+  app: {
+    type: String,
+    enum: ['Tickpick', 'Gametime'],
+  },
+  gameUrl: {
+    type: String,
+  },
+});
+
+/**
  * Mongoose schema for the TicketQuantityGroup type.
  *
  * - ticketQuantity: The size of the group that all the tickets are sold in.
@@ -45,7 +61,8 @@ const gameSchema: Schema = new Schema(
     state: {
       type: String,
     },
-    ticketQuantityGroups: [ticketQuantityGroupSchema],
+    ticketAppUrls: [ticketsPageSchema],
+    ticketsByQuantity: [ticketQuantityGroupSchema],
   },
   { collection: 'Game' },
 );

@@ -40,6 +40,17 @@ export type SectionPoints = {
 export type SportsTeamName = 'celtics';
 
 /**
+ * Represents a ticket resale app page for a specific game.
+ *
+ * @property {TicketAppName} app - The name of the ticket resale app.
+ * @property {string} gameUrl - The URL to the game page on the app.
+ */
+interface TicketsPage {
+  app: TicketAppName;
+  gameUrl: string;
+}
+
+/**
  * Represents a set of ticket listings which are sold in the same quantity.
  *
  * @property {number} ticketQuantity - The size of the group that all the tickets are sold in.
@@ -62,7 +73,8 @@ interface TicketQuantityGroup {
  * @property {string} venue - The name of the venue where the game is played.
  * @property {string} city - The city where the game is played.
  * @property {string} state - The two-letter abbreviation of the state where the game is played.
- * @property {TicketQuantityGroup[]} ticketQuantityGroups - The tickets available for the game, grouped by quantity.
+ * @property {TicketsPage[]} ticketAppUrls - The URLs to the game page for each ticket app.
+ * @property {TicketQuantityGroup[]} ticketsByQuantity - The tickets available for the game, grouped by quantity.
  */
 export interface Game {
   _id?: ObjectId;
@@ -72,20 +84,32 @@ export interface Game {
   venue: string;
   city: string;
   state: string;
-  ticketQuantityGroups: TicketQuantityGroup[];
+  ticketAppUrls: TicketsPage[];
+  ticketsByQuantity: TicketQuantityGroup[];
 }
+
+/**
+ * Represents an attempted scraping for an app that resulted in zero tickets during a request to refresh tickets for a game.
+ *
+ * @property {TicketAppName} app - The name of the ticket app.
+ * @property {string} reason - The reason the scraping attempt failed.
+ */
+export interface IncompleteTicketApp {
+  app: TicketAppName,
+  reason: string,
+};
 
 /**
  * Represents the result of scraping tickets from a ticket resale app.
  *
+ * @property {TicketAppName} app - The name of the ticket resale app.
  * @property {Ticket[]} tickets - The tickets scraped from the app.
  * @property {number} failedTicketsCount - The number of tickets that failed to be scraped.
- * @property {Date} scrapeDateTime - The date and time when the tickets were scraped.
  */
 export interface ScrapeTicketsResult {
+  app: TicketAppName;
   tickets: Ticket[];
   failedTicketsCount: number;
-  scrapeDateTime: Date;
 }
 
 /**
@@ -100,44 +124,55 @@ export interface ScrapeEventUrlsRequest extends Request {
 }
 
 /**
- * The request body when scraping tickets from a ticket resale app.
+ * The request body when fetching and adding future home games for a team.
  * 
- * @property {TicketAppName} app - The name of the ticket resale app to scrape tickets from.
- * @property {string} url - The URL of the event page to scrape tickets from.
- * @property {number} ticketQuantity - The number of grouped tickets the customer is searching for.
- * @property {string} gameId - The unique identifier of the game to add the tickets to.
+ * @property {SportsTeamName} team - The name of the sports team to add the home games for.
  */
-export interface ScrapeTicketsRequest extends Request {
-  body: {
-    app: TicketAppName;
-    url: string;
-    ticketQuantity: number;
-    gameId: string;
-  };
-}
-
-/**
- * The request body when fetching a home schedule.
- * 
- * @property {SportsTeamName} team - The name of the sports team to fetch the home schedule for.
- */
-export interface HomeScheduleRequest extends Request {
+export interface AddHomeGamesRequest extends Request {
   body: {
     team: SportsTeamName;
   };
 }
 
 /**
- * Type representing the possible responses for a Game-related operation.
+ * The request body when adding a ticket app URL to a game.
+ * 
+ * @property {string} gameId - The unique identifier of the game to add the ticket app URL to.
+ * @property {TicketAppName} app - The name of the ticket app.
+ * @property {string} ticketAppUrl - The URL to the game page on the ticket app.
+ */
+export interface AddTicketAppUrlRequest extends Request {
+  body: {
+    gameId: string;
+    app: TicketAppName;
+    ticketAppUrl: string;
+  };
+}
+
+/**
+ * The request body when refreshing the tickets for a game.
+ * 
+ * @property {string} gameId - The unique identifier of the game to refresh the tickets for.
+ * @property {number} ticketQuantity - The quantity of tickets to refresh.
+ */
+export interface RefreshTicketsRequest extends Request {
+  body: {
+    gameId: string;
+    ticketQuantity: number;
+  };
+}
+
+/**
+ * Type representing the possible responses for a Game-related operation involving a single game.
  */
 export type GameResponse = Game | { error: string };
 
 /**
- * Type representing the possible responses for saving games to the database.
+ * Type representing the possible responses for a Game-related operation involving a multiple games.
  */
-export type saveGamesResponse = Game[] | { error: string };
+export type GamesResponse = Game[] | { error: string };
 
 /**
- * Type representing the possible responses for saving tickets to the database.
+ * Type representing the possible responses for a Ticket-related operation involving a multiple tickets.
  */
-export type saveTicketsResponse = Ticket[] | { error: string };
+export type TicketsResponse = Ticket[] | { error: string };

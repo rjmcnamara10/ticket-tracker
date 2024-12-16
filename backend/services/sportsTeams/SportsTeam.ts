@@ -1,4 +1,4 @@
-import { Game, saveGamesResponse } from '../../types';
+import { Game } from '../../types';
 
 /**
  * Interface representing a sports team.
@@ -17,14 +17,6 @@ interface SportsTeam {
    * @returns {Promise<Game[]>} A promise that resolves to an array of games representing the team's remaining home schedule.
    */
   getRemainingHomeGames(): Promise<Game[]>;
-
-  /**
-   * Saves a list of games to the database, ignoring any games that already exist.
-   *
-   * @param {Game[]} games - The list of games to attempt to save.
-   * @returns {Promise<saveGamesResponse>} A promise that resolves to an array of the saved games or error message.
-   */
-  saveGames(games: Game[]): Promise<saveGamesResponse>;
 }
 
 export default SportsTeam;

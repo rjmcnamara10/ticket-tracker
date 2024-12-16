@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import * as http from 'http';
 import ticketController from './controllers/ticket';
-import teamController from './controllers/team';
+import gameController from './controllers/game';
 
 dotenv.config();
 
@@ -48,6 +48,6 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/ticket', ticketController());
-app.use('/team', teamController());
+app.use('/game', gameController());
 
 export default startServer;
