@@ -1,18 +1,46 @@
 import axios from 'axios';
-import AbstractSportsTeam from './AbstractSportsTeam';
+import SportsTeam from './SportsTeam';
 import { Game } from '../../types';
 
 /**
  * Class representing the Boston Celtics sports team.
  *
- * @extends AbstractSportsTeam
+ * @implements {SportsTeam}
  */
-class BostonCeltics extends AbstractSportsTeam {
+class BostonCeltics implements SportsTeam {
   readonly name: string = 'Boston Celtics';
+
+  /**
+   * The URL to the JSON file of the Celtics full schedule.
+   * @type {string}
+   * @readonly
+   * @private
+   */
   private readonly _scheduleUrl: string =
     'https://cdn.celtics.com/api/schedule/2024_celtics_schedule.json';
+
+  /**
+   * The name of the Celtics' home venue.
+   * @type {string}
+   * @readonly
+   * @private
+   */
   private readonly _venue: string = 'TD Garden';
+
+  /**
+   * The city where the Celtics play.
+   * @type {string}
+   * @readonly
+   * @private
+   */
   private readonly _city: string = 'Boston';
+
+  /**
+   * The state where the Celtics play.
+   * @type {string}
+   * @readonly
+   * @private
+   */
   private readonly _state: string = 'MA';
 
   async getRemainingHomeGames(): Promise<Game[]> {

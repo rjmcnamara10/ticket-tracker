@@ -1,13 +1,13 @@
 import puppeteer from 'puppeteer';
-import AbstractTicketApp from './AbstractTicketApp';
+import TicketApp from './TicketApp';
 import { Ticket, TicketAppName, ScrapeTicketsResult } from '../../types';
 
 /**
  * Class to represent the Tickpick ticket resale app.
  *
- * @extends AbstractTicketApp
+ * @implements {TicketApp}
  */
-class TickpickApp extends AbstractTicketApp {
+class TickpickApp implements TicketApp {
   readonly name: TicketAppName = 'Tickpick';
 
   /**
