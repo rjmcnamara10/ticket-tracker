@@ -124,6 +124,21 @@ export interface ScrapeEventUrlsRequest extends Request {
 }
 
 /**
+ * The request body when scraping tickets from a ticket resale app.
+ * 
+ * @property {TicketAppName} app - The name of the ticket resale app to scrape tickets from.
+ * @property {string} url - The URL of the event page to scrape tickets from.
+ * @property {number} ticketQuantity - The size of the group of tickets the customer is searching for.
+ */
+export interface ScrapeTicketsRequest extends Request {
+  body: {
+    app: TicketAppName;
+    url: string;
+    ticketQuantity: number;
+  };
+}
+
+/**
  * The request body when fetching and adding future home games for a team.
  * 
  * @property {SportsTeamName} team - The name of the sports team to add the home games for.
