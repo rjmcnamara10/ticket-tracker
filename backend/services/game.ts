@@ -16,7 +16,7 @@ import isMongoDuplicateKeyError from '../utils';
  * @param {string} gameId - The unique identifier of the game to retrieve.
  * @returns {Promise<GameResponse>} A promise that resolves to the game with the specified identifier or an error message.
  */
-async function getGameById(gameId: string): Promise<GameResponse> {
+export const getGameById = async (gameId: string): Promise<GameResponse> => {
   try {
     const game = await GameModel.findById(gameId);
     if (!game) {
@@ -29,7 +29,7 @@ async function getGameById(gameId: string): Promise<GameResponse> {
     }
     return { error: 'Error getting game' };
   }
-}
+};
 
 /**
  * Saves a list of games to the database, ignoring any games that already exist.
@@ -37,7 +37,7 @@ async function getGameById(gameId: string): Promise<GameResponse> {
  * @param {Game[]} games - The list of games to attempt to save.
  * @returns {Promise<GamesResponse>} A promise that resolves to an array of the saved games or error message.
  */
-async function saveGames(games: Game[]): Promise<GamesResponse> {
+export const saveGames = async (games: Game[]): Promise<GamesResponse> => {
   try {
     const savePromises = games.map(async game => {
       try {
@@ -60,7 +60,7 @@ async function saveGames(games: Game[]): Promise<GamesResponse> {
     }
     return { error: 'Error saving games' };
   }
-}
+};
 
 /**
  * Saves a list of tickets to the database.
@@ -68,7 +68,7 @@ async function saveGames(games: Game[]): Promise<GamesResponse> {
  * @param {Ticket[]} tickets - The list of tickets to save.
  * @returns {Promise<TicketsResponse>} A promise that resolves to an array of the saved tickets or error message.
  */
-async function saveTickets(tickets: Ticket[]): Promise<TicketsResponse> {
+export const saveTickets = async (tickets: Ticket[]): Promise<TicketsResponse> => {
   try {
     const savedTickets = await TicketModel.insertMany(tickets);
     return savedTickets;
@@ -78,7 +78,7 @@ async function saveTickets(tickets: Ticket[]): Promise<TicketsResponse> {
     }
     return { error: 'Error saving tickets' };
   }
-}
+};
 
 /**
  * Adds a ticket app URL to a game in the database, or modifies the URL if it already exists.
@@ -88,11 +88,11 @@ async function saveTickets(tickets: Ticket[]): Promise<TicketsResponse> {
  * @param {string} ticketAppUrl - The URL to the game page on the ticket app.
  * @returns {Promise<GameResponse>} A promise that resolves to the updated game or an error message.
  */
-async function addTicketAppUrlToGame(
+export const addTicketAppUrlToGame = async (
   gameId: string,
   app: TicketAppName,
   ticketAppUrl: string,
-): Promise<GameResponse> {
+): Promise<GameResponse> => {
   try {
     const gameFromDb = await GameModel.findOneAndUpdate(
       { '_id': gameId, 'ticketAppUrls.app': app },
@@ -129,7 +129,7 @@ async function addTicketAppUrlToGame(
     }
     return { error: 'Error when adding ticket app URL to game' };
   }
-}
+};
 
 /**
  * Adds a list of tickets to a game in the database.
@@ -140,12 +140,12 @@ async function addTicketAppUrlToGame(
  * @param {Date} scrapeDateTime - The date and time the tickets were scraped.
  * @returns {Promise<GameResponse>} A promise that resolves to the updated game or an error message.
  */
-async function addTicketsToGame(
+export const addTicketsToGame = async (
   gameId: string,
   tickets: Ticket[],
   ticketQuantity: number,
   scrapeDateTime: Date,
-): Promise<GameResponse> {
+): Promise<GameResponse> => {
   try {
     const game = await GameModel.findById(gameId);
     if (!game) {
@@ -177,6 +177,4 @@ async function addTicketsToGame(
     }
     return { error: 'Error when adding tickets to game' };
   }
-}
-
-export { getGameById, saveGames, saveTickets, addTicketAppUrlToGame, addTicketsToGame };
+};
