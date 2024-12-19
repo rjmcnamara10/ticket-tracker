@@ -109,7 +109,7 @@ const ticketController = () => {
   };
 
   /**
-   * Route to fetch tickets for a game.
+   * Route to fetch tickets for a game from the database.
    *
    * @param {FetchTicketsRequest} req - The request object containing the order type, game ID, and ticket quantity.
    * @param {Response} res - The HTTP response object used to send back the result of the operation.
