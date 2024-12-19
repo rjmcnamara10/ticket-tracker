@@ -5,7 +5,8 @@ import {
   saveTickets,
   addTicketAppUrlToGame,
   addTicketsToGame,
-} from '../services/game';
+  populateGameDocument,
+} from '../services/database';
 import SportsTeam from '../services/sportsTeams/SportsTeam';
 import bostonCeltics from '../services/sportsTeams/BostonCeltics';
 import TicketApp from '../services/ticketApps/TicketApp';
@@ -204,12 +205,18 @@ const gameController = () => {
       if ('error' in gameResponse) {
         throw new Error(gameResponse.error);
       }
+
+      const populatedGame = await populateGameDocument(gameResponse._id?.toString());
+      if ('error' in populatedGame) {
+        throw new Error(populatedGame.error);
+      }
+
       res.json({
         scrapeDateTime,
         successTicketsCount: ticketsFromDb.length,
         failedTickets,
         incompleteTicketApps,
-        game: gameResponse,
+        game: populatedGame,
       });
     } catch (err: unknown) {
       if (err instanceof Error) {

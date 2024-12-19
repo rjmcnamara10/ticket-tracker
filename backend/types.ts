@@ -30,7 +30,7 @@ export interface Ticket {
 /**
  * Represents an arena section number to points mapping to associate a value.
  */
-export type SectionPoints = {
+export type SectionPointsMap = {
   [key: number]: number;
 }
 
@@ -100,6 +100,11 @@ export interface IncompleteTicketApp {
 };
 
 /**
+ * Represents the possible ordering options for tickets.
+ */
+export type TicketOrderType = 'cheapest' | 'bestValue';
+
+/**
  * Represents the result of scraping tickets from a ticket resale app.
  *
  * @property {TicketAppName} app - The name of the ticket resale app.
@@ -135,6 +140,21 @@ export interface ScrapeTicketsRequest extends Request {
     app: TicketAppName;
     url: string;
     ticketQuantity: number;
+  };
+}
+
+/**
+ * The request query when fetching tickets for a game.
+ * 
+ * @property {TicketOrderType} order - The order type for the tickets.
+ * @property {string} gameId - The unique identifier of the game to fetch tickets for.
+ * @property {string} ticketQuantity - The quantity of tickets to fetch.
+ */
+export interface FetchTicketsRequest extends Request {
+  query: {
+    order: TicketOrderType;
+    gameId: string;
+    ticketQuantity: string;
   };
 }
 

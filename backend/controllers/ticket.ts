@@ -1,9 +1,15 @@
 import express, { Response } from 'express';
+import { fetchTicketsByOrder } from '../services/database';
 import TicketApp from '../services/ticketApps/TicketApp';
 import tickpickApp from '../services/ticketApps/TickpickApp';
 import gametimeApp from '../services/ticketApps/GametimeApp';
-import { TicketAppName, ScrapeEventUrlsRequest, ScrapeTicketsRequest } from '../types';
-import { scrapeEventUrlsSchema, scrapeTicketsSchema } from './validation';
+import {
+  TicketAppName,
+  ScrapeEventUrlsRequest,
+  ScrapeTicketsRequest,
+  FetchTicketsRequest,
+} from '../types';
+import { scrapeEventUrlsSchema, scrapeTicketsSchema, fetchTicketsSchema } from './validation';
 
 /**
  * Creates an Express router for handling ticket-related routes.
@@ -102,8 +108,44 @@ const ticketController = () => {
     }
   };
 
+  /**
+   * Route to fetch tickets for a game.
+   *
+   * @param {FetchTicketsRequest} req - The request object containing the order type, game ID, and ticket quantity.
+   * @param {Response} res - The HTTP response object used to send back the result of the operation.
+   * @returns {Promise<void>} A Promise that resolves to void.
+   */
+  const fetchTicketsRoute = async (req: FetchTicketsRequest, res: Response): Promise<void> => {
+    const { error } = fetchTicketsSchema.validate(req.query);
+    if (error) {
+      res.status(400).send(error.details[0].message);
+      return;
+    }
+    const { order, gameId, ticketQuantity } = req.query;
+
+    try {
+      const ticketQuantityNumber = parseInt(ticketQuantity, 10);
+      const tickets = await fetchTicketsByOrder(order, gameId, ticketQuantityNumber);
+      if ('error' in tickets) {
+        throw new Error(tickets.error);
+      }
+      res.json({
+        message: 'Tickets fetched successfully',
+        order,
+        tickets,
+      });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        res.status(500).send(`Error when fetching tickets: ${err.message}`);
+      } else {
+        res.status(500).send(`Error when fetching tickets`);
+      }
+    }
+  };
+
   router.post('/scrapeEventUrls', scrapeEventUrlsRoute);
   router.post('/scrapeTickets', scrapeTicketsRoute);
+  router.get('/fetchTickets', fetchTicketsRoute);
 
   return router;
 };
