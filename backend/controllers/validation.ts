@@ -117,3 +117,10 @@ export const refreshTicketsSchema = Joi.object({
     'any.required': 'Ticket quantity is required',
   }),
 });
+
+export const fetchGamesSchema = Joi.object({
+  order: Joi.string().valid('chronological').required().messages({
+    'any.only': 'Order must be "chronological"',
+    'any.required': 'Order is required',
+  }),
+});

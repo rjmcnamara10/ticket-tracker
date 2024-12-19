@@ -6,6 +6,7 @@ import {
   addTicketAppUrlToGame,
   addTicketsToGame,
   populateGameDocument,
+  fetchGamesByOrder,
 } from '../services/database';
 import SportsTeam from '../services/sportsTeams/SportsTeam';
 import bostonCeltics from '../services/sportsTeams/BostonCeltics';
@@ -15,12 +16,18 @@ import gametimeApp from '../services/ticketApps/GametimeApp';
 import {
   Ticket,
   SportsTeamName,
+  IncompleteTicketApp,
   AddHomeGamesRequest,
   AddTicketAppUrlRequest,
   RefreshTicketsRequest,
-  IncompleteTicketApp,
+  FetchGamesRequest,
 } from '../types';
-import { addHomeGamesSchema, addTicketAppUrlSchema, refreshTicketsSchema } from './validation';
+import {
+  addHomeGamesSchema,
+  addTicketAppUrlSchema,
+  refreshTicketsSchema,
+  fetchGamesSchema,
+} from './validation';
 
 /**
  * Creates an Express router for handling game-related routes.
@@ -227,9 +234,44 @@ const gameController = () => {
     }
   };
 
+  /**
+   * Route to fetch games from the database.
+   *
+   * @param {FetchGamesRequest} req - The request object containing the order type.
+   * @param {Response} res - The HTTP response object used to send back the result of the operation.
+   * @returns {Promise<void>} A Promise that resolves to void.
+   */
+  const fetchGamesRoute = async (req: FetchGamesRequest, res: Response): Promise<void> => {
+    const { error } = fetchGamesSchema.validate(req.query);
+    if (error) {
+      res.status(400).send(error.details[0].message);
+      return;
+    }
+    const { order } = req.query;
+
+    try {
+      const games = await fetchGamesByOrder(order);
+      if ('error' in games) {
+        throw new Error(games.error);
+      }
+      res.json({
+        message: 'Games fetched successfully',
+        order,
+        games,
+      });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        res.status(500).send(`Error when fetching games: ${err.message}`);
+      } else {
+        res.status(500).send(`Error when fetching games`);
+      }
+    }
+  };
+
   router.post('/addHomeGames', addHomeGamesRoute);
   router.post('/addTicketAppUrl', addTicketAppUrlRoute);
   router.post('/refreshTickets', refreshTicketsRoute);
+  router.get('/fetchGames', fetchGamesRoute);
 
   return router;
 };

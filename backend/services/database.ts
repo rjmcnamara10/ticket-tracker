@@ -5,6 +5,7 @@ import {
   Ticket,
   TicketAppName,
   TicketOrderType,
+  GameOrderType,
   SectionPointsMap,
   GameResponse,
   GamesResponse,
@@ -305,5 +306,49 @@ export const fetchTicketsByOrder = async (
       return { error: error.message };
     }
     return { error: 'Error fetching tickets' };
+  }
+};
+
+/**
+ * Sorts a list of games chronologically.
+ *
+ * @param {Game[]} games - The list of games to sort.
+ * @returns {Game[]} The list of games sorted chronologically.
+ */
+const sortGamesChronologically = (games: Game[]): Game[] =>
+  games.sort((a, b) => {
+    if (a.startDateTime > b.startDateTime) {
+      return 1;
+    }
+    if (a.startDateTime < b.startDateTime) {
+      return -1;
+    }
+    return 0;
+  });
+
+/**
+ * Retrieves games from the database, sorted by the specified order.
+ *
+ * @param {GameOrderType} order - The order to sort the games by.
+ * @returns {Promise<GamesResponse>} A promise that resolves to the sorted games or an error message.
+ */
+export const fetchGamesByOrder = async (order: GameOrderType): Promise<GamesResponse> => {
+  try {
+    const games = await GameModel.find().populate({
+      path: 'ticketsByQuantity.tickets',
+      model: TicketModel,
+    });
+
+    switch (order) {
+      case 'chronological':
+        return sortGamesChronologically(games);
+      default:
+        throw new Error('Invalid game order');
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { error: error.message };
+    }
+    return { error: 'Error fetching games' };
   }
 };

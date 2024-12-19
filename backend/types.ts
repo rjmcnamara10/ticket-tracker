@@ -105,6 +105,11 @@ export interface IncompleteTicketApp {
 export type TicketOrderType = 'cheapest' | 'bestValue';
 
 /**
+ * Represents the possible ordering options for games.
+ */
+export type GameOrderType = 'chronological';
+
+/**
  * Represents the result of scraping tickets from a ticket resale app.
  *
  * @property {TicketAppName} app - The name of the ticket resale app.
@@ -194,6 +199,17 @@ export interface RefreshTicketsRequest extends Request {
   body: {
     gameId: string;
     ticketQuantity: number;
+  };
+}
+
+/**
+ * The request query when fetching games.
+ * 
+ * @property {GameOrderType} order - The order type for the games.
+ */
+export interface FetchGamesRequest extends Request {
+  query: {
+    order: GameOrderType;
   };
 }
 
