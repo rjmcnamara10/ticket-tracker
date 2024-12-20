@@ -1,4 +1,4 @@
-import { ScrapeTicketsResult } from '../../types';
+import { TicketAppName, ScrapeTicketsResult } from '../../types';
 
 /**
  * Interface representing a ticket resale app.
@@ -6,24 +6,10 @@ import { ScrapeTicketsResult } from '../../types';
 interface TicketApp {
   /**
    * The proper name of the ticket app.
-   * @type {string}
+   * @type {TicketAppName}
    * @readonly
    */
-  readonly name: string;
-
-  /**
-   * The URL to the home page of the ticket app.
-   * @type {string}
-   * @readonly
-   */
-  readonly homePageUrl: string;
-
-  /**
-   * The URL of the ticket app page which lists event URLs.
-   * @type {string}
-   * @readonly
-   */
-  readonly eventPageUrl: string;
+  readonly name: TicketAppName;
 
   /**
    * Scrapes event URLs from the ticket app page.

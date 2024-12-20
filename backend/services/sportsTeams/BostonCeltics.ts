@@ -3,36 +3,74 @@ import SportsTeam from './SportsTeam';
 import { Game } from '../../types';
 
 /**
- * Class to represent the Boston Celtics sports team
+ * Class representing the Boston Celtics sports team.
+ *
+ * @implements {SportsTeam}
  */
 class BostonCeltics implements SportsTeam {
-  readonly name: string;
+  readonly name: string = 'Boston Celtics';
 
-  constructor() {
-    this.name = 'Boston Celtics';
-  }
+  /**
+   * The URL to the JSON file of the Celtics full schedule.
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly _scheduleUrl: string =
+    'https://cdn.celtics.com/api/schedule/2024_celtics_schedule.json';
 
-  async getHomeSchedule(): Promise<Game[]> {
-    const homeSchedule: Game[] = [];
-    const { data } = await axios.get(
-      'https://cdn.celtics.com/evergreen/dotcom/schedule/v2024/2024_celtics_schedule.json',
-    );
+  /**
+   * The name of the Celtics' home venue.
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly _venue: string = 'TD Garden';
+
+  /**
+   * The city where the Celtics play.
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly _city: string = 'Boston';
+
+  /**
+   * The state where the Celtics play.
+   * @type {string}
+   * @readonly
+   * @private
+   */
+  private readonly _state: string = 'MA';
+
+  async getRemainingHomeGames(): Promise<Game[]> {
+    const remainingHomeSchedule: Game[] = [];
+    const now = new Date();
+    const { data } = await axios.get(this._scheduleUrl);
     const allGames = data.data.gscd.g;
     for (const game of allGames) {
-      if (game.an === 'TD Garden' && game.ac === 'Boston' && game.as === 'MA') {
-        const homeGame: Game = {
-          date: game.gdte,
-          time: game.stt,
-          homeTeamCity: game.h.tc,
-          homeTeamName: game.h.tn,
-          awayTeamCity: game.v.tc,
-          awayTeamName: game.v.tn,
+      const gameDay = new Date(`${game.gdte}T23:59:59`);
+      const isFutureGame = gameDay > now;
+      const isHomeGame =
+        game.an === this._venue && game.ac === this._city && game.as === this._state;
+      if (isFutureGame && isHomeGame) {
+        const startDateTime = new Date(`${game.etm}-00:00`); // store EST datetime
+        const futureHomeGame: Game = {
+          homeTeam: this.name,
+          awayTeam: `${game.v.tc} ${game.v.tn}`,
+          startDateTime,
+          venue: this._venue,
+          city: this._city,
+          state: this._state,
+          ticketAppUrls: [],
+          ticketsByQuantity: [],
         };
-        homeSchedule.push(homeGame);
+        remainingHomeSchedule.push(futureHomeGame);
       }
     }
-    return homeSchedule;
+    return remainingHomeSchedule;
   }
 }
 
-export default BostonCeltics;
+const bostonCeltics = new BostonCeltics();
+export default bostonCeltics;
