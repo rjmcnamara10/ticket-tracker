@@ -88,13 +88,9 @@ const ticketController = () => {
 
     try {
       const ticketApp = getTicketApp(app);
-      const {
-        app: appName,
-        tickets,
-        failedTicketsCount,
-      } = await ticketApp.scrapeTickets(url, ticketQuantity);
+      const { tickets, failedTicketsCount } = await ticketApp.scrapeTickets(url, ticketQuantity);
       res.json({
-        app: appName,
+        app: ticketApp.name,
         successTicketsCount: tickets.length,
         failedTicketsCount,
         tickets,
