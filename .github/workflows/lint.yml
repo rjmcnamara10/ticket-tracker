@@ -8,10 +8,6 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        path: [frontend, backend]
-        node-version: [20.x]
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
@@ -19,18 +15,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "20.x"
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: ${{ matrix.path }}/node_modules
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}-
+      - name: Lint backend
+        run: cd backend; npm i && npm run lint
 
-      - name: Install Dependencies
-        run: cd ${{ matrix.path }} && npm ci
-
-      - name: Lint ${{ matrix.path }}
-        run: cd ${{ matrix.path }} && npm run lint
+      - name: Lint frontend
+        run: cd frontend; npm i && npm run lint
