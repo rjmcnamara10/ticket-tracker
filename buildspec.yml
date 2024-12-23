@@ -14,3 +14,4 @@ artifacts:
     - dist/**/*
     - package.json
   base-directory: backend
+  discard-paths: yes
