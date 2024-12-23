@@ -352,5 +352,3 @@ export const fetchGamesByOrder = async (order: GameOrderType): Promise<GamesResp
     return { error: 'Error fetching games' };
   }
 };
-
-const unusedVariable = 'This is an unused variable';
