@@ -15,4 +15,3 @@ artifacts:
     - package.json
   name: BuildArtifact
   base-directory: backend
-  discard-paths: yes
