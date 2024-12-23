@@ -13,5 +13,6 @@ artifacts:
   files:
     - dist/**/*
     - package.json
+  name: BuildArtifact
   base-directory: backend
   discard-paths: yes
