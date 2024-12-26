@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from 'react';
 import TicketScroller from './ticketScroller';
+import useTicketsPage from '../../../hooks/useTicketsPage';
 import './index.css';
 
 /**
  * Represents the page to display the available tickets for an event.
  */
 const TicketsPage = () => {
-  const [valueTix, setValueTix] = useState([]);
-  const [cheapestTix, setCheapestTix] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    Promise.all([
-      fetch('value_tix.json').then(response => response.json()),
-      fetch('cheapest_tix.json').then(response => response.json()),
-    ])
-      .then(([valueTixData, cheapestTixData]) => {
-        setValueTix(valueTixData);
-        setCheapestTix(cheapestTixData);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching tickets:', error);
-        setLoading(false);
-      });
-  }, []);
+  const { cheapestTickets, bestValueTickets, loadingCheapest, loadingBestValue, error } =
+    useTicketsPage();
 
   return (
     <>
@@ -39,9 +22,10 @@ const TicketsPage = () => {
           <span>Quantity: 2</span>
         </div>
       </div>
+      {error && <div className='error-message'>{error}</div>}
       <div className='ticket-scrollers-container'>
-        <TicketScroller title='Best Value' tickets={valueTix} loading={loading} />
-        <TicketScroller title='Cheapest' tickets={cheapestTix} loading={loading} />
+        <TicketScroller title='Cheapest' tickets={cheapestTickets} loading={loadingCheapest} />
+        <TicketScroller title='Best Value' tickets={bestValueTickets} loading={loadingBestValue} />
       </div>
     </>
   );

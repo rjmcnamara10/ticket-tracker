@@ -1,7 +1,7 @@
 import { TicketAppName, TicketOrderType } from '../types';
 import api from './config';
 
-const TICKET_API_URL = `${process.env.REACT_APP_SERVER_URL}/ticket`;
+const TICKET_API_URL = `${import.meta.env.VITE_SERVER_URL}/ticket`;
 
 /**
  * Function to scrape event URLs from a ticket resale app.
@@ -13,7 +13,8 @@ const scrapeEventUrls = async (app: TicketAppName) => {
   const res = await api.post(`${TICKET_API_URL}/scrapeEventUrls`, app);
 
   if (res.status !== 200) {
-    throw new Error('Error while scraping event URLs');
+    const errorMessage = res.data || 'Error while scraping event URLs';
+    throw new Error(errorMessage);
   }
 
   return res.data;
@@ -24,15 +25,16 @@ const scrapeEventUrls = async (app: TicketAppName) => {
  *
  * @param {TicketOrderType} order - The order to sort the tickets by.
  * @param {string} gameId - The unique identifier of the game to fetch tickets for.
- * @param {number} ticketQuantity - The quantity of tickets the listings are sold in.
+ * @param {string} ticketQuantity - The quantity of tickets the listings are sold in.
  * @throws Error if there is an issue fetching or sorting the tickets.
  */
-const fetchTickets = async (order: TicketOrderType, gameId: string, ticketQuantity: number) => {
+const fetchTickets = async (order: TicketOrderType, gameId: string, ticketQuantity: string) => {
   const res = await api.get(
     `${TICKET_API_URL}/fetchTickets?order=${order}&gameId=${gameId}&ticketQuantity=${ticketQuantity}`,
   );
   if (res.status !== 200) {
-    throw new Error('Error when fetching or sorting tickets');
+    const errorMessage = res.data || 'Error when fetching or sorting tickets';
+    throw new Error(errorMessage);
   }
   return res.data;
 };

@@ -1,7 +1,7 @@
 import { SportsTeamName, TicketAppName } from '../types';
 import api from './config';
 
-const GAME_API_URL = `${process.env.REACT_APP_SERVER_URL}/game`;
+const GAME_API_URL = `${import.meta.env.VITE_SERVER_URL}/game`;
 
 /**
  * Function to add future home games of a sports team.
@@ -13,7 +13,8 @@ const addHomeGames = async (team: SportsTeamName) => {
   const res = await api.post(`${GAME_API_URL}/addHomeGames`, team);
 
   if (res.status !== 200) {
-    throw new Error('Error while adding home games');
+    const errorMessage = res.data || 'Error while adding home games';
+    throw new Error(errorMessage);
   }
 
   return res.data;
@@ -32,7 +33,8 @@ const addTicketAppUrl = async (gameId: string, app: TicketAppName, ticketAppUrl:
   const res = await api.post(`${GAME_API_URL}/addTicketAppUrl`, data);
 
   if (res.status !== 200) {
-    throw new Error('Error while adding ticket app URL');
+    const errorMessage = res.data || 'Error while adding ticket app URL';
+    throw new Error(errorMessage);
   }
 
   return res.data;
@@ -42,15 +44,16 @@ const addTicketAppUrl = async (gameId: string, app: TicketAppName, ticketAppUrl:
  * Function to refresh the tickets for a game.
  *
  * @param {string} gameId - The unique identifier of the game to refresh the tickets for.
- * @param {number} ticketQuantity - The ticket quantity value to refresh.
+ * @param {string} ticketQuantity - The ticket quantity value to refresh.
  * @throws Error if there is an issue refreshing the tickets.
  */
-const refreshTickets = async (gameId: string, ticketQuantity: number) => {
+const refreshTickets = async (gameId: string, ticketQuantity: string) => {
   const data = { gameId, ticketQuantity };
   const res = await api.post(`${GAME_API_URL}/refreshTickets`, data);
 
   if (res.status !== 200) {
-    throw new Error('Error while refreshing tickets');
+    const errorMessage = res.data || 'Error while refreshing tickets';
+    throw new Error(errorMessage);
   }
 
   return res.data;
@@ -65,7 +68,8 @@ const refreshTickets = async (gameId: string, ticketQuantity: number) => {
 const fetchGames = async (order: string = 'chronological') => {
   const res = await api.get(`${GAME_API_URL}/fetchGames?order=${order}`);
   if (res.status !== 200) {
-    throw new Error('Error when fetching or sorting games');
+    const errorMessage = res.data || 'Error when fetching or sorting games';
+    throw new Error(errorMessage);
   }
   return res.data;
 };
