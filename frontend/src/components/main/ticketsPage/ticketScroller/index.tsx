@@ -21,27 +21,37 @@ interface TicketScrollerProps {
  *
  * @param {TicketScrollerProps} props - The props for the TicketScroller.
  */
-const TicketScroller = ({ title, tickets, loading }: TicketScrollerProps) => (
-  <div className='ticket-list-container'>
-    <div className='ticket-list-title'>
-      <span>{title}</span>
-    </div>
-    <div className='ticket-scroller-container'>
-      {loading ? (
-        <div className='loader-container'>
-          <Loader className='custom-loader' variation='linear' />
+const TicketScroller = ({ title, tickets, loading }: TicketScrollerProps) => {
+  let content;
+
+  if (loading) {
+    content = <Loader size='large' />;
+  } else if (tickets.length === 0) {
+    content = (
+      <div className='no-tickets-message'>
+        <span>No tickets available</span>
+      </div>
+    );
+  } else {
+    content = (
+      <ScrollView>
+        <div className='tickets-container'>
+          {tickets.map((ticket, index) => (
+            <TicketTile ticket={ticket} key={index} />
+          ))}
         </div>
-      ) : (
-        <ScrollView>
-          <div className='tickets-container'>
-            {tickets.map((ticket, index) => (
-              <TicketTile ticket={ticket} key={index} />
-            ))}
-          </div>
-        </ScrollView>
-      )}
+      </ScrollView>
+    );
+  }
+
+  return (
+    <div className='ticket-list-container'>
+      <div className='ticket-list-title'>
+        <span>{title}</span>
+      </div>
+      <div className='ticket-scroller-container'>{content}</div>
     </div>
-  </div>
-);
+  );
+};
 
 export default TicketScroller;

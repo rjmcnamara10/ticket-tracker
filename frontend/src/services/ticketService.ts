@@ -32,6 +32,10 @@ const fetchTickets = async (order: TicketOrderType, gameId: string, ticketQuanti
   const res = await api.get(
     `${TICKET_API_URL}/fetchTickets?order=${order}&gameId=${gameId}&ticketQuantity=${ticketQuantity}`,
   );
+  if (res.status === 404) {
+    const errorMessage = res.data || 'Tickets not found';
+    return { error: errorMessage };
+  }
   if (res.status !== 200) {
     const errorMessage = res.data || 'Error when fetching or sorting tickets';
     throw new Error(errorMessage);

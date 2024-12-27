@@ -1,3 +1,4 @@
+import { Alert } from '@aws-amplify/ui-react';
 import TicketScroller from './ticketScroller';
 import useTicketsPage from '../../../hooks/useTicketsPage';
 import './index.css';
@@ -22,7 +23,11 @@ const TicketsPage = () => {
           <span>Quantity: 2</span>
         </div>
       </div>
-      {error && <div className='error-message'>{error}</div>}
+      {error && (
+        <Alert variation='error' isDismissible={true} hasIcon={true}>
+          {error}
+        </Alert>
+      )}
       <div className='ticket-scrollers-container'>
         <TicketScroller title='Cheapest' tickets={cheapestTickets} loading={loadingCheapest} />
         <TicketScroller title='Best Value' tickets={bestValueTickets} loading={loadingBestValue} />

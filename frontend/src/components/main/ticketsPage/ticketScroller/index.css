@@ -1,7 +1,9 @@
 .ticket-list-container {
-  width: 1000px;
-  max-height: 275px;
-  margin: 10px;
+  height: 35vh;
+  min-height: 250px;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
 }
 
 .ticket-list-title {
@@ -11,8 +13,16 @@
 .ticket-scroller-container {
   border: 1px solid rgb(100, 100, 100);
   overflow-x: auto;
-  min-height: 100px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.amplify-scrollview {
+  height: 100% !important;
 }
 
 .loader-container {
@@ -42,5 +52,6 @@
   display: flex;
   height: 100%;
   align-items: center;
-  padding: 20px 10px 20px 10px;
+  padding: 10px 5px 10px 5px;
+  flex-direction: row;
 }

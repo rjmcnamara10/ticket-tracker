@@ -37,8 +37,16 @@ const useTicketsPage = () => {
           fetchTickets('cheapest', gameIdQuery, ticketQuantityQuery),
           fetchTickets('bestValue', gameIdQuery, ticketQuantityQuery),
         ]);
-        setCheapestTickets(cheapestRes.tickets || []);
-        setBestValueTickets(bestValueRes.tickets || []);
+        if (cheapestRes.error) {
+          setError(cheapestRes.error);
+        } else {
+          setCheapestTickets(cheapestRes.tickets || []);
+        }
+        if (bestValueRes.error) {
+          setError(bestValueRes.error);
+        } else {
+          setBestValueTickets(bestValueRes.tickets || []);
+        }
       } catch (err) {
         setError('Error while fetching tickets');
         console.log(err);
