@@ -2,6 +2,7 @@ import { ScrollView, Loader } from '@aws-amplify/ui-react';
 import TicketTile from '../ticketTile';
 import { Ticket } from '../../../../types';
 import './index.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 /**
  * Interface that represents the props for the TicketScroller.
@@ -39,6 +40,11 @@ const TicketScroller = ({ title, tickets, loading }: TicketScrollerProps) => {
           {tickets.map((ticket, index) => (
             <TicketTile ticket={ticket} key={index} />
           ))}
+          <div className='end-of-results'>
+            <span>Load more results</span>
+            <i className='fas fa-arrow-right'></i>
+          </div>
+          <div className='end-of-results'>No more results</div>
         </div>
       </ScrollView>
     );
