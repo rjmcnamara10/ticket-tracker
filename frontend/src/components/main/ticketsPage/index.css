@@ -1,6 +1,7 @@
 .event-info-container {
   display: flex;
   flex-direction: row;
+  gap: 10px;
 }
 
 .event-info {
@@ -10,7 +11,6 @@
   padding: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  margin: 8px;
 }
 
 .ticket-scrollers-container {

@@ -10,7 +10,7 @@ const TicketTile = ({ ticket }: { ticket: Ticket }) => {
   const lowercaseAppName = ticket.app.toLowerCase();
 
   return (
-    <a href={ticket.link} className={`ticket-tile ${lowercaseAppName}`}>
+    <a href={ticket.link} className={`tile ticket-tile ${lowercaseAppName}`}>
       <div className='seat-view'>
         <img
           src={`/balcony-views/${ticket.section}.webp`}

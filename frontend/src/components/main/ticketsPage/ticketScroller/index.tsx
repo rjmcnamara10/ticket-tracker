@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ScrollView, Loader } from '@aws-amplify/ui-react';
 import TicketTile from '../ticketTile';
 import { Ticket } from '../../../../types';
@@ -23,6 +24,12 @@ interface TicketScrollerProps {
  * @param {TicketScrollerProps} props - The props for the TicketScroller.
  */
 const TicketScroller = ({ title, tickets, loading }: TicketScrollerProps) => {
+  const [visibleTickets, setVisibleTickets] = useState(20);
+
+  const handleLoadMore = () => {
+    setVisibleTickets(prev => prev + 20);
+  };
+
   let content;
 
   if (loading) {
@@ -37,14 +44,18 @@ const TicketScroller = ({ title, tickets, loading }: TicketScrollerProps) => {
     content = (
       <ScrollView>
         <div className='tickets-container'>
-          {tickets.map((ticket, index) => (
+          {tickets.slice(0, visibleTickets).map((ticket, index) => (
             <TicketTile ticket={ticket} key={index} />
           ))}
-          <div className='end-of-results'>
-            <span>Load more results</span>
-            <i className='fas fa-arrow-right'></i>
-          </div>
-          <div className='end-of-results'>No more results</div>
+          {visibleTickets < tickets.length && (
+            <div className='tile end-of-results load-more' onClick={handleLoadMore}>
+              <span>Load more results</span>
+              <i className='fas fa-arrow-right'></i>
+            </div>
+          )}
+          {visibleTickets >= tickets.length && (
+            <div className='tile end-of-results'>No more results</div>
+          )}
         </div>
       </ScrollView>
     );
