@@ -7,14 +7,12 @@
 }
 
 .ticket-list-title {
-  /* background-color: rgb(100, 100, 100); */
   font-size: 1.5rem;
-  align-items: flex-start;
+  border-bottom: 5px solid rgb(100, 100, 100);
+  text-align: left;
 }
 
 .ticket-scroller-container {
-  /* border: 1px solid rgb(100, 100, 100); */
-  border-bottom: 5px solid rgb(100, 100, 100);
   overflow-x: auto;
   position: relative;
   display: flex;
