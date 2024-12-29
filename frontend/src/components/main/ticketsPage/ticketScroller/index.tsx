@@ -24,10 +24,14 @@ interface TicketScrollerProps {
  * @param {TicketScrollerProps} props - The props for the TicketScroller.
  */
 const TicketScroller = ({ title, tickets, loading }: TicketScrollerProps) => {
-  const [visibleTickets, setVisibleTickets] = useState(20);
+  const defaultVisibleTickets = 20;
+  const [visibleTickets, setVisibleTickets] = useState(defaultVisibleTickets);
 
+  /**
+   * Handles the event when the user clicks the "Load more results" tile.
+   */
   const handleLoadMore = () => {
-    setVisibleTickets(prev => prev + 20);
+    setVisibleTickets(prev => prev + defaultVisibleTickets);
   };
 
   let content;
