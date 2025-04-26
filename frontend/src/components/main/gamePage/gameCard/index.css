@@ -1,0 +1,29 @@
+.game-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.game-card-header {
+  margin-bottom: 16px;
+}
+
+.game-card-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.game-card-header p {
+  margin: 4px 0 0;
+}
+
+.game-card-body {
+  margin-bottom: 16px;
+}
+
+.game-card-body p {
+  margin: 8px 0;
+}

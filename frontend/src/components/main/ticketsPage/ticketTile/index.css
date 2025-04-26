@@ -1,15 +1,12 @@
 .ticket-tile {
-  height: 75%;
-  min-height: 200px;
-  max-height: 400px;
-  aspect-ratio: 1;
-  margin: 0 10px 0 10px;
   font-size: x-small;
-  border-radius: 12px;
-  box-shadow: 0 0 4px black;
-  display: flex;
-  flex-direction: column;
   text-decoration: none;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.ticket-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.375);
 }
 
 .gametime {

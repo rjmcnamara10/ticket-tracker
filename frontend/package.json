@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.7.1",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "aws-amplify": "^6.10.2",
+    "axios": "^1.7.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
@@ -20,6 +22,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^8.57.1",
+    "@types/node": "^22.10.2",
     "@types/react": "^18.3.14",
     "@types/react-dom": "^18.3.3",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
