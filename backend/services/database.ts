@@ -10,6 +10,7 @@ import {
   GameResponse,
   GamesResponse,
   TicketsResponse,
+  FetchTicketsResponse,
 } from '../types';
 import isMongoDuplicateKeyError from '../utils';
 
@@ -267,18 +268,27 @@ const calculateTicketValue = (section: number, row: number): number => {
  * @param {TicketOrderType} order - The order to sort the tickets by.
  * @param {string} gameId - The unique identifier of the game to retrieve tickets for.
  * @param {number} ticketQuantity - The quantity of tickets the listings are sold in.
- * @returns {Promise<TicketsResponse>} A promise that resolves to the sorted tickets or an error message.
+ * @returns {Promise<FetchTicketsResponse>} A promise that resolves to the game info and sorted tickets or an error message.
  */
 export const fetchTicketsByOrder = async (
   order: TicketOrderType,
   gameId: string,
   ticketQuantity: number,
-): Promise<TicketsResponse> => {
+): Promise<FetchTicketsResponse> => {
   try {
     const game = await getGameById(gameId);
     if ('error' in game) {
       throw new Error(game.error);
     }
+
+    const gameInfo = {
+      homeTeam: game.homeTeam,
+      awayTeam: game.awayTeam,
+      startDateTime: game.startDateTime,
+      venue: game.venue,
+      city: game.city,
+      state: game.state,
+    };
 
     const ticketQuantityGroup = game.ticketsByQuantity.find(
       group => group.ticketQuantity === ticketQuantity,
@@ -291,16 +301,25 @@ export const fetchTicketsByOrder = async (
     const balconyTickets = unsortedTickets.filter(
       ticket => ticket.section >= 301 && ticket.section <= 330,
     );
+
+    let sortedTickets;
     switch (order) {
       case 'cheapest':
-        return balconyTickets.sort((a, b) => a.price - b.price);
+        sortedTickets = balconyTickets.sort((a, b) => a.price - b.price);
+        break;
       case 'bestValue':
-        return balconyTickets.sort(
+        sortedTickets = balconyTickets.sort(
           (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
         );
+        break;
       default:
         throw new Error('Invalid ticket order');
     }
+
+    return {
+      ...gameInfo,
+      tickets: sortedTickets,
+    };
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { error: error.message };

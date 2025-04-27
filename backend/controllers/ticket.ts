@@ -121,14 +121,20 @@ const ticketController = () => {
 
     try {
       const ticketQuantityNumber = parseInt(ticketQuantity, 10);
-      const tickets = await fetchTicketsByOrder(order, gameId, ticketQuantityNumber);
-      if ('error' in tickets) {
-        throw new Error(tickets.error);
+      const fetchTixRes = await fetchTicketsByOrder(order, gameId, ticketQuantityNumber);
+      if ('error' in fetchTixRes) {
+        throw new Error(fetchTixRes.error);
       }
       res.json({
         message: 'Tickets fetched successfully',
         order,
-        tickets,
+        homeTeam: fetchTixRes.homeTeam,
+        awayTeam: fetchTixRes.awayTeam,
+        startDateTime: fetchTixRes.startDateTime,
+        venue: fetchTixRes.venue,
+        city: fetchTixRes.city,
+        state: fetchTixRes.state,
+        tickets: fetchTixRes.tickets,
       });
     } catch (err: unknown) {
       if (err instanceof Error) {

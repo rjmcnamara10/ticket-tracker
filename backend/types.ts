@@ -227,3 +227,18 @@ export type GamesResponse = Game[] | { error: string };
  * Type representing the possible responses for a Ticket-related operation involving a multiple tickets.
  */
 export type TicketsResponse = Ticket[] | { error: string };
+
+/**
+ * Type representing the possible responses for a 'fetch tickets' operation.
+ */
+export type FetchTicketsResponse =
+  | {
+      homeTeam: string;
+      awayTeam: string;
+      startDateTime: Date;
+      venue: string;
+      city: string;
+      state: string;
+      tickets: Ticket[];
+    }
+  | { error: string };
