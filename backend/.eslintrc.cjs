@@ -13,7 +13,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     warnOnUnsupportedTypeScriptVersion: false,
   },
-  ignorePatterns: ['node_modules/', '/*.*'],
+  ignorePatterns: ['node_modules/', 'app.ts', '.eslintrc.cjs'],
   rules: {
     'prettier/prettier': 'error',
     'no-underscore-dangle': 0,
