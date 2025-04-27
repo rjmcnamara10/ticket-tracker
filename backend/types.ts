@@ -100,11 +100,6 @@ export interface IncompleteTicketApp {
 }
 
 /**
- * Represents the possible ordering options for tickets.
- */
-export type TicketOrderType = 'cheapest' | 'bestValue';
-
-/**
  * Represents the possible ordering options for games.
  */
 export type GameOrderType = 'chronological';
@@ -151,13 +146,11 @@ export interface ScrapeTicketsRequest extends Request {
 /**
  * The request query when fetching tickets for a game.
  *
- * @property {TicketOrderType} order - The order type for the tickets.
  * @property {string} gameId - The unique identifier of the game to fetch tickets for.
  * @property {string} ticketQuantity - The quantity of tickets to fetch.
  */
 export interface FetchTicketsRequest extends Request {
   query: {
-    order: TicketOrderType;
     gameId: string;
     ticketQuantity: string;
   };
@@ -239,6 +232,7 @@ export type FetchTicketsResponse =
       venue: string;
       city: string;
       state: string;
-      tickets: Ticket[];
+      cheapestTickets: Ticket[];
+      bestValueTickets: Ticket[];
     }
   | { error: string };

@@ -117,24 +117,18 @@ const ticketController = () => {
       res.status(400).send(error.details[0].message);
       return;
     }
-    const { order, gameId, ticketQuantity } = req.query;
+    const { gameId, ticketQuantity } = req.query;
 
     try {
       const ticketQuantityNumber = parseInt(ticketQuantity, 10);
-      const fetchTixRes = await fetchTicketsByOrder(order, gameId, ticketQuantityNumber);
+      const fetchTixRes = await fetchTicketsByOrder(gameId, ticketQuantityNumber);
       if ('error' in fetchTixRes) {
         throw new Error(fetchTixRes.error);
       }
+
       res.json({
         message: 'Tickets fetched successfully',
-        order,
-        homeTeam: fetchTixRes.homeTeam,
-        awayTeam: fetchTixRes.awayTeam,
-        startDateTime: fetchTixRes.startDateTime,
-        venue: fetchTixRes.venue,
-        city: fetchTixRes.city,
-        state: fetchTixRes.state,
-        tickets: fetchTixRes.tickets,
+        ...fetchTixRes,
       });
     } catch (err: unknown) {
       if (err instanceof Error) {

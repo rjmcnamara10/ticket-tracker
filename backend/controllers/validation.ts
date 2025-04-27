@@ -26,10 +26,6 @@ export const scrapeTicketsSchema = Joi.object({
 });
 
 export const fetchTicketsSchema = Joi.object({
-  order: Joi.string().valid('cheapest', 'bestValue').required().messages({
-    'any.only': 'Order must be either "cheapest" or "bestValue"',
-    'any.required': 'Order is required',
-  }),
   gameId: Joi.string()
     .custom((value, helpers) => {
       if (!ObjectId.isValid(value)) {

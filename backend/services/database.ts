@@ -4,7 +4,6 @@ import {
   Game,
   Ticket,
   TicketAppName,
-  TicketOrderType,
   GameOrderType,
   SectionPointsMap,
   GameResponse,
@@ -263,15 +262,13 @@ const calculateTicketValue = (section: number, row: number): number => {
 };
 
 /**
- * Retrieves tickets for a game from the database, sorted by the specified order.
+ * Retrieves tickets for a game from the database, sorted by price and value.
  *
- * @param {TicketOrderType} order - The order to sort the tickets by.
  * @param {string} gameId - The unique identifier of the game to retrieve tickets for.
  * @param {number} ticketQuantity - The quantity of tickets the listings are sold in.
  * @returns {Promise<FetchTicketsResponse>} A promise that resolves to the game info and sorted tickets or an error message.
  */
 export const fetchTicketsByOrder = async (
-  order: TicketOrderType,
   gameId: string,
   ticketQuantity: number,
 ): Promise<FetchTicketsResponse> => {
@@ -280,15 +277,6 @@ export const fetchTicketsByOrder = async (
     if ('error' in game) {
       throw new Error(game.error);
     }
-
-    const gameInfo = {
-      homeTeam: game.homeTeam,
-      awayTeam: game.awayTeam,
-      startDateTime: game.startDateTime,
-      venue: game.venue,
-      city: game.city,
-      state: game.state,
-    };
 
     const ticketQuantityGroup = game.ticketsByQuantity.find(
       group => group.ticketQuantity === ticketQuantity,
@@ -301,24 +289,20 @@ export const fetchTicketsByOrder = async (
     const balconyTickets = unsortedTickets.filter(
       ticket => ticket.section >= 301 && ticket.section <= 330,
     );
-
-    let sortedTickets;
-    switch (order) {
-      case 'cheapest':
-        sortedTickets = balconyTickets.sort((a, b) => a.price - b.price);
-        break;
-      case 'bestValue':
-        sortedTickets = balconyTickets.sort(
-          (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
-        );
-        break;
-      default:
-        throw new Error('Invalid ticket order');
-    }
+    const cheapestTickets = balconyTickets.sort((a, b) => a.price - b.price);
+    const bestValueTickets = balconyTickets.sort(
+      (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
+    );
 
     return {
-      ...gameInfo,
-      tickets: sortedTickets,
+      homeTeam: game.homeTeam,
+      awayTeam: game.awayTeam,
+      startDateTime: game.startDateTime,
+      venue: game.venue,
+      city: game.city,
+      state: game.state,
+      cheapestTickets,
+      bestValueTickets,
     };
   } catch (error: unknown) {
     if (error instanceof Error) {
