@@ -232,6 +232,7 @@ export type FetchTicketsResponse =
       venue: string;
       city: string;
       state: string;
+      ticketQuantityGroupFound: boolean;
       cheapestTickets: Ticket[];
       bestValueTickets: Ticket[];
     }

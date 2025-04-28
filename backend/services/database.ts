@@ -281,18 +281,21 @@ export const fetchTicketsByOrder = async (
     const ticketQuantityGroup = game.ticketsByQuantity.find(
       group => group.ticketQuantity === ticketQuantity,
     );
-    if (!ticketQuantityGroup) {
-      throw new Error('Tickets not found for the specified quantity');
-    }
 
-    const unsortedTickets = ticketQuantityGroup.tickets;
-    const balconyTickets = unsortedTickets.filter(
-      ticket => ticket.section >= 301 && ticket.section <= 330,
-    );
-    const cheapestTickets = balconyTickets.sort((a, b) => a.price - b.price);
-    const bestValueTickets = balconyTickets.sort(
-      (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
-    );
+    let ticketQuantityGroupFound = false;
+    let cheapestTickets: Ticket[] = [];
+    let bestValueTickets: Ticket[] = [];
+    if (ticketQuantityGroup) {
+      ticketQuantityGroupFound = true;
+      const unsortedTickets = ticketQuantityGroup.tickets;
+      const balconyTickets = unsortedTickets.filter(
+        ticket => ticket.section >= 301 && ticket.section <= 330,
+      );
+      cheapestTickets = balconyTickets.sort((a, b) => a.price - b.price);
+      bestValueTickets = balconyTickets.sort(
+        (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
+      );
+    }
 
     return {
       homeTeam: game.homeTeam,
@@ -301,6 +304,7 @@ export const fetchTicketsByOrder = async (
       venue: game.venue,
       city: game.city,
       state: game.state,
+      ticketQuantityGroupFound,
       cheapestTickets,
       bestValueTickets,
     };

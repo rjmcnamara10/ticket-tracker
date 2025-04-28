@@ -132,7 +132,7 @@ const ticketController = () => {
       });
     } catch (err: unknown) {
       if (err instanceof Error) {
-        res.status(500).send(`Error when fetching tickets: ${err.message}`);
+        res.status(500).send(err.message);
       } else {
         res.status(500).send(`Error when fetching tickets`);
       }
