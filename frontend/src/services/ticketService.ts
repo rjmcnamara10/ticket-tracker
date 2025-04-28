@@ -1,4 +1,4 @@
-import { TicketAppName, TicketOrderType } from '../types';
+import { TicketAppName } from '../types';
 import api from './config';
 
 const TICKET_API_URL = `${import.meta.env.VITE_SERVER_URL}/ticket`;
@@ -23,19 +23,14 @@ const scrapeEventUrls = async (app: TicketAppName) => {
 /**
  * Function to fetch tickets.
  *
- * @param {TicketOrderType} order - The order to sort the tickets by.
  * @param {string} gameId - The unique identifier of the game to fetch tickets for.
  * @param {string} ticketQuantity - The quantity of tickets the listings are sold in.
  * @throws Error if there is an issue fetching or sorting the tickets.
  */
-const fetchTickets = async (order: TicketOrderType, gameId: string, ticketQuantity: string) => {
+const fetchTickets = async (gameId: string, ticketQuantity: string) => {
   const res = await api.get(
-    `${TICKET_API_URL}/fetchTickets?order=${order}&gameId=${gameId}&ticketQuantity=${ticketQuantity}`,
+    `${TICKET_API_URL}/fetchTickets?gameId=${gameId}&ticketQuantity=${ticketQuantity}`,
   );
-  if (res.status === 404) {
-    const errorMessage = res.data || 'Tickets not found';
-    return { error: errorMessage };
-  }
   if (res.status !== 200) {
     const errorMessage = res.data || 'Error when fetching or sorting tickets';
     throw new Error(errorMessage);
