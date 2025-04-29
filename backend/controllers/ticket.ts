@@ -1,5 +1,5 @@
 import express, { Response } from 'express';
-import { fetchTicketsByOrder } from '../services/database';
+import { fetchTickets } from '../services/database';
 import TicketApp from '../services/ticketApps/TicketApp';
 import tickpickApp from '../services/ticketApps/TickpickApp';
 import gametimeApp from '../services/ticketApps/GametimeApp';
@@ -117,22 +117,22 @@ const ticketController = () => {
       res.status(400).send(error.details[0].message);
       return;
     }
-    const { order, gameId, ticketQuantity } = req.query;
+    const { gameId, ticketQuantity } = req.query;
 
     try {
       const ticketQuantityNumber = parseInt(ticketQuantity, 10);
-      const tickets = await fetchTicketsByOrder(order, gameId, ticketQuantityNumber);
-      if ('error' in tickets) {
-        throw new Error(tickets.error);
+      const fetchTixRes = await fetchTickets(gameId, ticketQuantityNumber);
+      if ('error' in fetchTixRes) {
+        throw new Error(fetchTixRes.error);
       }
+
       res.json({
         message: 'Tickets fetched successfully',
-        order,
-        tickets,
+        ...fetchTixRes,
       });
     } catch (err: unknown) {
       if (err instanceof Error) {
-        res.status(500).send(`Error when fetching tickets: ${err.message}`);
+        res.status(500).send(err.message);
       } else {
         res.status(500).send(`Error when fetching tickets`);
       }

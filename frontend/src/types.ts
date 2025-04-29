@@ -77,17 +77,3 @@ export interface Game {
   ticketAppUrls: TicketsPage[];
   ticketsByQuantity: TicketQuantityGroup[];
 }
-
-/**
- * Enum representing the possible ordering options for tickets and their display names.
- */
-export const ticketOrderTypeDisplayName = {
-  cheapest: 'Cheapest',
-  bestValue: 'Best Value',
-} as const;
-
-/**
- * Type representing the keys of the ticketOrderTypeDisplayName object.
- * This type can be used to restrict values to the defined ticket order types.
- */
-export type TicketOrderType = keyof typeof ticketOrderTypeDisplayName;

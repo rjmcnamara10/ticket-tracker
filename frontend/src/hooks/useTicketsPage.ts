@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchTickets } from '../services/ticketService';
 import { Ticket } from '../types';
@@ -6,60 +6,130 @@ import { Ticket } from '../types';
 /**
  * Hook to manage the game tickets page state.
  *
- * @returns {Ticket[]} cheapestTickets - The list of tickets for the game sorted by price.
- * @returns {Ticket[]} bestValueTickets - The list of tickets for the game sorted by best value.
- * @returns {boolean} loadingCheapest - The loading state of the cheapest tickets.
- * @returns {boolean} loadingBestValue - The loading state of the best value tickets.
+ * @returns {string} matchup - The matchup of the game.
+ * @returns {string} location - The location of the game.
+ * @returns {string} startDatetime - The start date and time of the game.
+ * @returns {string} ticketQuantity - The selected ticket quantity.
+ * @returns {function} handleTicketQuantityChange - Function to handle ticket quantity change.
+ * @returns {string} ticketSortOption - The selected ticket sort option.
+ * @returns {function} handleTicketSortOptionChange - Function to handle ticket sort option change.
+ * @returns {boolean} ticketQuantityFound - Indicates if the game in the database has tickets at the specified quantity.
+ * @returns {Ticket[]} displayTickets - The sorted list of tickets to display for the game.
+ * @returns {boolean} loadingCheapest - The loading state of the fetch tickets request.
  * @returns {string} error - An error message if there was an issue fetching the tickets.
  */
 const useTicketsPage = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [cheapestTickets, setCheapestTickets] = useState<Ticket[]>([]);
-  const [bestValueTickets, setBestValueTickets] = useState<Ticket[]>([]);
-  const [loadingCheapest, setLoadingCheapest] = useState(true);
-  const [loadingBestValue, setLoadingBestValue] = useState(true);
+  const gameIdQuery = searchParams.get('gameId');
+  const ticketQuantityQuery = searchParams.get('ticketQuantity');
+
+  const [gameId] = useState(gameIdQuery || '');
+  const [ticketQuantity, setTicketQuantity] = useState(ticketQuantityQuery || '');
+
+  const [matchup, setMatchup] = useState('');
+  const [location, setLocation] = useState('');
+  const [startDatetime, setStartDatetime] = useState('');
+  const [ticketQuantityFound, setTicketQuantityFound] = useState(false);
+  const [ticketSortOption, setTicketSortOption] = useState('cheapest');
+  const [cheapestTix, setCheapestTix] = useState<Ticket[]>([]);
+  const [bestValueTix, setBestValueTix] = useState<Ticket[]>([]);
+  const [displayTickets, setDisplayTickets] = useState<Ticket[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const gameIdQuery = searchParams.get('gameId');
-    const ticketQuantityQuery = searchParams.get('ticketQuantity');
+  /**
+   * Function to handle navigation on ticket quantity change.
+   */
+  const handleTicketQuantityChange = (newTicketQuantity: string) => {
+    setTicketQuantity(newTicketQuantity);
+    navigate({
+      pathname: '/tickets',
+      search: `?gameId=${gameId}&ticketQuantity=${newTicketQuantity}`,
+    });
+  };
 
+  /**
+   * Function to handle ticket sort option change.
+   */
+  const handleTicketSortOptionChange = (newTicketSortOption: string) => {
+    if (newTicketSortOption === 'cheapest' || newTicketSortOption === 'bestValue') {
+      setTicketSortOption(newTicketSortOption);
+    } else {
+      setError('Invalid ticket sort option');
+      console.error(`Invalid ticket sort option: ${newTicketSortOption}`);
+    }
+  };
+
+  useEffect(() => {
+    switch (ticketSortOption) {
+      case 'cheapest':
+        setDisplayTickets(cheapestTix);
+        break;
+      case 'bestValue':
+        setDisplayTickets(bestValueTix);
+        break;
+      default:
+        setDisplayTickets([]);
+    }
+  }, [ticketSortOption, cheapestTix, bestValueTix]);
+
+  useEffect(() => {
     if (!gameIdQuery || !ticketQuantityQuery) {
       setError('Missing required query parameters - "gameId" and "ticketQuantity"');
-      setLoadingCheapest(false);
-      setLoadingBestValue(false);
+      setLoading(false);
       return;
     }
 
     const loadTickets = async () => {
       try {
-        const [cheapestRes, bestValueRes] = await Promise.all([
-          fetchTickets('cheapest', gameIdQuery, ticketQuantityQuery),
-          fetchTickets('bestValue', gameIdQuery, ticketQuantityQuery),
-        ]);
-        if (cheapestRes.error) {
-          setError(cheapestRes.error);
+        const response = await fetchTickets(gameIdQuery, ticketQuantityQuery);
+        if (response.error) {
+          setError(response.error);
         } else {
-          setCheapestTickets(cheapestRes.tickets || []);
-        }
-        if (bestValueRes.error) {
-          setError(bestValueRes.error);
-        } else {
-          setBestValueTickets(bestValueRes.tickets || []);
+          const {
+            homeTeam,
+            awayTeam,
+            startDateTime,
+            venue,
+            city,
+            state,
+            ticketQuantityGroupFound,
+            cheapestTickets,
+            bestValueTickets,
+          } = response;
+          setMatchup(`${awayTeam} at ${homeTeam}`);
+          setLocation(`${venue}: ${city}, ${state}`);
+          setStartDatetime(startDateTime);
+          setTicketQuantityFound(ticketQuantityGroupFound);
+          setCheapestTix(cheapestTickets || []);
+          setBestValueTix(bestValueTickets || []);
+          setDisplayTickets(cheapestTickets || []);
         }
       } catch (err) {
         setError('Error while fetching tickets');
         console.log(err);
       } finally {
-        setLoadingCheapest(false);
-        setLoadingBestValue(false);
+        setLoading(false);
       }
     };
 
     loadTickets();
-  }, [searchParams]);
+  }, [searchParams, gameIdQuery, ticketQuantityQuery]);
 
-  return { cheapestTickets, bestValueTickets, loadingCheapest, loadingBestValue, error };
+  return {
+    matchup,
+    location,
+    startDatetime,
+    ticketQuantity,
+    handleTicketQuantityChange,
+    ticketSortOption,
+    handleTicketSortOptionChange,
+    ticketQuantityFound,
+    displayTickets,
+    loading,
+    error,
+  };
 };
 
 export default useTicketsPage;

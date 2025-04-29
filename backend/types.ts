@@ -32,7 +32,7 @@ export interface Ticket {
  */
 export type SectionPointsMap = {
   [key: number]: number;
-}
+};
 
 /**
  * Represents a sports team.
@@ -95,14 +95,9 @@ export interface Game {
  * @property {string} reason - The reason the scraping attempt failed.
  */
 export interface IncompleteTicketApp {
-  app: TicketAppName,
-  reason: string,
-};
-
-/**
- * Represents the possible ordering options for tickets.
- */
-export type TicketOrderType = 'cheapest' | 'bestValue';
+  app: TicketAppName;
+  reason: string;
+}
 
 /**
  * Represents the possible ordering options for games.
@@ -124,7 +119,7 @@ export interface ScrapeTicketsResult {
 
 /**
  * The request body when scraping event URLs from a ticket resale app.
- * 
+ *
  * @property {TicketAppName} app - The name of the ticket resale app to scrape event URLs from.
  */
 export interface ScrapeEventUrlsRequest extends Request {
@@ -135,7 +130,7 @@ export interface ScrapeEventUrlsRequest extends Request {
 
 /**
  * The request body when scraping tickets from a ticket resale app.
- * 
+ *
  * @property {TicketAppName} app - The name of the ticket resale app to scrape tickets from.
  * @property {string} url - The URL of the event page to scrape tickets from.
  * @property {number} ticketQuantity - The size of the group of tickets the customer is searching for.
@@ -150,14 +145,12 @@ export interface ScrapeTicketsRequest extends Request {
 
 /**
  * The request query when fetching tickets for a game.
- * 
- * @property {TicketOrderType} order - The order type for the tickets.
+ *
  * @property {string} gameId - The unique identifier of the game to fetch tickets for.
  * @property {string} ticketQuantity - The quantity of tickets to fetch.
  */
 export interface FetchTicketsRequest extends Request {
   query: {
-    order: TicketOrderType;
     gameId: string;
     ticketQuantity: string;
   };
@@ -165,7 +158,7 @@ export interface FetchTicketsRequest extends Request {
 
 /**
  * The request body when fetching and adding future home games for a team.
- * 
+ *
  * @property {SportsTeamName} team - The name of the sports team to add the home games for.
  */
 export interface AddHomeGamesRequest extends Request {
@@ -176,7 +169,7 @@ export interface AddHomeGamesRequest extends Request {
 
 /**
  * The request body when adding a ticket app URL to a game.
- * 
+ *
  * @property {string} gameId - The unique identifier of the game to add the ticket app URL to.
  * @property {TicketAppName} app - The name of the ticket app.
  * @property {string} ticketAppUrl - The URL to the game page on the ticket app.
@@ -191,7 +184,7 @@ export interface AddTicketAppUrlRequest extends Request {
 
 /**
  * The request body when refreshing the tickets for a game.
- * 
+ *
  * @property {string} gameId - The unique identifier of the game to refresh the tickets for.
  * @property {number} ticketQuantity - The quantity of tickets to refresh.
  */
@@ -204,7 +197,7 @@ export interface RefreshTicketsRequest extends Request {
 
 /**
  * The request query when fetching games.
- * 
+ *
  * @property {GameOrderType} order - The order type for the games.
  */
 export interface FetchGamesRequest extends Request {
@@ -227,3 +220,20 @@ export type GamesResponse = Game[] | { error: string };
  * Type representing the possible responses for a Ticket-related operation involving a multiple tickets.
  */
 export type TicketsResponse = Ticket[] | { error: string };
+
+/**
+ * Type representing the possible responses for a 'fetch tickets' operation.
+ */
+export type FetchTicketsResponse =
+  | {
+      homeTeam: string;
+      awayTeam: string;
+      startDateTime: Date;
+      venue: string;
+      city: string;
+      state: string;
+      ticketQuantityGroupFound: boolean;
+      cheapestTickets: Ticket[];
+      bestValueTickets: Ticket[];
+    }
+  | { error: string };

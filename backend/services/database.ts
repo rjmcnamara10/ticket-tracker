@@ -4,12 +4,12 @@ import {
   Game,
   Ticket,
   TicketAppName,
-  TicketOrderType,
   GameOrderType,
   SectionPointsMap,
   GameResponse,
   GamesResponse,
   TicketsResponse,
+  FetchTicketsResponse,
 } from '../types';
 import isMongoDuplicateKeyError from '../utils';
 
@@ -262,18 +262,16 @@ const calculateTicketValue = (section: number, row: number): number => {
 };
 
 /**
- * Retrieves tickets for a game from the database, sorted by the specified order.
+ * Retrieves tickets for a game from the database, sorted by price and value.
  *
- * @param {TicketOrderType} order - The order to sort the tickets by.
  * @param {string} gameId - The unique identifier of the game to retrieve tickets for.
  * @param {number} ticketQuantity - The quantity of tickets the listings are sold in.
- * @returns {Promise<TicketsResponse>} A promise that resolves to the sorted tickets or an error message.
+ * @returns {Promise<FetchTicketsResponse>} A promise that resolves to the game info and sorted tickets or an error message.
  */
-export const fetchTicketsByOrder = async (
-  order: TicketOrderType,
+export const fetchTickets = async (
   gameId: string,
   ticketQuantity: number,
-): Promise<TicketsResponse> => {
+): Promise<FetchTicketsResponse> => {
   try {
     const game = await getGameById(gameId);
     if ('error' in game) {
@@ -283,24 +281,33 @@ export const fetchTicketsByOrder = async (
     const ticketQuantityGroup = game.ticketsByQuantity.find(
       group => group.ticketQuantity === ticketQuantity,
     );
-    if (!ticketQuantityGroup) {
-      throw new Error('Tickets not found for the specified quantity');
+
+    let ticketQuantityGroupFound = false;
+    let cheapestTickets: Ticket[] = [];
+    let bestValueTickets: Ticket[] = [];
+    if (ticketQuantityGroup) {
+      ticketQuantityGroupFound = true;
+      const unsortedTickets = ticketQuantityGroup.tickets;
+      const balconyTickets = unsortedTickets.filter(
+        ticket => ticket.section >= 301 && ticket.section <= 330,
+      );
+      cheapestTickets = [...balconyTickets].sort((a, b) => a.price - b.price);
+      bestValueTickets = [...balconyTickets].sort(
+        (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
+      );
     }
 
-    const unsortedTickets = ticketQuantityGroup.tickets;
-    const balconyTickets = unsortedTickets.filter(
-      ticket => ticket.section >= 301 && ticket.section <= 330,
-    );
-    switch (order) {
-      case 'cheapest':
-        return balconyTickets.sort((a, b) => a.price - b.price);
-      case 'bestValue':
-        return balconyTickets.sort(
-          (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
-        );
-      default:
-        throw new Error('Invalid ticket order');
-    }
+    return {
+      homeTeam: game.homeTeam,
+      awayTeam: game.awayTeam,
+      startDateTime: game.startDateTime,
+      venue: game.venue,
+      city: game.city,
+      state: game.state,
+      ticketQuantityGroupFound,
+      cheapestTickets,
+      bestValueTickets,
+    };
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { error: error.message };
