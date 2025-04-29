@@ -268,7 +268,7 @@ const calculateTicketValue = (section: number, row: number): number => {
  * @param {number} ticketQuantity - The quantity of tickets the listings are sold in.
  * @returns {Promise<FetchTicketsResponse>} A promise that resolves to the game info and sorted tickets or an error message.
  */
-export const fetchTicketsByOrder = async (
+export const fetchTickets = async (
   gameId: string,
   ticketQuantity: number,
 ): Promise<FetchTicketsResponse> => {

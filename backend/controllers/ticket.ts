@@ -1,5 +1,5 @@
 import express, { Response } from 'express';
-import { fetchTicketsByOrder } from '../services/database';
+import { fetchTickets } from '../services/database';
 import TicketApp from '../services/ticketApps/TicketApp';
 import tickpickApp from '../services/ticketApps/TickpickApp';
 import gametimeApp from '../services/ticketApps/GametimeApp';
@@ -121,7 +121,7 @@ const ticketController = () => {
 
     try {
       const ticketQuantityNumber = parseInt(ticketQuantity, 10);
-      const fetchTixRes = await fetchTicketsByOrder(gameId, ticketQuantityNumber);
+      const fetchTixRes = await fetchTickets(gameId, ticketQuantityNumber);
       if ('error' in fetchTixRes) {
         throw new Error(fetchTixRes.error);
       }
