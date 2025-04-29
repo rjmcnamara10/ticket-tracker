@@ -291,8 +291,8 @@ export const fetchTicketsByOrder = async (
       const balconyTickets = unsortedTickets.filter(
         ticket => ticket.section >= 301 && ticket.section <= 330,
       );
-      cheapestTickets = balconyTickets.sort((a, b) => a.price - b.price);
-      bestValueTickets = balconyTickets.sort(
+      cheapestTickets = [...balconyTickets].sort((a, b) => a.price - b.price);
+      bestValueTickets = [...balconyTickets].sort(
         (a, b) => calculateTicketValue(a.section, a.row) - calculateTicketValue(b.section, b.row),
       );
     }
