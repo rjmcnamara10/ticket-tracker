@@ -1,5 +1,5 @@
 export default function formatDateTime(date: Date): string {
-  const month = date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
+  const month = date.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' });
   const day = date.getUTCDate();
   const weekday = date.toLocaleString('en-US', { weekday: 'short', timeZone: 'UTC' });
   const hours = date.getUTCHours();

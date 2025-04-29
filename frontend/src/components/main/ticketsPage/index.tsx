@@ -1,4 +1,6 @@
-import { Alert, SelectField } from '@aws-amplify/ui-react';
+import { Alert } from '@aws-amplify/ui-react';
+import { FaUser, FaSort } from 'react-icons/fa';
+import DropdownMenu from './dropdownMenu';
 import TicketScroller from './ticketScroller';
 import useTicketsPage from '../../../hooks/useTicketsPage';
 import formatDateTime from '../../../utils/date.utils';
@@ -14,9 +16,10 @@ const TicketsPage = () => {
     startDatetime,
     ticketQuantity,
     handleTicketQuantityChange,
+    ticketSortOption,
+    handleTicketSortOptionChange,
     ticketQuantityFound,
-    cheapestTix,
-    bestValueTix,
+    displayTickets,
     loading,
     error,
   } = useTicketsPage();
@@ -24,36 +27,53 @@ const TicketsPage = () => {
   return (
     <>
       {!error && !loading && (
-        <div className='event-info-container'>
-          <div className='event-info datetime'>
-            <span>{formatDateTime(new Date(startDatetime))}</span>
+        <div className='tickets-page-heading-container'>
+          <div className='event-info-container'>
+            <div className='matchup'>
+              <span>{matchup}</span>
+            </div>
+            <div className='location-datetime'>
+              <span>
+                {location} - {formatDateTime(new Date(startDatetime))}
+              </span>
+            </div>
           </div>
-          <div className='event-info matchup'>
-            <span>{matchup}</span>
+          <div className='ticket-options-container'>
+            <div className='ticket-sort'>
+              <div className='dropdown-container'>
+                <FaSort className='dropdown-icon' />
+                <DropdownMenu
+                  value={ticketSortOption}
+                  onChange={handleTicketSortOptionChange}
+                  options={[
+                    { value: 'cheapest', label: 'Cheapest' },
+                    { value: 'bestValue', label: 'Best Value' },
+                  ]}
+                />
+              </div>
+            </div>
+            <div className='ticket-quantity'>
+              <div className='dropdown-container'>
+                <FaUser className='dropdown-icon' />
+                <DropdownMenu
+                  value={ticketQuantity}
+                  onChange={handleTicketQuantityChange}
+                  options={[
+                    { value: '1', label: '1' },
+                    { value: '2', label: '2' },
+                    { value: '3', label: '3' },
+                    { value: '4', label: '4' },
+                    { value: '5', label: '5' },
+                    { value: '6', label: '6' },
+                    { value: '7', label: '7' },
+                    { value: '8', label: '8' },
+                    { value: '9', label: '9' },
+                    { value: '10', label: '10' },
+                  ]}
+                />
+              </div>
+            </div>
           </div>
-          <div className='event-info location'>
-            <span>{location}</span>
-          </div>
-          <div className='event-info ticket-quantity'>
-            <span>Quantity: {ticketQuantity}</span>
-          </div>
-          <SelectField
-            label='Quantity'
-            size='small'
-            variation='quiet'
-            value={ticketQuantity}
-            onChange={event => handleTicketQuantityChange(event.target.value)}>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-            <option value='7'>7</option>
-            <option value='8'>8</option>
-            <option value='9'>9</option>
-            <option value='10'>10</option>
-          </SelectField>
         </div>
       )}
       {error && (
@@ -66,18 +86,8 @@ const TicketsPage = () => {
           <span>Tickets not found for the specified quantity: {ticketQuantity}</span>
         </Alert>
       )}
-      {/* <StepperField
-        max={10}
-        min={1}
-        step={1}
-        value={ticketQuantity}
-        onStepChange={handleTicketQuantityChange}
-        variation='quiet'
-        label='Quantity'
-      /> */}
       <div className='ticket-scrollers-container'>
-        <TicketScroller title='Cheapest' tickets={cheapestTix} loading={loading} />
-        <TicketScroller title='Best Value' tickets={bestValueTix} loading={loading} />
+        <TicketScroller title='Tickets' tickets={displayTickets} loading={loading} />
       </div>
     </>
   );
