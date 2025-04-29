@@ -1,6 +1,8 @@
 import React from 'react';
 import { SelectField, IconsProvider } from '@aws-amplify/ui-react';
 import { FaCaretDown } from 'react-icons/fa';
+import '@aws-amplify/ui-react/styles.css';
+import './index.css';
 
 /**
  * Interface that represents the props for the DropdownMenu.
@@ -28,13 +30,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ value, onChange, options })
       },
     }}>
     <SelectField
-      inputStyles={{
-        backgroundColor: 'rgb(36, 36, 36)',
-        borderColor: 'rgb(100, 100, 100)',
-        borderRadius: '25px',
-        padding: '5px',
-        color: 'white',
-      }}
       label={''}
       labelHidden={true}
       size='small'

@@ -13,6 +13,9 @@ import { Ticket } from '../types';
  * @returns {function} handleTicketQuantityChange - Function to handle ticket quantity change.
  * @returns {string} ticketSortOption - The selected ticket sort option.
  * @returns {function} handleTicketSortOptionChange - Function to handle ticket sort option change.
+ * @returns {string} ticketViewOption - The selected ticket view option, either 'list' or 'card'.
+ * @returns {function} handleTicketViewOptionToggle - Function to handle ticket view option toggle.
+ * @returns {boolean} ticketViewList - Indicates if the ticket view is in list mode, true if list, false if card.
  * @returns {boolean} ticketQuantityFound - Indicates if the game in the database has tickets at the specified quantity.
  * @returns {Ticket[]} displayTickets - The sorted list of tickets to display for the game.
  * @returns {boolean} loadingCheapest - The loading state of the fetch tickets request.
@@ -32,6 +35,8 @@ const useTicketsPage = () => {
   const [startDatetime, setStartDatetime] = useState('');
   const [ticketQuantityFound, setTicketQuantityFound] = useState(false);
   const [ticketSortOption, setTicketSortOption] = useState('cheapest');
+  const [ticketViewOption, setTicketViewOption] = useState('list');
+  const [ticketViewList, setTicketViewList] = useState(true);
   const [cheapestTix, setCheapestTix] = useState<Ticket[]>([]);
   const [bestValueTix, setBestValueTix] = useState<Ticket[]>([]);
   const [displayTickets, setDisplayTickets] = useState<Ticket[]>([]);
@@ -61,6 +66,18 @@ const useTicketsPage = () => {
     }
   };
 
+  /**
+   * Function to handle ticket view option toggle.
+   */
+  const handleTicketViewOptionToggle = (newTicketViewOption: string) => {
+    if (newTicketViewOption === 'list' || newTicketViewOption === 'card') {
+      setTicketViewOption(newTicketViewOption);
+    } else {
+      setError('Invalid ticket view option');
+      console.error(`Invalid ticket view option: ${newTicketViewOption}`);
+    }
+  };
+
   useEffect(() => {
     switch (ticketSortOption) {
       case 'cheapest':
@@ -73,6 +90,19 @@ const useTicketsPage = () => {
         setDisplayTickets([]);
     }
   }, [ticketSortOption, cheapestTix, bestValueTix]);
+
+  useEffect(() => {
+    switch (ticketViewOption) {
+      case 'list':
+        setTicketViewList(true);
+        break;
+      case 'card':
+        setTicketViewList(false);
+        break;
+      default:
+        console.error(`Invalid ticket view option: ${ticketViewOption}`);
+    }
+  }, [ticketViewOption]);
 
   useEffect(() => {
     if (!gameIdQuery || !ticketQuantityQuery) {
@@ -125,6 +155,9 @@ const useTicketsPage = () => {
     handleTicketQuantityChange,
     ticketSortOption,
     handleTicketSortOptionChange,
+    ticketViewOption,
+    handleTicketViewOptionToggle,
+    ticketViewList,
     ticketQuantityFound,
     displayTickets,
     loading,

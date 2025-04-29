@@ -1,6 +1,7 @@
 import { Alert } from '@aws-amplify/ui-react';
 import { FaUser, FaSort } from 'react-icons/fa';
 import DropdownMenu from './dropdownMenu';
+import TicketViewToggleButton from './toggleButton';
 import TicketScroller from './ticketScroller';
 import useTicketsPage from '../../../hooks/useTicketsPage';
 import formatDateTime from '../../../utils/date.utils';
@@ -18,6 +19,9 @@ const TicketsPage = () => {
     handleTicketQuantityChange,
     ticketSortOption,
     handleTicketSortOptionChange,
+    ticketViewOption,
+    handleTicketViewOptionToggle,
+    ticketViewList,
     ticketQuantityFound,
     displayTickets,
     loading,
@@ -28,15 +32,22 @@ const TicketsPage = () => {
     <>
       {!error && !loading && (
         <div className='tickets-page-heading-container'>
-          <div className='event-info-container'>
-            <div className='matchup'>
-              <span>{matchup}</span>
+          <div className='event-info-ticket-view-container'>
+            <div className='event-info-container'>
+              <div className='matchup'>
+                <span>{matchup}</span>
+              </div>
+              <div className='location-datetime'>
+                <span>
+                  {location} - {formatDateTime(new Date(startDatetime))}
+                </span>
+              </div>
             </div>
-            <div className='location-datetime'>
-              <span>
-                {location} - {formatDateTime(new Date(startDatetime))}
-              </span>
-            </div>
+            <TicketViewToggleButton
+              value={ticketViewOption}
+              onChange={handleTicketViewOptionToggle}
+              listView={ticketViewList}
+            />
           </div>
           <div className='ticket-options-container'>
             <div className='ticket-sort'>
@@ -86,9 +97,15 @@ const TicketsPage = () => {
           <span>Tickets not found for the specified quantity: {ticketQuantity}</span>
         </Alert>
       )}
-      <div className='ticket-scrollers-container'>
-        <TicketScroller title='Tickets' tickets={displayTickets} loading={loading} />
-      </div>
+      {ticketViewList ? (
+        <div className='ticket-scrollers-container'>
+          <TicketScroller title='List' tickets={displayTickets} loading={loading} />
+        </div>
+      ) : (
+        <div className='ticket-scrollers-container'>
+          <TicketScroller title='Card' tickets={displayTickets} loading={loading} />
+        </div>
+      )}
     </>
   );
 };

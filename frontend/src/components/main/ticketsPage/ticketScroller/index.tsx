@@ -51,13 +51,12 @@ const TicketScroller = ({ title, tickets, loading }: TicketScrollerProps) => {
           {tickets.slice(0, visibleTickets).map((ticket, index) => (
             <TicketTile ticket={ticket} key={index} />
           ))}
-          {visibleTickets < tickets.length && (
+          {visibleTickets < tickets.length ? (
             <div className='tile end-of-results load-more' onClick={handleLoadMore}>
               <span>Load more results</span>
               <i className='fas fa-arrow-right'></i>
             </div>
-          )}
-          {visibleTickets >= tickets.length && (
+          ) : (
             <div className='tile end-of-results'>No more results</div>
           )}
         </div>
