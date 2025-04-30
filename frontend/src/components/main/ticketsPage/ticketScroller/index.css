@@ -12,19 +12,11 @@
   text-align: left;
 }
 
-.ticket-scroller-container {
-  overflow-x: auto;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  height: 100%;
-}
+/* .ticket-scroller-container {
+} */
 
-.amplify-scrollview {
-  height: 100% !important;
-}
+/* .amplify-scrollview {
+} */
 
 .tickets-container {
   display: flex;

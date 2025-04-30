@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ScrollView, Loader } from '@aws-amplify/ui-react';
 import TicketTile from '../ticketTile';
 import { Ticket } from '../../../../types';
+import '@aws-amplify/ui-react/styles.css';
 import './index.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 

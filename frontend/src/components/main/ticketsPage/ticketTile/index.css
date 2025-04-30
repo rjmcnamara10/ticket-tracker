@@ -1,12 +1,13 @@
 .ticket-tile {
-  font-size: x-small;
   text-decoration: none;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ticket-tile:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.375);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
 }
 
 .gametime {
@@ -34,14 +35,29 @@
   object-fit: cover;
 }
 
+.ticket-app img {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  pointer-events: none;
+  z-index: 1;
+  width: 17%;
+  border-radius: 8px;
+}
+
 .ticket-info {
   height: 25%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
 }
 
-.ticket-app img {
-  width: 50%;
-  height: auto;
+.seat {
+  font-size: 0.75rem;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: bold;
 }

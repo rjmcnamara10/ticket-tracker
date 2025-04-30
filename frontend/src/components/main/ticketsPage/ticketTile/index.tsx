@@ -17,13 +17,13 @@ const TicketTile = ({ ticket }: { ticket: Ticket }) => {
           alt={`View from Section ${ticket.section}`}
         />
       </div>
+      <div className='ticket-app'>
+        <img
+          src={`/ticket_app_logos/${lowercaseAppName}_logo.png`}
+          alt={`${lowercaseAppName} logo`}
+        />
+      </div>
       <div className='ticket-info'>
-        <div className='ticket-app'>
-          <img
-            src={`/ticket_app_logos/${lowercaseAppName}_logo.png`}
-            alt={`${lowercaseAppName} logo`}
-          />
-        </div>
         <span className='seat'>
           Section {ticket.section}
           <br />

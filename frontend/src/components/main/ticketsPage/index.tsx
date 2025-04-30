@@ -98,9 +98,7 @@ const TicketsPage = () => {
         </Alert>
       )}
       {ticketViewList ? (
-        <div className='ticket-scrollers-container'>
-          <TicketScroller title='List' tickets={displayTickets} loading={loading} />
-        </div>
+        <TicketScroller title='List' tickets={displayTickets} loading={loading} />
       ) : (
         <div className='ticket-scrollers-container'>
           <TicketScroller title='Card' tickets={displayTickets} loading={loading} />
