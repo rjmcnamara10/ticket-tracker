@@ -1,17 +1,22 @@
-.ticket-card {
+.ticket-list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
   text-decoration: none;
+  color: white;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
 }
 
-.ticket-card:hover {
-  transform: translateY(-2px);
+.ticket-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
 }
 
-.gametime {
+/* .gametime {
   background-color: rgb(14, 14, 14);
   color: white;
 }
@@ -19,32 +24,33 @@
 .tickpick {
   background-color: white;
   color: black;
-}
+} */
 
-.seat-view-card {
+/* .seat-view-list {
   justify-content: center;
   flex: 1;
   display: flex;
   align-items: center;
-}
+} */
 
-.seat-view-card img {
+/* .seat-view-list img {
   width: 150%;
   height: auto;
   object-fit: cover;
-}
+} */
 
-.ticket-app-card img {
-  position: absolute;
+.ticket-app-list img {
+  /* position: absolute;
   top: 5%;
   left: 5%;
   pointer-events: none;
-  z-index: 1;
-  width: 17%;
+  z-index: 1; */
+  /* width: 10%; */
+  width: 50px;
   border-radius: 8px;
 }
 
-.ticket-info-card {
+.ticket-info-list {
   height: 25%;
   display: flex;
   flex-direction: row;
@@ -52,11 +58,11 @@
   align-items: center;
 }
 
-.seat-card {
+.seat-list {
   font-size: 0.75rem;
 }
 
-.price-card {
+.price-list {
   font-size: 1rem;
   font-weight: bold;
 }

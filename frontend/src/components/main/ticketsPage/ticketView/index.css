@@ -36,6 +36,12 @@
   }
 }
 
+.ticket-view-container-list {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
 .end-of-results {
   font-weight: bold;
   justify-content: space-evenly;

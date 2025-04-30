@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Alert, Loader } from '@aws-amplify/ui-react';
+import TicketListItem from './ticketListItem';
 import TicketCard from './ticketCard';
 import { Ticket } from '../../../../types';
 import '@aws-amplify/ui-react/styles.css';
@@ -73,7 +74,7 @@ const TicketView = ({
               .slice(0, visibleTickets)
               .map((ticket, index) =>
                 ticketViewList ? (
-                  <TicketCard ticket={ticket} key={index} />
+                  <TicketListItem ticket={ticket} key={index} />
                 ) : (
                   <TicketCard ticket={ticket} key={index} />
                 ),

@@ -11,25 +11,25 @@ const TicketCard = ({ ticket }: { ticket: Ticket }) => {
 
   return (
     <a href={ticket.link} className={`card ticket-card ${lowercaseAppName}`}>
-      <div className='seat-view'>
+      <div className='seat-view-card'>
         <img
           src={`/balcony-views/${ticket.section}.webp`}
           alt={`View from Section ${ticket.section}`}
         />
       </div>
-      <div className='ticket-app'>
+      <div className='ticket-app-card'>
         <img
           src={`/ticket_app_logos/${lowercaseAppName}_logo.png`}
           alt={`${lowercaseAppName} logo`}
         />
       </div>
-      <div className='ticket-info'>
-        <span className='seat'>
+      <div className='ticket-info-card'>
+        <span className='seat-card'>
           Section {ticket.section}
           <br />
           Row {ticket.row}
         </span>
-        <span className='price'>${ticket.price}</span>
+        <span className='price-card'>${ticket.price}</span>
       </div>
     </a>
   );
