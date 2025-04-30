@@ -1,11 +1,12 @@
-.ticket-tile {
+.ticket-card {
   text-decoration: none;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
 }
 
-.ticket-tile:hover {
+.ticket-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
 }
@@ -22,15 +23,13 @@
 
 .seat-view {
   justify-content: center;
-  overflow: hidden;
-  border-radius: 12px 12px 0 0;
   flex: 1;
   display: flex;
   align-items: center;
 }
 
 .seat-view img {
-  width: 175%;
+  width: 150%;
   height: auto;
   object-fit: cover;
 }

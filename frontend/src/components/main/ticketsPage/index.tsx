@@ -1,8 +1,7 @@
-import { Alert } from '@aws-amplify/ui-react';
 import { FaUser, FaSort } from 'react-icons/fa';
 import DropdownMenu from './dropdownMenu';
 import TicketViewToggleButton from './toggleButton';
-import TicketScroller from './ticketScroller';
+import TicketView from './ticketView';
 import useTicketsPage from '../../../hooks/useTicketsPage';
 import formatDateTime from '../../../utils/date.utils';
 import './index.css';
@@ -87,23 +86,14 @@ const TicketsPage = () => {
           </div>
         </div>
       )}
-      {error && (
-        <Alert variation='error' isDismissible={true} hasIcon={true}>
-          {error}
-        </Alert>
-      )}
-      {!ticketQuantityFound && !loading && (
-        <Alert variation='info' isDismissible={false} hasIcon={true}>
-          <span>Tickets not found for the specified quantity: {ticketQuantity}</span>
-        </Alert>
-      )}
-      {ticketViewList ? (
-        <TicketScroller title='List' tickets={displayTickets} loading={loading} />
-      ) : (
-        <div className='ticket-scrollers-container'>
-          <TicketScroller title='Card' tickets={displayTickets} loading={loading} />
-        </div>
-      )}
+      <TicketView
+        tickets={displayTickets}
+        loading={loading}
+        ticketQuantity={ticketQuantity}
+        ticketQuantityFound={ticketQuantityFound}
+        ticketViewList={ticketViewList}
+        error={error}
+      />
     </>
   );
 };

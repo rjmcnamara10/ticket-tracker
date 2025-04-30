@@ -1,16 +1,16 @@
-import { Ticket } from '../../../../types';
+import { Ticket } from '../../../../../types';
 import './index.css';
 
 /**
- * Represents a tile component for displaying the information associated with a ticket.
+ * Represents a card component for displaying the information associated with a ticket.
  *
- * @param {Ticket} ticket - The ticket to display in the tile.
+ * @param {Ticket} ticket - The ticket to display in the card.
  */
-const TicketTile = ({ ticket }: { ticket: Ticket }) => {
+const TicketCard = ({ ticket }: { ticket: Ticket }) => {
   const lowercaseAppName = ticket.app.toLowerCase();
 
   return (
-    <a href={ticket.link} className={`tile ticket-tile ${lowercaseAppName}`}>
+    <a href={ticket.link} className={`card ticket-card ${lowercaseAppName}`}>
       <div className='seat-view'>
         <img
           src={`/balcony-views/${ticket.section}.webp`}
@@ -35,4 +35,4 @@ const TicketTile = ({ ticket }: { ticket: Ticket }) => {
   );
 };
 
-export default TicketTile;
+export default TicketCard;
