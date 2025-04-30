@@ -78,14 +78,15 @@ const TicketView = ({
                   <TicketCard ticket={ticket} key={index} />
                 ),
               )}
-            {visibleTickets < tickets.length ? (
+            {visibleTickets < tickets.length && (
               <div
                 className={`end-of-results load-more ${ticketViewList ? 'list' : 'card'}`}
                 onClick={handleLoadMore}>
                 <span>Load more results</span>
                 <i className='fas fa-arrow-right'></i>
               </div>
-            ) : (
+            )}
+            {visibleTickets >= tickets.length && tickets.length > 0 && (
               <div className={`end-of-results ${ticketViewList ? 'list' : 'card'}`}>
                 No more results
               </div>
