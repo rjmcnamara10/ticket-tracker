@@ -1,6 +1,8 @@
 node_modules
 .env
 .DS_Store
+.aws-sam/
+samconfig.toml
 
 # amplify
 .amplify

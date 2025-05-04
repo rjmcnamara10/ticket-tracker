@@ -6,7 +6,10 @@
     "start:dev": "ts-node server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "build": "tsc",
+    "build:fetchTickets": "esbuild lambdas/ticket/fetchTickets.ts --bundle --platform=node --target=node22 --external:aws-sdk --outdir=dist/fetchTickets",
+    "build:scrapeTickets": "esbuild lambdas/ticket/scrapeTickets.ts --bundle --platform=node --target=node22 --external:aws-sdk --outdir=dist/scrapeTickets",
+    "build:scrapeEventUrls": "esbuild lambdas/ticket/scrapeEventUrls.ts --bundle --platform=node --target=node22 --external:aws-sdk --outdir=dist/scrapeEventUrls",
+    "build": "npm run build:fetchTickets && npm run build:scrapeTickets && npm run build:scrapeEventUrls",
     "start": "node ./dist/server.js"
   },
   "dependencies": {
@@ -32,6 +35,7 @@
     "aws-cdk": "^2.172.0",
     "aws-cdk-lib": "^2.172.0",
     "constructs": "^10.4.2",
+    "esbuild": "^0.25.3",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^9.1.0",

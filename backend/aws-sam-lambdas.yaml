@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Ticket Track Backend Lambda Functions
+
+Parameters:
+  MongoDbUri:
+    Type: String
+    Description: MongoDB connection URI
+
+Resources:
+  ScrapeEventUrlsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambdas/ticket/scrapeEventUrls.handler
+      Runtime: nodejs22.x
+      CodeUri: ./dist/scrapeEventUrls
+      Timeout: 20
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+      Events:
+        ScrapeEventUrlsApi:
+          Type: Api
+          Properties:
+            Path: /ticket/scrapeEventUrls
+            Method: POST
+
+  ScrapeTicketsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambdas/ticket/scrapeTickets.handler
+      Runtime: nodejs22.x
+      CodeUri: ./dist/scrapeTickets
+      Timeout: 20
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+      Events:
+        ScrapeTicketsApi:
+          Type: Api
+          Properties:
+            Path: /ticket/scrapeTickets
+            Method: POST
+
+  FetchTicketsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambdas/ticket/fetchTickets.handler
+      Runtime: nodejs22.x
+      CodeUri: ./dist/fetchTickets
+      Timeout: 20
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+      Events:
+        FetchTicketsApi:
+          Type: Api
+          Properties:
+            Path: /ticket/fetchTickets
+            Method: GET
