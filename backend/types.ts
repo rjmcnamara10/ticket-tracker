@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import { Request } from 'express';
 
 /**
  * Represents a ticket resale app.
@@ -122,7 +121,7 @@ export interface ScrapeTicketsResult {
  *
  * @property {TicketAppName} app - The name of the ticket resale app to scrape event URLs from.
  */
-export interface ScrapeEventUrlsRequest extends Request {
+export interface ScrapeEventUrlsRequest {
   body: {
     app: TicketAppName;
   };
@@ -135,7 +134,7 @@ export interface ScrapeEventUrlsRequest extends Request {
  * @property {string} url - The URL of the event page to scrape tickets from.
  * @property {number} ticketQuantity - The size of the group of tickets the customer is searching for.
  */
-export interface ScrapeTicketsRequest extends Request {
+export interface ScrapeTicketsRequest {
   body: {
     app: TicketAppName;
     url: string;
@@ -149,7 +148,7 @@ export interface ScrapeTicketsRequest extends Request {
  * @property {string} gameId - The unique identifier of the game to fetch tickets for.
  * @property {string} ticketQuantity - The quantity of tickets to fetch.
  */
-export interface FetchTicketsRequest extends Request {
+export interface FetchTicketsRequest {
   query: {
     gameId: string;
     ticketQuantity: string;
@@ -161,7 +160,7 @@ export interface FetchTicketsRequest extends Request {
  *
  * @property {SportsTeamName} team - The name of the sports team to add the home games for.
  */
-export interface AddHomeGamesRequest extends Request {
+export interface AddHomeGamesRequest {
   body: {
     team: SportsTeamName;
   };
@@ -174,7 +173,7 @@ export interface AddHomeGamesRequest extends Request {
  * @property {TicketAppName} app - The name of the ticket app.
  * @property {string} ticketAppUrl - The URL to the game page on the ticket app.
  */
-export interface AddTicketAppUrlRequest extends Request {
+export interface AddTicketAppUrlRequest {
   body: {
     gameId: string;
     app: TicketAppName;
@@ -188,7 +187,7 @@ export interface AddTicketAppUrlRequest extends Request {
  * @property {string} gameId - The unique identifier of the game to refresh the tickets for.
  * @property {number} ticketQuantity - The quantity of tickets to refresh.
  */
-export interface RefreshTicketsRequest extends Request {
+export interface RefreshTicketsRequest {
   body: {
     gameId: string;
     ticketQuantity: number;
@@ -200,7 +199,7 @@ export interface RefreshTicketsRequest extends Request {
  *
  * @property {GameOrderType} order - The order type for the games.
  */
-export interface FetchGamesRequest extends Request {
+export interface FetchGamesRequest {
   query: {
     order: GameOrderType;
   };

@@ -1,15 +1,15 @@
 import express, { Response } from 'express';
-import { fetchTickets } from '../services/database';
-import TicketApp from '../services/ticketApps/TicketApp';
-import tickpickApp from '../services/ticketApps/TickpickApp';
-import gametimeApp from '../services/ticketApps/GametimeApp';
+import { ScrapeEventUrlsRequest, ScrapeTicketsRequest, FetchTicketsRequest } from '../../types';
 import {
-  TicketAppName,
-  ScrapeEventUrlsRequest,
-  ScrapeTicketsRequest,
-  FetchTicketsRequest,
-} from '../types';
-import { scrapeEventUrlsSchema, scrapeTicketsSchema, fetchTicketsSchema } from './validation';
+  scrapeEventUrlsHandler,
+  scrapeTicketsHandler,
+  fetchTicketsHandler,
+} from '../../handlers/ticketHandlers';
+import {
+  scrapeEventUrlsSchema,
+  scrapeTicketsSchema,
+  fetchTicketsSchema,
+} from '../../utils/validation';
 
 /**
  * Creates an Express router for handling ticket-related routes.
@@ -18,24 +18,6 @@ import { scrapeEventUrlsSchema, scrapeTicketsSchema, fetchTicketsSchema } from '
  */
 const ticketController = () => {
   const router = express.Router();
-
-  /**
-   * Returns the appropriate TicketApp based on the app name.
-   *
-   * @param {TicketAppName} app - The name of the ticket app.
-   * @returns {TicketApp} The ticket app instance.
-   * @throws {Error} Thrown if the app name is invalid.
-   */
-  function getTicketApp(app: TicketAppName): TicketApp {
-    switch (app) {
-      case 'Tickpick':
-        return tickpickApp;
-      case 'Gametime':
-        return gametimeApp;
-      default:
-        throw new Error('Invalid app');
-    }
-  }
 
   /**
    * Route to scrape event URLs from a ticket resale app.
@@ -53,15 +35,11 @@ const ticketController = () => {
       res.status(400).send(error.details[0].message);
       return;
     }
-    const { app } = req.body;
 
     try {
-      const ticketApp = getTicketApp(app);
-      const eventUrls = await ticketApp.scrapeEventUrls();
-      res.json({
-        message: `${ticketApp.name} event URLs scraped successfully`,
-        eventUrls,
-      });
+      const simplifiedReq: ScrapeEventUrlsRequest = { body: req.body };
+      const result = await scrapeEventUrlsHandler(simplifiedReq);
+      res.json(result);
     } catch (err: unknown) {
       if (err instanceof Error) {
         res.status(500).send(`Error when scraping event URLs: ${err.message}`);
@@ -84,17 +62,11 @@ const ticketController = () => {
       res.status(400).send(error.details[0].message);
       return;
     }
-    const { app, url, ticketQuantity } = req.body;
 
     try {
-      const ticketApp = getTicketApp(app);
-      const { tickets, failedTicketsCount } = await ticketApp.scrapeTickets(url, ticketQuantity);
-      res.json({
-        app: ticketApp.name,
-        successTicketsCount: tickets.length,
-        failedTicketsCount,
-        tickets,
-      });
+      const simplifiedReq: ScrapeTicketsRequest = { body: req.body };
+      const result = await scrapeTicketsHandler(simplifiedReq);
+      res.json(result);
     } catch (err: unknown) {
       if (err instanceof Error) {
         res.status(500).send(`Error when scraping tickets: ${err.message}`);
@@ -117,19 +89,11 @@ const ticketController = () => {
       res.status(400).send(error.details[0].message);
       return;
     }
-    const { gameId, ticketQuantity } = req.query;
 
     try {
-      const ticketQuantityNumber = parseInt(ticketQuantity, 10);
-      const fetchTixRes = await fetchTickets(gameId, ticketQuantityNumber);
-      if ('error' in fetchTixRes) {
-        throw new Error(fetchTixRes.error);
-      }
-
-      res.json({
-        message: 'Tickets fetched successfully',
-        ...fetchTixRes,
-      });
+      const simplifiedReq: FetchTicketsRequest = { query: req.query };
+      const result = await fetchTicketsHandler(simplifiedReq);
+      res.json(result);
     } catch (err: unknown) {
       if (err instanceof Error) {
         res.status(500).send(err.message);

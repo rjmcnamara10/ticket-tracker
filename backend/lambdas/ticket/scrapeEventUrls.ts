@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import getTicketApp from './utils';
-import { scrapeEventUrlsSchema } from '../../controllers/validation';
-import connectToDatabase from '../../db';
+import connectToDatabase from '../database';
+import { scrapeEventUrlsHandler } from '../../handlers/ticketHandlers';
+import { scrapeEventUrlsSchema } from '../../utils/validation';
 
 export const handler: APIGatewayProxyHandler = async event => {
   try {
@@ -17,16 +17,10 @@ export const handler: APIGatewayProxyHandler = async event => {
       };
     }
 
-    const { app } = body;
-    const ticketApp = getTicketApp(app);
-    const eventUrls = await ticketApp.scrapeEventUrls();
-
+    const result = await scrapeEventUrlsHandler({ body });
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        message: `${ticketApp.name} event URLs scraped successfully`,
-        eventUrls,
-      }),
+      body: JSON.stringify(result),
     };
   } catch (err) {
     return {

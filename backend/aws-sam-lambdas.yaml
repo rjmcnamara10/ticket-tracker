@@ -58,3 +58,71 @@ Resources:
           Properties:
             Path: /ticket/fetchTickets
             Method: GET
+  
+  AddHomeGamesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambdas/game/addHomeGames.handler
+      Runtime: nodejs22.x
+      CodeUri: ./dist/addHomeGames
+      Timeout: 20
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+      Events:
+        AddHomeGamesApi:
+          Type: Api
+          Properties:
+            Path: /game/addHomeGames
+            Method: POST
+  
+  AddTicketAppUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambdas/game/addTicketAppUrl.handler
+      Runtime: nodejs22.x
+      CodeUri: ./dist/addTicketAppUrl
+      Timeout: 20
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+      Events:
+        AddTicketAppUrlApi:
+          Type: Api
+          Properties:
+            Path: /game/addTicketAppUrl
+            Method: POST
+  
+  RefreshTicketsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambdas/game/refreshTickets.handler
+      Runtime: nodejs22.x
+      CodeUri: ./dist/refreshTickets
+      Timeout: 20
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+      Events:
+        RefreshTicketsApi:
+          Type: Api
+          Properties:
+            Path: /game/refreshTickets
+            Method: POST
+  
+  FetchGamesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambdas/game/fetchGames.handler
+      Runtime: nodejs22.x
+      CodeUri: ./dist/fetchGames
+      Timeout: 20
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+      Events:
+        FetchGamesApi:
+          Type: Api
+          Properties:
+            Path: /game/fetchGames
+            Method: GET

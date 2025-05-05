@@ -1,15 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import connectToDatabase from '../database';
-import { scrapeTicketsHandler } from '../../handlers/ticketHandlers';
-import { scrapeTicketsSchema } from '../../utils/validation';
+import { refreshTicketsHandler } from '../../handlers/gameHandlers';
+import { refreshTicketsSchema } from '../../utils/validation';
 
 export const handler: APIGatewayProxyHandler = async event => {
   try {
     await connectToDatabase();
 
     const body = JSON.parse(event.body || '{}');
-    const { error } = scrapeTicketsSchema.validate(body);
+    const { error } = refreshTicketsSchema.validate(body);
     if (error) {
       return {
         statusCode: 400,
@@ -17,7 +17,7 @@ export const handler: APIGatewayProxyHandler = async event => {
       };
     }
 
-    const result = await scrapeTicketsHandler({ body });
+    const result = await refreshTicketsHandler({ body });
     return {
       statusCode: 200,
       body: JSON.stringify(result),
@@ -26,7 +26,7 @@ export const handler: APIGatewayProxyHandler = async event => {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: `Error when scraping tickets: ${(err as Error).message}`,
+        message: `Error when refreshing tickets: ${(err as Error).message}`,
       }),
     };
   }

@@ -1,15 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import { fetchTickets } from '../../services/database';
-import { fetchTicketsSchema } from '../../controllers/validation';
-import connectToDatabase from '../../db';
+import connectToDatabase from '../database';
+import { fetchTicketsHandler } from '../../handlers/ticketHandlers';
+import { fetchTicketsSchema } from '../../utils/validation';
 
 export const handler: APIGatewayProxyHandler = async event => {
   try {
     await connectToDatabase();
 
-    const query = event.queryStringParameters || {};
-    const { error } = fetchTicketsSchema.validate(query);
+    const queryStringParameters = event.queryStringParameters || {};
+    const { error, value } = fetchTicketsSchema.validate(queryStringParameters);
     if (error) {
       return {
         statusCode: 400,
@@ -17,26 +17,10 @@ export const handler: APIGatewayProxyHandler = async event => {
       };
     }
 
-    const { gameId, ticketQuantity } = query;
-    if (!gameId || !ticketQuantity) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: 'gameId and ticketQuantity are required' }),
-      };
-    }
-    const ticketQuantityNumber = parseInt(ticketQuantity, 10);
-    const fetchTixRes = await fetchTickets(gameId, ticketQuantityNumber);
-
-    if ('error' in fetchTixRes) {
-      throw new Error(fetchTixRes.error);
-    }
-
+    const result = await fetchTicketsHandler({ query: value });
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        message: 'Tickets fetched successfully',
-        ...fetchTixRes,
-      }),
+      body: JSON.stringify(result),
     };
   } catch (err) {
     return {
