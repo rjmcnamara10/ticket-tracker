@@ -4,7 +4,7 @@
 2. Sign in to aws with necessary credentials: `aws sso login --profile admin`
 3. Generate dist folder with nested folder for each lambda: `npm run build`
 4. Generate .aws-sam folder for deployment with AWS SAM: `sam build --template-file aws-sam-lambdas.yaml`
-5. Deploy CloudFormation stack/Lambdas to AWS: `sam deploy --guided --profile admin --parameter-overrides MongoDbUri="mongodb+srv://rmcnamara:wCnVIhBD58YtCxq6@ticket-track-db.3xjzu.mongodb.net"`, use stack name 'ticket-track-backend'
+5. Deploy CloudFormation stack/Lambdas to AWS: `sam deploy --guided --profile admin --parameter-overrides MongoDbUri="<insert env variable value>"`, use stack name 'ticket-track-backend'
 
 
 ## Instructions for how to add a new lambda
