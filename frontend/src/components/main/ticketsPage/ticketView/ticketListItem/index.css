@@ -1,19 +1,16 @@
 .ticket-list-item {
-  display: flex;
-  flex-direction: row;
   justify-content: space-around;
-  align-items: center;
   text-decoration: none;
   color: white;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
   position: relative;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ticket-list-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
 }
 
 /* .gametime {
@@ -50,19 +47,19 @@
   border-radius: 8px;
 }
 
-.ticket-info-list {
+/* .ticket-info-list {
   height: 25%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-}
+} */
 
 .seat-list {
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 
 .price-list {
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: bold;
 }

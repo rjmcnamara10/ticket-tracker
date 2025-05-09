@@ -81,14 +81,18 @@ const TicketView = ({
               )}
             {visibleTickets < tickets.length && (
               <div
-                className={`end-of-results load-more ${ticketViewList ? 'list' : 'card'}`}
+                className={`end-of-results load-more ${ticketViewList ? 'list-item' : 'card'}`}
                 onClick={handleLoadMore}>
                 <span>Load more results</span>
-                <i className='fas fa-arrow-right'></i>
+                {ticketViewList ? (
+                  <i className='fas fa-arrow-down'></i>
+                ) : (
+                  <i className='fas fa-arrow-right'></i>
+                )}
               </div>
             )}
             {visibleTickets >= tickets.length && tickets.length > 0 && (
-              <div className={`end-of-results ${ticketViewList ? 'list' : 'card'}`}>
+              <div className={`end-of-results ${ticketViewList ? 'list-item' : 'card'}`}>
                 No more results
               </div>
             )}

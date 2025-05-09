@@ -23,14 +23,20 @@ const TicketListItem = ({ ticket }: { ticket: Ticket }) => {
           alt={`${lowercaseAppName} logo`}
         />
       </div>
-      <div className='ticket-info-list'>
+      {/* <div className='ticket-info-list'>
         <span className='seat-list'>
           Section {ticket.section}
           <br />
           Row {ticket.row}
         </span>
         <span className='price-list'>${ticket.price}</span>
-      </div>
+      </div> */}
+      <span className='seat-list'>
+        Section {ticket.section}
+        <br />
+        Row {ticket.row}
+      </span>
+      <span className='price-list'>${ticket.price}</span>
     </a>
   );
 };

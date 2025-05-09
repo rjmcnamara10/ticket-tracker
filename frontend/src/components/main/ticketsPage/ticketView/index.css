@@ -40,11 +40,15 @@
   display: flex;
   flex-direction: column;
   width: 50%;
+  margin-bottom: 50px;
 }
 
-.end-of-results {
-  font-weight: bold;
-  justify-content: space-evenly;
+.list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  aspect-ratio: 7.5;
 }
 
 .card {
@@ -54,18 +58,42 @@
   flex-direction: column;
 }
 
+.end-of-results {
+  font-weight: bold;
+  justify-content: space-evenly;
+}
+
+.end-of-results.list-item {
+  display: flex;
+  flex-direction: column;
+}
+
 .load-more {
+  cursor: pointer;
+}
+
+.load-more.list-item {
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.load-more.list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.load-more.card {
   display: flex;
   align-items: center;
   position: relative;
   z-index: 1;
   transition: transform 0.3s ease;
-  background-color: rgb(100, 100, 100);
-  cursor: pointer;
 }
 
-.load-more::before,
-.load-more::after {
+.load-more.card {
+  background-color: rgb(100, 100, 100);
+}
+
+.load-more.card::before,
+.load-more.card::after {
   content: '';
   position: absolute;
   top: 0;
@@ -79,27 +107,27 @@
   opacity: 0;
 }
 
-.load-more::before {
-  transform: translate(10px, 0px);
+.load-more.card::before {
   background-color: rgba(100, 100, 100, 0.5);
+  transform: translate(15px, 0px);
 }
 
-.load-more::after {
-  transform: translate(20px, 0px);
+.load-more.card::after {
   background-color: rgba(100, 100, 100, 0.25);
+  transform: translate(30px, 0px);
 }
 
-.load-more:hover::before {
-  transform: translate(10px, 0px);
+.load-more.card:hover::before {
   opacity: 1;
+  transform: translate(15px, 0px);
 }
 
-.load-more:hover::after {
-  transform: translate(20px, 0px);
+.load-more.card:hover::after {
   opacity: 1;
+  transform: translate(30px, 0px);
 }
 
-.load-more i {
+.load-more.card i {
   transform: scale(1.5);
   width: 20px;
   display: inline-block;
