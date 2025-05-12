@@ -1,11 +1,8 @@
 .ticket-list-item {
-  justify-content: space-around;
   text-decoration: none;
   color: white;
   position: relative;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  overflow: hidden;
-  padding: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -13,53 +10,54 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* .gametime {
-  background-color: rgb(14, 14, 14);
-  color: white;
-}
-
-.tickpick {
-  background-color: white;
-  color: black;
-} */
-
-/* .seat-view-list {
-  justify-content: center;
-  flex: 1;
-  display: flex;
-  align-items: center;
-} */
-
-/* .seat-view-list img {
-  width: 150%;
-  height: auto;
-  object-fit: cover;
-} */
-
 .ticket-app-list img {
-  /* position: absolute;
-  top: 5%;
-  left: 5%;
-  pointer-events: none;
-  z-index: 1; */
-  /* width: 10%; */
   width: 50px;
   border-radius: 8px;
 }
 
-/* .ticket-info-list {
-  height: 25%;
+.ticket-info-list {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   align-items: center;
-} */
+  gap: 25px;
+}
 
 .seat-list {
   font-size: 1rem;
+  width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .price-list {
   font-size: 1.25rem;
   font-weight: bold;
+}
+
+.seat-view-image-list {
+  position: absolute;
+  top: 0;
+  left: 101%;
+  height: 200%;
+  width: 45%;
+  overflow: hidden;
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
+}
+
+.seat-view-list {
+  cursor: auto;
+}
+
+.seat-view-list:hover .seat-view-image-list {
+  justify-content: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.seat-view-image-list img {
+  width: 130%;
 }

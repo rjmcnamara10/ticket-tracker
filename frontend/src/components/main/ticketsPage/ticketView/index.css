@@ -9,7 +9,7 @@
   content: '';
   position: absolute;
   left: 0;
-  right: 0;
+  right: 16px;
   height: 10px;
   pointer-events: none;
   z-index: 1;
@@ -39,8 +39,10 @@
 .ticket-view-container-list {
   display: flex;
   flex-direction: column;
+  height: auto;
   width: 50%;
   margin-bottom: 50px;
+  padding-top: 10px;
 }
 
 .list-item {
@@ -48,7 +50,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  aspect-ratio: 7.5;
+  height: 75px;
 }
 
 .card {
