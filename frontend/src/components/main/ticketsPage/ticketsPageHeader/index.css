@@ -9,12 +9,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 25px;
 }
 
 .event-info-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  white-space: nowrap;
 }
 
 .matchup {

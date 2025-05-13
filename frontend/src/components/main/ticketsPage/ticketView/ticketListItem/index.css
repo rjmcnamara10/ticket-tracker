@@ -4,6 +4,8 @@
   position: relative;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  gap: 25px;
 }
 
 .ticket-list-item:hover {
@@ -13,6 +15,7 @@
 .ticket-app-list img {
   width: 50px;
   border-radius: 8px;
+  display: block;
 }
 
 .ticket-info-list {
@@ -26,8 +29,6 @@
   font-size: 1rem;
   width: 10rem;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .price-list {
@@ -40,7 +41,7 @@
   top: 0;
   left: 101%;
   height: 200%;
-  width: 45%;
+  aspect-ratio: 1.5;
   overflow: hidden;
   object-fit: contain;
   border: 1px solid rgba(255, 255, 255, 0.1);

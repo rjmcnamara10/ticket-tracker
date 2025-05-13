@@ -52,14 +52,18 @@ const TicketView = ({
   return (
     <>
       {error && (
-        <Alert variation='error' isDismissible={true} hasIcon={true}>
-          {error}
-        </Alert>
+        <div className='alert-container'>
+          <Alert variation='error' isDismissible={true} hasIcon={true}>
+            {error}
+          </Alert>
+        </div>
       )}
       {!ticketQuantityFound && !loading && (
-        <Alert variation='info' isDismissible={false} hasIcon={true}>
-          <span>Tickets not found for the specified quantity: {ticketQuantity}</span>
-        </Alert>
+        <div className='alert-container'>
+          <Alert variation='info' isDismissible={false} hasIcon={true}>
+            <span>Tickets not found for the specified quantity: {ticketQuantity}</span>
+          </Alert>
+        </div>
       )}
       <div className='ticket-container'>
         <div className='ticket-scroller-container'>
