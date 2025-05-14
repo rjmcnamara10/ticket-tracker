@@ -1,4 +1,4 @@
-export default function formatDateTime(date: Date): string {
+function formatDateTime(date: Date): string {
   const month = date.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' });
   const day = date.getUTCDate();
   const weekday = date.toLocaleString('en-US', { weekday: 'short', timeZone: 'UTC' });
@@ -10,3 +10,12 @@ export default function formatDateTime(date: Date): string {
 
   return `${weekday} ${month} ${day} ${formattedHours}:${formattedMinutes} ${ampm}`;
 }
+
+function formatShortDate(date: Date): string {
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const year = date.getUTCFullYear() % 100;
+  return `${month}/${day}/${year}`;
+}
+
+export { formatDateTime, formatShortDate };
