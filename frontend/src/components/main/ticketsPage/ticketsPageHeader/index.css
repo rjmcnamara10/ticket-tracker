@@ -4,10 +4,19 @@
   gap: 10px;
 }
 
+.event-info-ticket-view-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+
 .event-info-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  white-space: nowrap;
 }
 
 .matchup {
@@ -39,8 +48,8 @@
 }
 
 .dropdown-container select:focus {
-  border: 1px solid rgb(200, 200, 200) !important;
-  box-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+  border: 1px solid rgb(100, 100, 100);
+  box-shadow: 0 0 5px rgba(36, 36, 36);
 }
 
 .dropdown-icon {
@@ -50,12 +59,4 @@
   transform: translateY(-50%);
   pointer-events: none;
   z-index: 1;
-}
-
-.ticket-scrollers-container {
-  margin: 0 auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }

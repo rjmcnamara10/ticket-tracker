@@ -1,0 +1,64 @@
+.ticket-list-item {
+  text-decoration: none;
+  color: white;
+  position: relative;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  gap: 25px;
+}
+
+.ticket-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ticket-app-list img {
+  width: 50px;
+  border-radius: 8px;
+  display: block;
+}
+
+.ticket-info-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+}
+
+.seat-list {
+  font-size: 1rem;
+  width: 10rem;
+  white-space: nowrap;
+}
+
+.price-list {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.seat-view-image-list {
+  position: absolute;
+  top: 0;
+  left: 101%;
+  height: 200%;
+  aspect-ratio: 1.5;
+  overflow: hidden;
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
+}
+
+.seat-view-list {
+  cursor: auto;
+}
+
+.seat-view-list:hover .seat-view-image-list {
+  justify-content: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.seat-view-image-list img {
+  width: 130%;
+}

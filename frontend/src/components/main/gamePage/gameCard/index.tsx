@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Game } from '../../../../types';
-import formatDateTime from '../../../../utils/date.utils';
+import { formatDateTime } from '../../../../utils/date.utils';
 import './index.css';
 
 /**
