@@ -1,6 +1,6 @@
 .header {
   background-image: url('/background.png');
-  max-height: 115px;
+  height: 90px;
   width: 100%;
   background-size: cover;
   background-position: center;
@@ -8,15 +8,16 @@
   align-items: center;
   justify-content: left;
   flex-direction: row;
+  justify-content: start;
+  gap: 30px;
+  padding: 0 30px;
   box-shadow: 0 0 4px;
 }
 
 .header img.logo {
-  max-height: 140px;
-  margin-left: 20px;
+  height: 65%;
 }
 
 .header img.title {
-  max-height: 50px;
-  margin-left: 20px;
+  height: 45%;
 }
